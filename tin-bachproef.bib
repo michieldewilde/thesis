@@ -1,26 +1,85 @@
-@book{Knuth1998,
- author = {Knuth, Donald E.},
- title = {The art of computer programming,  volume 3: (2nd ed.) sorting and searching},
- year = {1998},
- publisher = {Addison Wesley Longman Publishing Co., Inc.},
- address = {Redwood City, CA, USA}
+@article{Farinier2014,
+author = {Farinier, B and Gazagnaire, T},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/2015-jfla-irmin.pdf:pdf},
+journal = {Journal of Discrete {\ldots}},
+pages = {1--13},
+title = {{Mergeable persistent data structures}},
+year = {2014}
 }
-
-@book{Pollefliet2011,
-  author = {Pollefliet, Leen},
-  title = {Schrijven van verslag tot eindwerk: do's en don'ts},
-  year = {2011},
-  publisher = {Academia Press},
-  address = {Gent}
+@article{Kaloper-Mersinjak2015,
+author = {Kaloper-Mer{\v{s}}injak, D},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/2015-nqsbtls-usenixsec.pdf:pdf},
+journal = {24th USENIX Security  {\ldots}},
+title = {{Not-quite-so-broken TLS: lessons in re-engineering a security protocol specification and implementation}},
+url = {http://anil.recoil.org/papers/2015-usenixsec-nqsb.pdf},
+year = {2015}
 }
-
-@article{Creeger2009,
-  author = {Creeger, Mache},
-  journal = {Communications of the ACM},
-  number = {8},
-  pages = {50--56},
-  title = {{CTO Roundtable: Cloud Computing}},
-  volume = {52},
-  year = {2009}
+@article{Kantee2015,
+author = {Kantee, Antti},
+doi = {AE 2013029},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/login{\_}oct15{\_}02{\_}kantee.pdf:pdf},
+isbn = {9789515102331},
+issn = {14701006},
+journal = {;Login:},
+pages = {6--9},
+pmid = {398002257},
+title = {{The Rise and Fall of the Operating System}},
+year = {2015}
 }
-
+@article{Madhavapeddy2015,
+abstract = {Network latency is a problem for all cloud services. It can be mitigated by moving computation out of remote datacenters by rapidly instantiating local services near the user. This requires an embedded cloud platform on which to deploy multiple applications securely and quickly. We present Jitsu, a new Xen toolstack that satisfies the demands of secure multi-tenant isolation on resource-constrained embedded ARM devices. It does this by using unikernels: lightweight, compact, single address space, memory-safe virtual machines (VMs) written in a high-level language. Using fast shared memory channels, Jitsu provides a directory service that launches unikernels in response to network traffic and masks boot latency. Our evaluation shows Jitsu to be a power-efficient and responsive platform for hosting cloud services in the edge network while preserving the strong isolation guarantees of a type-1 hypervisor},
+author = {Madhavapeddy, Anil and Leonard, Thomas and Skjegstad, Magnus and Gazagnaire, Thomas and Sheets, David and Scott, Dave and Mortier, Richard and Chaudhry, Amir and Singh, Balraj and Ludlam, Jon and Crowcroft, Jon and Leslie, Ian},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/2015-nsdi-jitsu.pdf:pdf},
+isbn = {9781931971218},
+journal = {USENIX Symposium on Networked Systems Design and Implementation (NSDI)},
+pages = {559----573},
+title = {{Jitsu: Just-in-time summoning of unikernels}},
+url = {https://www.usenix.org/system/files/conference/nsdi15/nsdi15-paper-madhavapeddy.pdf},
+year = {2015}
+}
+@article{Madhavapeddy2013,
+abstract = {We present unikernels, a new approach to deploying cloud services via applications written in high-level source code. Unikernels are single-purpose appliances that are compile-time specialised into standalone kernels, and sealed against modification when deployed to a cloud platform. In return they offer significant reduction in image sizes, improved efficiency and security, and should reduce operational costs. Our Mirage prototype compiles OCaml code into unikernels that run on commodity clouds and offer an order of magnitude reduction in code size without significant performance penalty. The architecture combines static type-safety with a single address-space layout that can be made immutable via a hypervisor extension. Mirage contributes a suite of type-safe protocol libraries, and our results demonstrate that the hypervisor is a platform that overcomes the hardware compatibility issues that have made past library operating systems impractical to deploy in the real-world.},
+author = {Madhavapeddy, Anil and Mortier, Richard and Rotsos, Charalampos and Scott, David and Singh, Balraj and Gazagnaire, Thomas and Smith, Steven and Hand, Steven and Crowcroft, Jon},
+doi = {10.1145/2499368.2451167},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/2013-asplos-mirage.pdf:pdf},
+isbn = {978-1-4503-1870-9},
+issn = {03621340},
+journal = {ASPLOS '13 Proceedings of the eighteenth international conference on Architectural support for programming languages and operating systems},
+keywords = {functional programming,hypervisor,microkernel},
+pages = {461},
+title = {{Unikernels: library operating systems for the cloud}},
+url = {http://dl.acm.org/citation.cfm?id=2499368.2451167},
+volume = {48},
+year = {2013}
+}
+@article{Madhavapeddy2014,
+abstract = {What if all the software layers in a virtual appliance were compiled within the same safe, high-level language framework?},
+author = {Madhavapeddy, Anil and Scott, David J.},
+doi = {10.1145/2541883.2541895},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/2014-cacm-unikernels.pdf:pdf},
+issn = {00010782},
+journal = {Communications of the ACM},
+number = {1},
+pages = {61--69},
+title = {{Unikernels: The Rise of the Virtual Library Operating System}},
+url = {http://doi.acm.org/10.1145/2541883.2541895$\backslash$nhttp://dl.acm.org/citation.cfm?doid=2541883.2541895},
+volume = {57},
+year = {2014}
+}
+@article{Ridge2015,
+abstract = {Systems depend critically on the behaviour of file systems, but that behaviour differs in many details, both between implementations and between each implementation and the POSIX (and other) prose specifications. Building robust and portable software requires understanding these details and differences, but there is currently no good way to systematically describe, investigate, or test file system behaviour across this complex multi-platform interface. In this paper we show how to characterise the envelope of allowed behaviour of file systems in a form that enables practical and highly discriminating testing. We give a mathematically rigorous model of file system behaviour, SibylFS, that specifies the range of allowed behaviours of a file system for any sequence of the system calls within our scope, and that can be used as a test oracle to decide whether an observed trace is allowed by the model, both for validating the model and for testing file systems against it. SibylFS is modular enough to not only describe POSIX, but also specific Linux, OS X and FreeBSD behaviours. We complement the model with an extensive test suite of over 21,000 tests; this can be run on a target file system and checked in less than 5 minutes, making it usable in practice. Finally, we report experimental results for around 40 configurations of many file systems, identifying many differences and some serious flaws.},
+author = {Ridge, Tom and Sheets, David and Tuerk, Thomas and Giugliano, Andrea and Madhavapeddy, Anil and Sewell, Peter},
+doi = {10.1145/2815400.2815411},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/2015-sibylfs-sosp.pdf:pdf},
+isbn = {978-1–4503-3834-9},
+journal = {Symposium on Operating Systems Principles (SOSP)},
+pages = {38--53},
+title = {{SibylFS : Formal specification and oracle-based testing for POSIX and real-world file systems}},
+url = {http://sigops.org/sosp/sosp15/current/2015-Monterey/printable/102-ridge.pdf},
+year = {2015}
+}
+@article{Yallop,
+author = {Yallop, Jeremy and Sheets, David and Madhavapeddy, Anil},
+file = {:Users/Coding/Dropbox/2015-2016/thesis/2016-cmeleon-flops.pdf:pdf},
+title = {{Declarative foreign function binding through generic programming}}
+}
