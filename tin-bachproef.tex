@@ -186,8 +186,7 @@
 \chapter*{Voorwoord}
 \label{ch:voorwoord}
 
-% TODO: Vergeet ook niet te bedanken wie je geholpen/gesteund/... heeft
-\lipsum[5-6]
+
 
 \tableofcontents
 
@@ -199,23 +198,35 @@
 \chapter{Inleiding}
 \label{ch:inleiding}
 
-Vroeger was de tijd die je een computer kon gebruiken beperkt. Vooral bij de eerste computers had men problemen om goeie programma's en concepten uit te werken omdat de machine door meerdere mensen moest gebruikt worden. Een goed voorbeeld daarbij is het ontwikkelen van een programma. De source code van een programma werd manueel ingegeven en als een job in een queue gezet. Pas een paar dagen later kon men de resultaten bekijken. Als je een kleine schrijf- of een logische denkfout maakte dan kan je opnieuw beginnen. De grootste bijdrage tot de ontwikkelsnelheid van programmeurs is de lengte van de feedbackcycle: hoe snel kan je je programma testen en de eventuele fouten eruithalen. Dit leide natuurlijk tot een groot verlies van tijd en geld. Daarom werd timesharing uitgevonden waarbij de gebruikers konden inloggen op een console en zo computer konden gebruiken. Dit zorgde voor een serieuze technische uitdaging. De computer moest van de ene context naar de andere kunnen veranderen. Dit alles vormde de basis voor een operating system(OS). Een OS moet kunnen werken op verschillende hardware en dit zorgt voor een probleem. Om al deze hardware te ondersteunen moet er een standaard zijn waarop een OS kan bouwen. Dit zou betekenen dat veel van de complexiteit van de software laag (OS) naar de hardware zou verhuizen en er dus minder code zou moeten geschreven worden in de software laag. Spijtig genoeg gebeurt dit nog altijd niet. Dit is 1 van de voornaamste redenen waarom de grootte van een OS tussen de 200MB en 1GB kan liggen. Een aantal operating systems doen niet eens de moeite om de vele hardware apparaten de ondersteunen. Zij tonen de specificaties die een hardware apparaat moet hebben wanneer je het OS wil gebruiken. Bij timesharing kunnen we in de problemen komen wanneer twee processen die tegelijkertijd aan het werken zijn niet geisoleerd zijn. Dit kan ervoor zorgen dat ze elkaar beinvloeden wanneer dit niet wenselijk is.
+Vroeger was de tijd dat je een computer kon gebruiken beperkt. Vooral bij de eerste computers had men problemen om programma's en concepten uit te werken omdat de computer door meerdere mensen gebruikt werd. Een goed voorbeeld daarbij is het ontwikkelen van een programma. De source code van een programma werd manueel ingegeven en als een job in een queue gezet. Pas een paar dagen later kon men de resultaten bekijken. Als je een kleine schrijf- en/of logische denkfout maakte dan kon je opnieuw beginnen. De grootste bijdrage tot de ontwikkelsnelheid van programma's is de lengte van de feedbackcyclus: hoe snel kan je je programma testen laten werken. Dit leidt tot een verlies van tijd en dus geld. \\
 
-Doorheen de tijd werden computers meer krachtig en applicaties konden niet alle middelen van de computer ten volle benutten. Dit zorgde voor de creatie van virtual resources. Deze gingen de fysieke hardware simuleren om zo verschillende applicaties tegelijkertijd te laten werken op dezelfde virtuele machine. Zo worden de middelen van een fysieke machine optimaal gebruikt. De algemene term is virtualisatie.
+Timesharing werd uitgevonden om het verlies van tijd te beperken. Bij timesharing konden de gebruikers inloggen op een console en zo computer gebruiken. Dit was een technische uitdaging. De computer zou van de ene context naar de andere moeten kunnen veranderen. Timesharing en verschillende gebruikers op 1 computer zou de basis vormen voor de moderne besturingsystemen. 1 Van de nadelen van timesharing is de isolatie van twee verschiilende processen. Als er een kans bestaat dat ze elkaar kunnen beinvloeden is dit een heel groot probleem. \\
 
-Dus we willen applicaties die werken in productie, van elkaar geisoleerd zijn en hun middelen ten volle benutten. De meest bekende voorbeelden zijn de virtuele machine en de container.
+Een besturingsysteem moet kunnen werken op verschillende soorten hardware. Om al deze hardware te ondersteunen moet er een standaard zijn waarop een besturingssysteem kan gebouwd worden. Dit zou betekenen dat veel van de complexiteit van het besturingssysteem naar de hardware zou verhuizen. Spijtig genoeg gebeurt dit nog altijd niet. Dit is 1 van de voornaamste redenen waarom de grootte van een OS tussen de 200MB en 1GB kan liggen. Een aantal besturingssystemen doen niet de moeite om de vele soorten hardware apparatuur te ondersteunen. Zij tonen de specificaties die een hardware apparaat moet hebben wanneer je het besturingssysteem wil gebruiken. \newpage
 
-De VM is een emulatie van een computer systeem. De nadelen van een VM als de kleinste eenheid is de schaalbaarheid en de veiligheid. Wanneer je je eigen server opstelde dan moest je een OS kiezen. Meestal gaan we kiezen voor een linux distributie wanneer men spreekt over webapplicaties. Daarna moet je de software installeren die ervoor zorgt dat de applicatie kan werken. Daaropvolgend moet je je server beveiligen. Het veranderen van de SSH-poort, zorgen dat de root-user niet te bereiken is. IPtables en firewalls opstellen. Voor dit te vergemakkelijken kunnen we gebruikmaken van een configuratie management tool (Chef, Puppet, Ansible...). Een VM draait op een fysieke machine door gebruik te maken van een hypervisor. 
+Doorheen de tijd werden computers meer krachtig en applicaties konden niet alle middelen van de computer ten volle benutten. Dit zorgde voor de creatie van virtual resources. Deze gingen de fysieke hardware simuleren om zo verschillende applicaties tegelijkertijd te laten werken op dezelfde virtuele machine. Zo worden de middelen van een fysieke machine optimaal gebruikt. De algemene term voor dit concept is virtualisatie. Bij het virtualiseren van een server gaat men een fysieke server opdelen in verschillende kleine en geisoleerde delen. Deze delen kunnen dan gebruikt worden door verschillende gebruikers. De voordelen van het virtualiseren van een server zijn de volgende: financieel voordeel (men kan van 1 taak naar meerdere taken gaan op 1 server), het besparen van energie (minder servers gebruiken want ze worden beter benut), betere beschikbaarheid.\\
 
-Een hypervisor is een stuk software, firmware of hardware waarop een VM kan draaien. Een hypervisor zal dan weer draaien op een host machine of op "baremetal". De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke VM die draait op de host machine zal dan gebruik maken van deze middelen. We spreken van een hosted virtualization hypervisor of een bare-metal hypervisor. De eerste zal draaien op een het OS van de host machine en heeft geen directe toegang tot de hardware. Dit heeft als voordeel dat de hardware niet zo belangrijk is maar zorgt wel voor een extra laag tussen de hardware en de hypervisor. Een goede regel is: "hoe minder lagen we hebben, hoe beter de performantie." Een alternatief is een bare-metal hypervisor. Hierbij is er geen extra laag tussen de hardware en hypervisor. We hebben geen host operating system nodig omdat de hypervisor rechtstreeks op de interfaces van hardware draait. Dit zorgt voor betere performantie, schaalbaarheid en stabiliteit. Een hypervisor zorgt ervoor dat de VM's het guest OS kunnen beheren en uitvoeren.
+Er zijn verschillende vormen van virtualisatie. De meest gebruikte vormen bij servers is de virtualisatie van het besturingssysteem en virtualisatie van de hardware.
+
+De virtuele machine is en toepassing van de virtualisatie van de hardware. Een virtuele machine bevindt zich op een fysieke machine door gebruik te maken van een hypervisor. De nadelen van een virtuele machine als de kleinste eenheid is de schaalbaarheid en de veiligheid. Wanneer je je eigen server opstelde dan moet je een besturingssysteem kiezen. Meestal gaan we kiezen voor een Linux distributie. Daarna moet je de software installeren die ervoor zorgt dat de applicatie kan werken. Daaropvolgend moet je je server beveiligen. Het veranderen van de SSH-poort, zorgen dat de root-user niet te bereiken is. IPtables en firewalls opstellen. Voor dit te vergemakkelijken kunnen we gebruikmaken van een configuratie management tool (Chef, Puppet, Ansible...). \\
+
+Een hypervisor is een stuk software, firmware of hardware waarop een VM kan draaien. Een hypervisor zal zich bevinden op een host machine of op "baremetal". De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke virtuele machine die zich bevindt op de host machine zal dan gebruik maken van deze middelen. We spreken van een hosted virtualization hypervisor of een bare-metal hypervisor. De eerste zal zich bevinden op een het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Dit heeft als voordeel dat de hardware niet zo belangrijk is maar zorgt voor een extra laag tussen de hardware en de hypervisor. Een goede regel is: "hoe minder lagen we hebben, hoe beter de performantie." Een alternatief is een bare-metal hypervisor. Hierbij is er geen extra laag tussen de hardware en hypervisor. We hebben geen host operating system nodig omdat de hypervisor zich rechtstreeks bevindt op de interfaces van hardware. Dit zorgt voor betere performantie, schaalbaarheid en stabiliteit. Een hypervisor zorgt ervoor dat de virtuele machines het guest OS kan beheren en uitvoeren. \\
+
+Meest bekende voorbeelden van bare-metal hypervisors zijn VMware ESXi, Microsoft Hyper-V en Xen. \\ 
+
+Naast hardware virtualisatie kunnen we ook gebruikmaken van de virtualisatie van het besturingssysteem. Bij deze toepassing van virtualisatie gaan we de mogelijkheden van de kernel van het besturingssysteem gebruiken. De kernel van bepaalde besturingssystemen laat ons toe om meerdere geisoleerde user spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar 1 besturingssysteem en een kernel zijn. De verschillende user spaces maken gebruik van CPU, geheugen en netwerk van de host server. Elke user space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geisoleerd zijn de andere user spaces. Tegenover hardware virtualisatie zal de besturingssysteem virtualisatie minder gebruik maken van het geheugen en de CPU omdat er maar 1 kernel is en niet meerdere besturingssystemen. Het opstarten neemt maar een fractie van de tijd in beslag tegenover virtuele machines. Deze user spaces worden ook wel containers genoemd. \\
+
+Meest bekende voorbeelden zijn Docker en Linux Containers. \\
+
+Er werd al aangehaald bij de virtuele machines dat veiligheid een probleem kan zijn. Dit probleem verdwijnt niet bij containers omdat ze 1 kernel delen. Wanneer de beveiliging van 1 container kan geschonden worden dan wordt het direct gemakkelijker om toegang te verschaffen tot de andere containers. Het gebruiken van 1 OS als de basis voor een aantal containers kan ervoor zorgen dat wanneer dit besturingssysteem niet meer opstaat al deze applicaties niet meer werken. \\
+
 
 \section{Probleemstelling en Onderzoeksvragen}
 \label{sec:onderzoeksvragen}
 
 % TODO: Wees zo concreet mogelijk bij het formuleren van je
 % onderzoeksvra(a)g(en). Een onderzoeksvraag is trouwens iets waar nog
-% niemand op dit moment een antwoord heeft (voor zover je kan nagaan).
-\lipsum[7-20]
+% niemand op dit moment een antwoord heeft (voor zover je kan nagaan)
 
 \chapter{Methodologie}
 \label{ch:methodologie}
@@ -225,14 +236,12 @@ Een hypervisor is een stuk software, firmware of hardware waarop een VM kan draa
 % op deze manier te werk gegaan bent. Je moet kunnen aantonen dat je de best
 % mogelijke manier toegepast hebt om een antwoord te vinden op de
 % onderzoeksvraag.
-\lipsum[21-25]
 
 \chapter{Corpus}
 \label{ch:corpus}
 
 %% TODO: de structuur en titel van deze hoofdstukken hangen af van je
 % eigen onderzoek. Elke fase in je onderzoek kan een eigen hoofdstuk krijgen. Kies telkens een gepaste titel. ``Corpus'' is *GEEN* gepaste titel
-\lipsum[26-75]
 
 \chapter{Conclusie}
 \label{ch:conclusie}
@@ -241,7 +250,6 @@ Een hypervisor is een stuk software, firmware of hardware waarop een VM kan draa
 % onderzoeksvra(a)g(en). Reflecteer kritisch over het resultaat. Zijn er
 % zaken die nog niet duidelijk zijn? Heeft het ondezoek geleid tot nieuwe
 % vragen die uitnodigen tot verder onderzoek?
-\lipsum[76-80]
 
 
 \bibliographystyle{apa}
