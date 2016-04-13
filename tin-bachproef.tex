@@ -234,14 +234,27 @@ Een besturingsysteem moet kunnen werken op verschillende soorten hardware. Om al
 
 Doorheen de tijd werden computers meer krachtig en applicaties konden niet alle middelen van de computer ten volle benutten. Dit zorgde voor de creatie van virtual resources. Deze gingen de fysieke hardware simuleren om zo verschillende applicaties tegelijkertijd te laten werken op dezelfde virtuele machine. Zo worden de middelen van een fysieke machine optimaal gebruikt. De algemene term voor dit concept is virtualisatie. Bij het virtualiseren van een server gaat men een fysieke server opdelen in verschillende kleine en geisoleerde delen. Deze delen kunnen dan gebruikt worden door verschillende gebruikers. De voordelen van het virtualiseren van een server zijn de volgende: financieel voordeel (men kan van 1 taak naar meerdere taken gaan op 1 server), het besparen van energie (minder servers gebruiken want ze worden beter benut), betere beschikbaarheid.\\
 
-Er zijn verschillende vormen van virtualisatie. De meest gebruikte vormen bij servers is de virtualisatie van het besturingssysteem en virtualisatie van de hardware.
+\section{Hypervisor}
 
+Een hypervisor is een stuk software, firmware of hardware waarop een virtuele machine zich bevindt. De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke virtuele machine die zich bevindt op de host machine zal dan gebruik maken van deze middelen. Doordat virtualisatie alomtegenwoordig werd in datacenters heeft het ervoor gezorgd dat de meeste logica ook meer kwam te liggen bij de hypervisor. Cloud computing komt zeer sterk opzetten en dit zorgt ervoor dat de meeste mensen niet in contact komen met hypervisors.
 
-De virtuele machine is en toepassing van de virtualisatie van de hardware. Een virtuele machine bevindt zich op een fysieke machine door gebruik te maken van een hypervisor. De nadelen van een virtuele machine als de kleinste eenheid is de schaalbaarheid en de veiligheid. Wanneer je je eigen server opstelde dan moet je een besturingssysteem kiezen. Meestal gaan we kiezen voor een Linux distributie. Daarna moet je de software installeren die ervoor zorgt dat de applicatie kan werken. Daaropvolgend moet je je server beveiligen. Het veranderen van de SSH-poort, zorgen dat de root-user niet te bereiken is. IPtables en firewalls opstellen. Voor dit te vergemakkelijken kunnen we gebruikmaken van een configuratie management tool (Chef, Puppet, Ansible...). \\
+\subsection{Hosted Hypervisors}
 
-Een hypervisor is een stuk software, firmware of hardware waarop een VM kan draaien. Een hypervisor zal zich bevinden op een host machine of op "baremetal". De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke virtuele machine die zich bevindt op de host machine zal dan gebruik maken van deze middelen. We spreken van een hosted virtualization hypervisor of een bare-metal hypervisor. De eerste zal zich bevinden op een het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Dit heeft als voordeel dat de hardware niet zo belangrijk is maar zorgt voor een extra laag tussen de hardware en de hypervisor. Een goede regel is: "hoe minder lagen we hebben, hoe beter de performantie." Een alternatief is een bare-metal hypervisor. Hierbij is er geen extra laag tussen de hardware en hypervisor. We hebben geen host operating system nodig omdat de hypervisor zich rechtstreeks bevindt op de interfaces van hardware. Dit zorgt voor betere performantie, schaalbaarheid en stabiliteit. Een hypervisor zorgt ervoor dat de virtuele machines het guest OS kan beheren en uitvoeren. \\
+Een hosted hypervisor zal zich bevinden op een het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Dit heeft als voordeel dat de hardware niet zo belangrijk is maar zorgt voor een extra laag tussen de hardware en de hypervisor. Een goede regel is: "hoe minder lagen we hebben, hoe beter de performantie." Wanneer je een Ubuntu instantie hebt in een virtuele machine dan zal de computer de hypervisor zijn. De computer kan dan de virtuele machine beheren en veranderingen uitvoeren.
+
+Voorbeelden van een hosted hypervisor zijn: Virtualbox en VMware Workstation.
+
+\subsection{Bare-metal Hypervisors}
+
+Een alternatief is een bare-metal hypervisor. Hierbij is er geen extra laag tussen de hardware en de virtuele machine. We hebben geen host besturingssysteem nodig omdat de hypervisor zich rechtstreeks bevindt op de hardware. Dit zorgt voor betere performantie, schaalbaarheid en stabiliteit. Het wordt ook gebruikt in bijna alle  \\
+
+\section{Hardware Virtualization}
+
+De virtuele machine is een toepassing van de virtualisatie van de hardware. Een virtuele machine bevindt zich op een fysieke machine door gebruik te maken van een hypervisor. De nadelen van een virtuele machine als de kleinste eenheid is de schaalbaarheid en de veiligheid. Wanneer je je eigen server opstelde dan moet je een besturingssysteem kiezen. Meestal gaan we kiezen voor een Linux distributie. Daarna moet je de software installeren die ervoor zorgt dat de applicatie kan werken. Daaropvolgend moet je je server beveiligen. Het veranderen van de SSH-poort, zorgen dat de root-user niet te bereiken is. IPtables en firewalls opstellen. Voor dit te vergemakkelijken kunnen we gebruikmaken van een configuratie management tool (Chef, Puppet, Ansible...). \\
 
 Meest bekende voorbeelden van bare-metal hypervisors zijn VMware ESXi, Microsoft Hyper-V en Xen. \\ 
+
+\section{Operating System-level Virtualization}
 
 Naast hardware virtualisatie kunnen we ook gebruikmaken van de virtualisatie van het besturingssysteem. Bij deze toepassing van virtualisatie gaan we de mogelijkheden van de kernel van het besturingssysteem gebruiken. De kernel van bepaalde besturingssystemen laat ons toe om meerdere geisoleerde user spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar 1 besturingssysteem en een kernel zijn. De verschillende user spaces maken gebruik van CPU, geheugen en netwerk van de host server. Elke user space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geisoleerd zijn de andere user spaces. Tegenover hardware virtualisatie zal de besturingssysteem virtualisatie minder gebruik maken van het geheugen en de CPU omdat er maar 1 kernel is en niet meerdere besturingssystemen. Het opstarten neemt maar een fractie van de tijd in beslag tegenover virtuele machines. Deze user spaces worden ook wel containers genoemd. \\
 
@@ -249,9 +262,20 @@ Meest bekende voorbeelden zijn Docker en Linux Containers. \\
 
 Er werd al aangehaald bij de virtuele machines dat veiligheid een probleem kan zijn. Dit probleem verdwijnt niet bij containers omdat ze 1 kernel delen. Wanneer de beveiliging van 1 container kan geschonden worden dan wordt het direct gemakkelijker om toegang te verschaffen tot de andere containers. Het gebruiken van 1 OS als de basis voor een aantal containers kan ervoor zorgen dat wanneer dit besturingssysteem niet meer opstaat al deze applicaties niet meer werken. \\
 
-
 \chapter{Unikernels}
 \label{ch:unikernels}
+
+\section{Inleiding}
+
+Als je stilstaat bij hoe complex een computer is dan zul je beseffen dat het een wonder is dat alles eigenlijk werkt.
+Een applicatie doorloopt verschillende stadia om te beginnen werken. De eerste fase is het compileren of interpreteren van de code dat er geschreven is.
+Deze zal bepaalde systeem APIs aan roepen van je besturingssysteem.
+Deze APIs bevinden zich op een besturingssysteem, die zich dan weer bevindt op een virtuele machine.
+Er zijn nog meer lagen die zich tussen de applicatie en de hardware bevinde.
+Zoals we al eerder hebben aangehaald is het aantal lagen tussen een applicatie en de hardware 1 van de grootste redenen voor de snelheid van een applicatie.
+Het limiteren van deze lagen is het doel van unikernels.
+
+
 
 \chapter{Conclusie}
 \label{ch:conclusie}
