@@ -246,7 +246,7 @@ Voorbeelden van een hosted hypervisor zijn: Virtualbox en VMware Workstation.
 
 \subsection{Bare-metal Hypervisors}
 
-Een alternatief is een bare-metal hypervisor. Hierbij is er geen extra laag tussen de hardware en de virtuele machine. We hebben geen host besturingssysteem nodig omdat de hypervisor zich rechtstreeks bevindt op de hardware. Dit zorgt voor betere performantie, schaalbaarheid en stabiliteit. Het wordt ook gebruikt in bijna alle  \\
+Een alternatief is een bare-metal hypervisor. Hierbij is er geen extra laag tussen de hardware en de virtuele machine. We hebben geen host besturingssysteem nodig omdat de hypervisor zich rechtstreeks bevindt op de hardware. Dit zorgt voor betere performantie, schaalbaarheid en stabiliteit.
 
 \section{Hardware Virtualization}
 
@@ -258,6 +258,9 @@ Meest bekende voorbeelden van bare-metal hypervisors zijn VMware ESXi, Microsoft
 
 Naast hardware virtualisatie kunnen we ook gebruikmaken van de virtualisatie van het besturingssysteem. Bij deze toepassing van virtualisatie gaan we de mogelijkheden van de kernel van het besturingssysteem gebruiken. De kernel van bepaalde besturingssystemen laat ons toe om meerdere geisoleerde user spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar 1 besturingssysteem en een kernel zijn. De verschillende user spaces maken gebruik van CPU, geheugen en netwerk van de host server. Elke user space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geisoleerd zijn de andere user spaces. Tegenover hardware virtualisatie zal de besturingssysteem virtualisatie minder gebruik maken van het geheugen en de CPU omdat er maar 1 kernel is en niet meerdere besturingssystemen. Het opstarten neemt maar een fractie van de tijd in beslag tegenover virtuele machines. Deze user spaces worden ook wel containers genoemd. 
 
+\chapter{Docker}
+\label{ch:docker}
+
 Containers hebben aan populariteit gewonnen door Docker. Docker heeft gezorgd voor ecosysteem, waarbij je gemakkelijk kan starten met containers te gebruiken. 
 We starten met het maken van een DockerFile waar we de base-image definieren en wat we verder willen aanpassen. Deze DockerFiles kunnen gedeeld worden en zorgen steeds voor dezelfde uitkomst wanneer je van de DockerFile een image zou maken. Deze image kunnen we dan uitvoeren en dan hebben we een werkende container.
 Dockerhub versnelt dit proces in grote mate door DockerFile open te stellen in repositories. Als je bijvoorbeeld een nginx container nodig hebt, dan zoek je voor nginx en neem je versie die jij nodig hebt. De meest gebruikte repositories hebben documentatie hoe je deze container moet gebruiken en hoe je andere containers met elkaar moet verbinden. 
@@ -265,6 +268,7 @@ Dockerhub versnelt dit proces in grote mate door DockerFile open te stellen in r
 Meest bekende voorbeelden zijn Docker en Rocket.
 
 Er werd al aangehaald bij de virtuele machines dat veiligheid een probleem kan zijn. Dit probleem verdwijnt niet bij containers omdat ze 1 kernel delen. Wanneer de beveiliging van 1 container kan geschonden worden dan wordt het direct gemakkelijker om toegang te verschaffen tot de andere containers. Het gebruiken van 1 OS als de basis voor een aantal containers kan ervoor zorgen dat wanneer dit besturingssysteem niet meer opstaat al deze applicaties niet meer werken.
+
 
 \chapter{Unikernels}
 \label{ch:unikernels}
@@ -290,9 +294,48 @@ Ik heb al aangehaald dat we besturingssystemen gebruikten, als de provisoning un
 
 De reactie op het verspillen van deze resources was de container. Docker zorgde voor een gemakkelijke gebruikerservaring om containers te gebruiken en dit zorgde voor een revolutie binnen devops. Het nadeel van containers is de veiligheid. Er zijn veel voorbeelden van containers die niet optimaal van elkaar gescheiden zijn.
 
-Daar is waar unikernels te voorschijn komen. Waarom zou je je applicaties niet :rechtstreeks op de hypervisor kunnen laten werken? De hypervisor zorgt voor een interface en de unikernels zal de nodige functionaliteit implementeren. Dit zorgt ervoor dat elke applicatie afzonderlijk kan worden geoptimaliseerd. De hypervisor kan zelf bepalen hoeveel geheugen of CPU een bepaalde applicatie nodig heeft.
+Daar is waar unikernels te voorschijn komen. Waarom zou je je applicaties niet rechtstreeks op de hypervisor kunnen laten werken? De hypervisor zorgt voor een interface op de hardware en de unikernels zal de nodige functionaliteit implementeren. Dit zorgt ervoor dat elke applicatie afzonderlijk kan worden geoptimaliseerd. De hypervisor kan zelf bepalen hoeveel geheugen of CPU een bepaalde applicatie nodig heeft.
 
-Op DockerHub kan veel images van bepaalde containers vinden. Er zijn gespecialiseerde containers voor Golang met minimale besturingssystemen en deze images bestaan uit meerdere layers. Je kan dus layers maken die kunnen hergebruikt worden voor verschillende images. Bij unikernels gaan we functionaliteit splitsen in drivers. Het zou gemakkelijk moeten zijn voor drivers te gebruiken in jouw applicatie.
+\section{Microservices}
+
+Er is ook een andere evolutie aan de gang maar dan eerder binnen de architectuur van applicaties. De laatste 20 jaar werd er meestal 1 grote applicatie gemaakt die alle functionaliteit op zich nam. Deze applicatie is gemakkelijk te maken omdat men steeds verder bouwt op vorige functionaliteit. Het probleem bij deze manier van werken is de schaalbaarheid van een applicatie. Wanneer een bepaald deel van een applicatie een bottleneck wordt dan bestaat de mogelijkheid om deze te herschrijven en te optimaliseren. Maar soms moet een deel van een applicatie gewoon veel kunnen verwerken dan een ander deel. Microservices is een concept dat al langer bestaat maar dit is de uitgesproken oplossing voor dit fenomeen. De applicatie opsplitsen in componenten met 1 verantwoordelijke zorgt ervoor dat het veel beter te schalen is. Als je een applicatie hebt met al de functionaliteit in dan zou je een nieuwe virtuele machine moeten opzetten. Dit is niet schaalbaar. Bij microservices moet je gewoon een paar nieuwe instanties van een component starten. Dit vraagt natuurlijk wel om een totaal nieuwe manier van werken. Microservices zijn ook meer op de voorgrond gekomen door het gebruik van containers want zij maken het simpeler om een architectuur op te zetten die gebaseerd is op microservices.
+
+Dit zal ook wel een moeilijkheid meebrengen dat het een puzzel is die in elkaar moet passen. Je moet goed doordacht te werk gaan en je visie naar de toekomst toe ook in het achterhoofd houden. Het geeft het ontwikkelingsteam wel de vrijheid om nieuwe technologieen die uitkomen veel vlugger te gebruiken. Wanneer je iets nieuw wilt gebruiken in een monolithische applicatie dan moet je al een groot stuk herschrijven wat grote kosten met zich meebrengt. Dit zorgt voor wendbaarheid in een omgeving die zeer competitief is.
+
+Met containers kan je ook een microservice architectuur uitbouwen. Dit zorgt ervoor dat er meer kennis zal zijn over de moeilijkheden en de mogelijkheden die deze manier van werken met zich meebrengt.
+
+\section{Immutable Infrastructure}
+
+Unikernels vraagt ook een verschuiving van de manier dat we over infrastructuur denken. Immutable infrastructure is een opkomende gedachtengang. We gaan geen enkele verandering aanbrengen aan applicaties die zich in productie bevinden. Als er een probleem is dan gaan we een nieuwe unikernel maken en deze in productie laten treden terwijl de andere wordt neergehaald. Je kan dit al zien bij sommige cloud providers die werken door middel van een git push om de voormalige versie te vervangen. Dit zorgt voor een betere veiligheid en de hele cyclus van development naar productie wordt veel kleiner.
+
+We gaan dan ook meer naar het model van rolling updates. Rolling updates wordt al gebruikt bij sommige Linux distributies. Hierbij gaan we niet spreken van grote updates waarbij er een lijst van functionaliteit wordt uitgebracht op 1 moment. We gaan updates op gelijk welke tijd uitbrengen zonder de distributie te breken. Er gaan dus meer kleinere updates zijn en veligheidsmaatregelingen kunnen veel vlugger getroffen worden.
+
+\section{Voordelen}
+
+Unikernels kan je zien als besturingssysteem dat 1 ding doet maar dit goed doet. Veel van de overbodige functionaliteit wordt weggenomen en alleen de nodige componenten worden samengehouden. Dit resulteerd in een kleiner resultaat.
+
+Er ligt ook een voordeel bij de veiligheid. Wanneer een hacker binnendringt op een virtuele machine die een traditionele stack heeft dan kan hij tools installeren door de package manager te gebruiken en andere commando's gebruiken om meer informantie te krijgen en de server misschien infecteren met een virus. Dit scenario is veel moeilijker bij unikernels omdat veel van commando's weggenomen zijn en er geen package manager aanwezig is. De hacker zou al heel veel werk moeten leveren om de unikernel te infecteren omdat hij zelf de vulnerability zou moeten schrijven. Dan blijft er enkel nog de hypervisor over om te misbruiken. De onveiligheden van hypervisors zijn veel moeilijker uit te buiten omdat ze al een paar decenia in gebruik zijn van veel grote bedrijven. Ze zijn dus al battle-tested. 
+
+De image dat gemaakt wordt wanneer de unikernel gecompiled word zal zeer klein zijn. Omdat verschillende drivers zelf geimplementeerd worden. Er moet ook niet in dezelfde mate als het besturingssysteem rekening gehouden worden met andere drivers. De hypervisor zorgt ook voor een stabiele interface en deze zorgt ervoor dat we geen uitgebreide drivers moeten schrijven om te zorgen voor compatibiliteit voor de verschillende hardware apparaten.
+
+1 Van de voordelen van unikernels is uiterst interessant. Het opstarten van een virtuele machine kan 1 minuut of langer duren. De meeste unikernels starten op in een tiende van een seconde. Dit zorgt ervoor dat reageren op veranderingen qua gebruik veel gemakkelijker wordt. Containers bevinden zich tussen unikernels en virtuele machines op het vlak van opstarttijd. Door deze minieme opstarttijd kunnen we een unikernel opstarten wanneer er een request binnenkomt. En dit kan zorgen voor veel lagere kosten.
+
+Als je al kan opmaken vanuit de tekst is unikernels de opvolging voor containers in bepaalde gevallen. Er zullen natuurlijk bepaalde scenarios zijn waarbij men kiest voor een container of virtuele machine.
+
+Veel van de commentaar op unikernels komt van de onmogelijkheid om in productie te bekijken wat er fout aan het gaan is bij een unikernel. Voor de developers is het soms gemakkelijker om een applicatie aan te passen in productie om te zien of een bepaalde bug wordt verholpen. Sowieso is dit geen best practice. Er moet uitgebreid getest worden in development cycle om fouten/bugs tegen te gaan. Wanneer er dan toch iets fout gaat in productie dan zal men de situatie proberen na te bootsen en dan applicaties aan te passen om zo de fout/bug op te lossen.
+
+\section{Hedendaags gebruik}
+
+Unikernels kunnen gebruikt worden in uiterst uitzonderlijke use cases momenteel. Hetzelfde zal je vinden bij containers vooraleer zij op de voorgrond treden. Elke technologie zal dit ondergaan omdat iets gemakkelijker maken en veralgemenen tijd kost. Maar we hebben gezien uit de geschiedenis van besturingssystemen dat we sommige concepten niet moeten blijven gebruiken. Als unikernels een groter publiek kunnen dienen zonder hun voordelen te verliezen dan zou het een groot succes kunnen worden. 
+
+
+
+\chapter{Orchestration tools}
+\label{ch:orchestration-tools}
+
+\chapter{Experimenten}
+\label{ch:experimenten}
+
 
 
 \chapter{Conclusie}

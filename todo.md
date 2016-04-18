@@ -5,3 +5,5 @@ TODO
 - Orchestration frameworks
 - Registries
 - CI/CD to see what kind of a workflow the developer has?
+- Why docker is good?
+- single purpose applications => microservices approach
