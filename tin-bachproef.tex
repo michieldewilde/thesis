@@ -72,6 +72,7 @@
   frame=single,
   extendedchars=\true
 }
+
 \lstinputlisting{#1}}
 
 %%---------- Documenteigenschappen ---------------------------------------
@@ -200,6 +201,7 @@ Toen ik begon met programmeren had ik geen idee wat er gebeurde in de achtergron
 \chapter{Inleiding}
 \label{ch:inleiding}
 
+Testing
 De wereld is steeds in verandering. Dit is een zekere waarheid in de wereld van informatica. Kijk maar naar de veranderingen dat er gebeuren elke paar maanden op vlak van javascript frameworks. Best practices van vijf jaar geleden, kunnen bad practices zijn vandaag. Je moet mee met de deze stroom van veranderingen wil je relevant blijven. Dit is voor iedereen in uitdaging. In mijn mening is dit iets goed, blijven leren is een van de beste dingen die je kan doen.
 
 Er zijn grote veranderingen aan het gebeuren op het vlak van infrastructuur. Een paar geleden was de een virtuele machine met een klassieke stack de normale gang van zaken. De verandering heeft hier ook voor veranderingen gezorgd. Een container was al een tijd een droom van vele mensen maar er was nog geen echte goede uitwerking. Tot Docker. Met Docker werden containers eenvoudiger om te gebruiken. Unikernels zitten nu in de situatie van containers vooraleer Docker opzetten kwam. Zal unikernels dezelfde revolutie ontketenen of zal het hand in hand kunnen leven met Docker? Docker heeft unikernel systems overgenomen begin vorige jaar en je kan de invloed al zien in hun releases. \\
@@ -275,16 +277,18 @@ Er werd al aangehaald bij de virtuele machines dat veiligheid een probleem kan z
 
 \section{Inleiding}
 
-Als je stilstaat bij hoe complex een computer is dan zul je beseffen dat het een wonder is dat alles eigenlijk werkt.
-Een applicatie doorloopt verschillende stadia om te beginnen werken. De eerste fase is het compileren of interpreteren van de code dat er geschreven is.
-Deze zal bepaalde systeem APIs aan roepen van je besturingssysteem.
+Als je stilstaat bij hoe complex een computer is, dan zul je beseffen dat het een wonder is dat alles werkt. En ook blijft werken wanneer het een gebruiker niet geduldig is.
+Een applicatie doorloopt verschillende stadia om te beginnen werken. De eerste fase is het compileren of interpreteren van de code dat geschreven is. Deze zal dan op zijn beurt bepaalde systeem APIs aan roepen van het besturingssysteem.
 Deze APIs bevinden zich op een besturingssysteem, die zich dan weer bevindt op een virtuele machine.
-Er zijn nog meer lagen die zich tussen de applicatie en de hardware bevinde.
-Zoals we al eerder hebben aangehaald is het aantal lagen tussen een applicatie en de hardware 1 van de grootste redenen voor de snelheid van een applicatie.
+Er zijn nog meer lagen die zich tussen de applicatie en de hardware bevinden. Dit zorgt voor veel baggage dat we moeten meesleuren. Het is beter om licht te reizen. Zoals we al eerder hebben aangehaald is het aantal lagen tussen een applicatie en de hardware 1 van de grootste redenen voor de snelheid van een applicatie.
 
-Wanneer we kijken om iets gemakkelijker te maken of de performantie te verbeteren moeten we kijken naar alle delen. De hardware wordt al meer efficient door gebruik te maken van een hypervisor. Het verschil in de interfaces die de hardware openstellen wordt hierdoor al verminderd. Hypervisors zijn battle-tested. Alle grote cloud providers maken gebruik van hypervisor met succes. Een ander deel dat kan intrigeren is het besturingssysteem. Een besturingssysteem waarop een applicatie bevindt is in de meeste gevallen een Linux besturingssysteem. 1 Van de meest bekende besturingssystemen voor servers is Ubuntu. Het lijkt raar dat een besturingssysteem dat zich wil openstellen aan het grote publiek ook gebruikt wordt voor servers. Sommige delen van een besturingssysteem zijn ook niet meer nodig. We hebben het eerder al gehad over een deel dat misschien niet thuishoort op servers: time-sharing. Time-sharing zorgt ervoor dat de systeem en hardware componenten van de gebruiker worden afgeschermd. Een gebruiker die een programma liet werken zou een andere programma gestart door een andere gebruiker kunnen laten stoppen door een bepaalde instructie uit te voeren. Dit probleem is bijna niet meer voorkomend doordat hardware zou goedkoop is geworden en iedereen zijn eigen computer heeft.
+Wanneer we kijken om iets gemakkelijker te maken of de performantie te verbeteren moeten we kijken naar alle delen. Focussen op specifieke onderdelen kan leiden tot een niet optimale oplossing. 
 
-Niet alleen hebben sommige delen quasi geen nut meer maar sommige delen zullen ervoor zorgen dat de performantie van een server gehinderd wordt voor bepaalde taken. Het is dezelfde analogie als het gebruiken van een hamer voor alle klusjes die je moet doen. Het is niet omdat een hamer goed is voor bepaalde taken dat het goed is voor alles. Dit probleem kunnen we zeker bezien door te bekijken hoeveel besturingssystemen zijn veranderd doorheen de laatste 20 jaar. Er zijn zoveel veranderingen op het vlak van computing dat het raar lijkt dat sommige delen perfect blijven. 
+Allereest de hardware. Door het gebruiken van een hypervisor stellen we eens standaard interface open die de andere lagen kunnen gebruiken. Eveneens zorgt het ervoor dat we efficient gebruik kunnen maken van virtuele machines. Hypervisors zijn al een tijd in gebruik door grote bedrijven die veligheid als een belangerijk punt zien. Hypervisors zijn dus zeer veilig en betrouwbaar. Doordat de hypervisor een laag tussen de andere lagen en de hardware is, kunnen we niet direct hier grote vooruitgang boeken. 
+
+Het meest gebruikte besturingssysteem waarop een webapplicatie bevindt is in de meeste gevallen een Linux besturingssysteem. 1 Van de meest bekende besturingssystemen voor servers is Ubuntu. Het lijkt raar dat een besturingssysteem, dat zich wil openstellen aan het grote publiek ook gebruikt wordt voor servers. Sommige delen van een besturingssysteem zijn ook niet meer nodig. We hebben het eerder al gehad over een deel dat misschien niet thuishoort op servers: time-sharing. Time-sharing zorgt ervoor dat de systeem en hardware componenten van de gebruiker worden afgeschermd. Een gebruiker die een programma liet werken zou een andere programma gestart door een andere gebruiker kunnen laten stoppen door een bepaalde instructie uit te voeren. Dit probleem is bijna niet meer voorkomend doordat hardware zo goedkoop is geworden en iedereen zijn eigen computer heeft.
+
+Niet alleen hebben sommige delen geen nut meer maar sommige delen zullen ervoor zorgen dat de performantie van een server gehinderd wordt voor bepaalde taken. Het is dezelfde analogie als het gebruiken van een hamer voor alle klusjes die je moet doen. Het is niet omdat een hamer goed is voor bepaalde taken dat het goed is voor alles. Dit probleem kunnen we zeker bezien door te bekijken hoeveel besturingssystemen zijn veranderd doorheen de laatste 20 jaar. Er zijn zoveel veranderingen op het vlak van computing dat het raar lijkt dat sommige delen perfect blijven.
 
 Soms kan starten met blanke pagina ervoor zorgen dat er een betere oplossing gevonden wordt. Wanneer we blijven denken met besturingssysteem dan zal de oplossing een variant van een besturingssysteem zijn. Het weggooien van het concept van een besturingssysteem voor servers lijkt radicaal maar kan het veel slechter zijn dan de huidige situatie? 
 
@@ -310,6 +314,12 @@ Unikernels vraagt ook een verschuiving van de manier dat we over infrastructuur 
 
 We gaan dan ook meer naar het model van rolling updates. Rolling updates wordt al gebruikt bij sommige Linux distributies. Hierbij gaan we niet spreken van grote updates waarbij er een lijst van functionaliteit wordt uitgebracht op 1 moment. We gaan updates op gelijk welke tijd uitbrengen zonder de distributie te breken. Er gaan dus meer kleinere updates zijn en veligheidsmaatregelingen kunnen veel vlugger getroffen worden.
 
+We moeten opletten dat we niet zonder nadenken nieuwe systemen opzetten dit kan leiden tot een hoop die heel moeilijk op te ruimen. 
+
+Een nieuw gegeven is ook dat we infrastructuur meer zullen benaderen zoals we pogrammeren. Dit doen we door de infrastructure uitermate te testen en herhaalbare patronen te gebruiken. Ook zullen we de configuratie van servers bijhouden in version control. Door dit te doen kunnen we een beeld krijgen wat er gebeurd met de infrastructuur door de tijd heen. Dit geeft de devops de mogelijkheid om problemen terug te leiden naar 1 verandering. Het is belangrijk dat er steeds kleine veranderingen gebeuren zodat we problemen gemakkelijker kunnen herleiden naar 1 oorzaak. Gebruik maken van version control zal niets uitmaken wanneer je tientallen veranderingen bundelt in 1 verandering. 
+
+Een trend dat we zeker zien en dat zich zal blijven doorzetten is het lenen van programmeer principes in de wereld van infrastructuur. Dit komt doordat het programmeren het meest geevolueerd is door de jaren en ook met grotere problemen meestal heeft moeten werken.
+
 \section{Voordelen}
 
 Unikernels kan je zien als besturingssysteem dat 1 ding doet maar dit goed doet. Veel van de overbodige functionaliteit wordt weggenomen en alleen de nodige componenten worden samengehouden. Dit resulteerd in een kleiner resultaat.
@@ -328,10 +338,10 @@ Veel van de commentaar op unikernels komt van de onmogelijkheid om in productie 
 
 Unikernels kunnen gebruikt worden in uiterst uitzonderlijke use cases momenteel. Hetzelfde zal je vinden bij containers vooraleer zij op de voorgrond treden. Elke technologie zal dit ondergaan omdat iets gemakkelijker maken en veralgemenen tijd kost. Maar we hebben gezien uit de geschiedenis van besturingssystemen dat we sommige concepten niet moeten blijven gebruiken. Als unikernels een groter publiek kunnen dienen zonder hun voordelen te verliezen dan zou het een groot succes kunnen worden. 
 
-
-
 \chapter{Orchestration tools}
 \label{ch:orchestration-tools}
+
+
 
 \chapter{Experimenten}
 \label{ch:experimenten}
