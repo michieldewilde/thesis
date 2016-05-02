@@ -201,7 +201,6 @@ Toen ik begon met programmeren had ik geen idee wat er gebeurde in de achtergron
 \chapter{Inleiding}
 \label{ch:inleiding}
 
-Testing
 De wereld is steeds in verandering. Dit is een zekere waarheid in de wereld van informatica. Kijk maar naar de veranderingen dat er gebeuren elke paar maanden op vlak van javascript frameworks. Best practices van vijf jaar geleden, kunnen bad practices zijn vandaag. Je moet mee met de deze stroom van veranderingen wil je relevant blijven. Dit is voor iedereen in uitdaging. In mijn mening is dit iets goed, blijven leren is een van de beste dingen die je kan doen.
 
 Er zijn grote veranderingen aan het gebeuren op het vlak van infrastructuur. Een paar geleden was de een virtuele machine met een klassieke stack de normale gang van zaken. De verandering heeft hier ook voor veranderingen gezorgd. Een container was al een tijd een droom van vele mensen maar er was nog geen echte goede uitwerking. Tot Docker. Met Docker werden containers eenvoudiger om te gebruiken. Unikernels zitten nu in de situatie van containers vooraleer Docker opzetten kwam. Zal unikernels dezelfde revolutie ontketenen of zal het hand in hand kunnen leven met Docker? Docker heeft unikernel systems overgenomen begin vorige jaar en je kan de invloed al zien in hun releases. \\
@@ -260,17 +259,40 @@ Meest bekende voorbeelden van bare-metal hypervisors zijn VMware ESXi, Microsoft
 
 Naast hardware virtualisatie kunnen we ook gebruikmaken van de virtualisatie van het besturingssysteem. Bij deze toepassing van virtualisatie gaan we de mogelijkheden van de kernel van het besturingssysteem gebruiken. De kernel van bepaalde besturingssystemen laat ons toe om meerdere geisoleerde user spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar 1 besturingssysteem en een kernel zijn. De verschillende user spaces maken gebruik van CPU, geheugen en netwerk van de host server. Elke user space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geisoleerd zijn de andere user spaces. Tegenover hardware virtualisatie zal de besturingssysteem virtualisatie minder gebruik maken van het geheugen en de CPU omdat er maar 1 kernel is en niet meerdere besturingssystemen. Het opstarten neemt maar een fractie van de tijd in beslag tegenover virtuele machines. Deze user spaces worden ook wel containers genoemd. 
 
-\chapter{Docker}
-\label{ch:docker}
+\chapter{Containers}
+\label{ch:Containers}
 
-Containers hebben aan populariteit gewonnen door Docker. Docker heeft gezorgd voor ecosysteem, waarbij je gemakkelijk kan starten met containers te gebruiken. 
-We starten met het maken van een DockerFile waar we de base-image definieren en wat we verder willen aanpassen. Deze DockerFiles kunnen gedeeld worden en zorgen steeds voor dezelfde uitkomst wanneer je van de DockerFile een image zou maken. Deze image kunnen we dan uitvoeren en dan hebben we een werkende container.
-Dockerhub versnelt dit proces in grote mate door DockerFile open te stellen in repositories. Als je bijvoorbeeld een nginx container nodig hebt, dan zoek je voor nginx en neem je versie die jij nodig hebt. De meest gebruikte repositories hebben documentatie hoe je deze container moet gebruiken en hoe je andere containers met elkaar moet verbinden. 
+\section{Containers versus virtuele machines}
 
-Meest bekende voorbeelden zijn Docker en Rocket.
+Het heeft een tijd geduurd vooraleer containers op de voorgrond treden. Het maken van applicaties werd meestal op de eigen machine gedaan omdat het opzetten van een werkomgeving soms te moeilijk was. Er was natuurlijk vagrant die het stukken gemakkelijker maakte maar dan nog voelde het aan als of er nog iets beter aankwam. 
 
-Er werd al aangehaald bij de virtuele machines dat veiligheid een probleem kan zijn. Dit probleem verdwijnt niet bij containers omdat ze 1 kernel delen. Wanneer de beveiliging van 1 container kan geschonden worden dan wordt het direct gemakkelijker om toegang te verschaffen tot de andere containers. Het gebruiken van 1 OS als de basis voor een aantal containers kan ervoor zorgen dat wanneer dit besturingssysteem niet meer opstaat al deze applicaties niet meer werken.
+Lange tijd werd vagrant aangeraden omdat het opzetten van een werkomgeving veel tijd in beslag nam en de meeste applicaties eerder een monolitische structuur hadden. Hierbij bedoelen we een grote applicatie die alles doet tegenover verschillende applicaties die elk 1 ding doen.
 
+Containers was het antwoord op veel van de moeilijkheden van de virtuele machine: het beter gebruiken maken van resources, eenduidige ontwikkelingsomgeving en vlugger kunnen ontwikkelen van applicaties. Dus we hebben twee mogelijkheden om applicaties te maken en te laten werken. Ofwel gebruiken we virtuele machines als de kleinste eenheid ofwel containers.
+
+De container gebruikt resources van het besturingssysteem van de host. Dit zorgt ervoor dat een container vlugger kan gestart worden want het besturingssysteem moet niet opgestart worden. Bij virtuele machine moet men wachten tot het besturingssysteem opgestart is. 
+
+De omvang van virtuele machines tegenover containers is al besproken hiervoor. Een gevolg hiervan is dat men meerdere containers naast elkaar kan laten werken. De virtuele machine waarop de docker container werken kunnen dan beslissen hoeveel resources er aan wie worden gegeven.
+
+Voor containers was het opzetten van een complexe applicatie met tientallen dependencies een heel moeilijk gegeven. Bij een container moet je gewoon de image downloaden en gebruiken. In deze container is alle configuratie al aanwezig en kan men gewoon starten zonder veel tijd te verspelen aan het configureren en installeren van de applicatie en het besturingssysteem.
+
+Omgekeerd kan men ook denken dat de developers niet meer moeten nadenken over het ondersteunen van meerdere systemen. 1 Container image kan gebruikt worden voor iedereen en als men veranderingen wil aanbrengen dan kan men verder op de container bouwen. 
+
+Als men wilt schalen met virtuele machines dan moet je meerdere besturingssystemen opzetten die worden beheert door een hypervisor. Elk besturingssysteem heeft een applicatie en zijn dependencies.
+
+Bij containers delen ze het besturingssysteem en worden beheert door een container engine die zich bevindt op het besturingssysteem. Ze delen ook een de kernel van de host en daarbij kan er ook voor gezorgd worden dat gemeenschappelijke dependencies gedeeld kunnen worden over meerdere applicaties. De container engine vervuld dezelfde functie als de hypervisor bij virtuele machines. 
+
+Veiligheid kan een probleem zijn bij containers omdat ze nog niet lang in productie worden gebruikt. Hypervisor zorgen voor extra veiligheid bij virtuele machines omdat ze battle-tested zijn. Ze worden al gebruikt voor lange tijd door grote bedrijven die beveiliging hoog in het vandaag dragen.
+
+\section{Docker}
+
+Onderdelen van het begrip container bestonden al onder diverse vormen. FreeBSD had jail(1998). Google was begonnen met het ontwikkelen van cGroups voor de linux kernel. Het Linux Containers projects bracht veel van deze technologieën samen om te zorgen dat containers een realiteit konden worden.
+
+Docker was het bedrijf dat de al de delen samenbracht onder een mooie interface en uitgebreid ecosysteem. Het werd veel gemakkelijker om containers te maken en distribueren. Docker zorgde ervoor dat veel van moeilijkheden van containers verdwenen of veel kleiner werden. Door veel van de componenten van het ecosysteem open te stellen konden ze rekenen op de steun van vele developers. Deze steun kon zijn in de vorm van het melden van bugs of het uitbreiden of verbeteren van huidige componenten. 
+
+Er waren andere formaten dan Docker zoals Rocket die het mogelijk maakte voor containers te maken. Maar door hun ecosysteem en de hulp van de open source gemeenschap hebben zijn ze de standaard geworden voor om containers te maken en te verspreiden.
+
+In 2015 werd het Open Container Initiative opgericht. Veel van de grote spelers op vlak van containers zoals Docker, CoreOS, Microsoft en Google maken hier deel van uit. Ze willen een standaard voor containers vastleggen.
 
 \chapter{Unikernels}
 \label{ch:unikernels}
