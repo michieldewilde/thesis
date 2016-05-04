@@ -280,7 +280,7 @@ Omgekeerd kan men ook denken dat de developers niet meer moeten nadenken over he
 
 Als men wilt schalen met virtuele machines dan moet je meerdere besturingssystemen opzetten die worden beheert door een hypervisor. Elk besturingssysteem heeft een applicatie en zijn dependencies.
 
-Bij containers delen ze het besturingssysteem en worden beheert door een container engine die zich bevindt op het besturingssysteem. Ze delen ook een de kernel van de host en daarbij kan er ook voor gezorgd worden dat gemeenschappelijke dependencies gedeeld kunnen worden over meerdere applicaties. De container engine vervuld dezelfde functie als de hypervisor bij virtuele machines. 
+Bij containers delen ze het besturingssysteem en worden beheert door een container engine die zich bevindt op het niveau van het besturingssysteem. Ze delen ook een de kernel van de host en daarbij kan er ook voor gezorgd worden dat gemeenschappelijke dependencies gedeeld kunnen worden over meerdere applicaties. De container engine vervuld dezelfde functie als de hypervisor bij virtuele machines. 
 
 Veiligheid kan een probleem zijn bij containers omdat ze nog niet lang in productie worden gebruikt. Hypervisor zorgen voor extra veiligheid bij virtuele machines omdat ze battle-tested zijn. Ze worden al gebruikt voor lange tijd door grote bedrijven die beveiliging hoog in het vandaag dragen.
 
@@ -345,15 +345,31 @@ Wanneer je bijvoorbeeld toegang hebt tot een container kan je gemakkelijk toegan
 
 Wanneer een hacker binnendringt op een virtuele machine die een traditionele stack heeft dan kan hij tools installeren door de package manager te gebruiken en andere commando's om meer informatie te verzamelen. De server kan misschien geinfecteerd worden met een virus. Dit scenario is veel moeilijker bij unikernels omdat veel van commando's weggenomen zijn en er geen package manager aanwezig is. De hacker zou al heel veel werk moeten leveren om de unikernel te infecteren omdat hij zelf de vulnerability zou moeten schrijven. Dan blijft er enkel nog de hypervisor over om te misbruiken. De onveiligheden van hypervisors zijn veel moeilijker uit te buiten omdat ze al een paar decennia in gebruik zijn van veel grote bedrijven.
 
-\section{Voordelen}
+Uitbreiden over TLS?
 
-De image dat gemaakt wordt wanneer de unikernel gecompileerd word zal zeer klein zijn. Omdat verschillende drivers zelf geïmplementeerd worden. Er moet ook niet in dezelfde mate als het besturingssysteem rekening gehouden worden met andere drivers. De hypervisor zorgt ook voor een stabiele interface en deze zorgt ervoor dat we geen uitgebreide drivers moeten schrijven om te zorgen voor compatibiliteit voor de verschillende hardware apparaten.
+\section{Just in Time}
 
-Een interessant voordeel van unikernels is het volgende: Het opstarten van een virtuele machine kan 1 minuut of langer duren. De meeste unikernels starten op in een tiende van een seconde. Dit zorgt ervoor dat reageren op veranderingen qua gebruik veel gemakkelijker wordt. Containers bevinden zich tussen unikernels en virtuele machines op het vlak van opstarten. Door deze minieme opstart tijd kunnen we een unikernel opstarten wanneer er een request binnenkomt. En dit kan zorgen voor veel lagere kosten.
+Network latency is een groot probleem wanneer de meeste services die u aanbied zich in de cloud bevinden. Dit maakt de applicatie zeer afhankelijk is van de server.  Wanneer de connectie met de server wegvalt kan de applicatie in uitzonderlijke gevallen nog werken of helemaal niet meer. De applicatie is rechtstreeks afhankelijk van de connectiviteit met de server. Zelf een slechte connectie kan zorgen voor problemen. De oorzaak van een slechte connectie kan een oorzaak van de server of de applicatie. We gaan er vanuit dat de applicatie en server goed geschreven zijn en dat er geen grote problemen liggen bij de infrastructuur.
 
-Als je al kan opmaken vanuit de tekst is unikernels de opvolging voor containers in bepaalde gevallen. Er zullen natuurlijk bepaalde scenario's zijn waarbij men kiest voor een container of virtuele machine.
+De locatie van je servers tegenover de locatie van je gebruiker kan zorgen voor problemen. Je infrastructuur verspreiden over verschillende datacenters en nadenken over hun locatie kan hierbij een goede actie zijn. Maar wanneer je resources verbruikt in een datacenter dat weinig gebruikt wordt kan dit duur uitkomen. Het verbruik van de resources aanpassen aan de load van de server is een stap die al genomen wordt door vele cloud providers. Dan nog moeten er nieuwe instanties van jouw applicaties of servers worden opgestart. Dit alles kan meer dan een halve minuut duren. Sommige soorten applicaties, zoals IOT en anderen, hebben constante connectiviteit nodig. Dit kan van zeer groot belang zijn. Unikernels kunnen hierbij helpen.
 
-Veel van de commentaar op unikernels komt van de onmogelijkheid om in productie te bekijken wat er fout aan het gaan is bij een unikernel. Voor de developers is het soms gemakkelijker om een applicatie aan te passen in productie om te zien of een bepaalde bug wordt verholpen. Sowieso is dit geen best practice. Er moet uitgebreid getest worden in development cycle om fouten/bugs tegen te gaan. Wanneer er dan toch iets fout gaat in productie dan zal men de situatie proberen na te bootsen en dan applicaties aan te passen om zo de fout/bug op te lossen.
+Het opstarten van een virtuele machine en alles in orde brengen om te werken kan 1 minuut of langer duren. Bij containers wordt dit veel minder omdat er geen besturingssysteem van nul moet worden opgestart. Unikernels neemt dit nog een paar stappen verder omdat men gewoon een binary moet uitvoeren op de hypervisor of hardware. De opstarttijd zal meestal minder dan een seconde innemen. Dit geeft ons een betere manier om de capaciteit aan te passen aan de load. Het opstarten van een unikernel kan sneller gebeuren dan de request naar de server toe. Kosten zullen hierdoor lager liggen.
+
+\section{Andere voordelen}
+
+De binary die gemaakt wordt wanneer de unikernel gecompileerd word zal zeer klein zijn. Omdat verschillende drivers zelf geïmplementeerd worden. Er moet ook niet in dezelfde mate als het besturingssysteem rekening gehouden worden met andere drivers. De hypervisor zorgt ook voor een stabiele interface en deze zorgt ervoor dat we geen uitgebreide drivers moeten schrijven om te zorgen voor compatibiliteit voor de verschillende hardware apparaten.
+
+\section{Productie}
+
+Veel van de commentaar op unikernels komt van de onmogelijkheid om in productie te bekijken wat er fout aan het gaan is bij een unikernel. Voor de developers is het soms gemakkelijker om een applicatie aan te passen in productie om te zien of een bepaalde bug wordt verholpen. Sowieso is dit geen best practice. Er moet uitgebreid getest worden in development cycle om fouten/bugs tegen te gaan. Wanneer er dan toch iets fout gaat in productie dan zal men de situatie proberen na te bootsen en dan applicaties aan te passen om zo de fout/bug op te lossen. Het terugzetten van een oudere versie van de applicatie kan helpen om de gebruikers geen ongemak te voorzien en tevens meer tijd te hebben om bepaalde bugs op te lossen.
+
+\section{Implementaties van moderne unikernels}
+
+Deze implementatie van een unikernel komt van Cloud Networking Performance Lab. Ze zijn al langer bekend omdat ze een minimalistisch besturingssysteem hebben gemaakt voor de Xen hypervisor: MiniOS. Vanuit de dezelfde denkwijze als unikernels starten ze met het minimale en kan je de onderdelen die je nodig hebt. 
+
+Hun unikernel solution richt zich vooral op alles dat te maken heeft met netwerk trafiek. Je kan starten met het clickOS. Deze bestaat een modulaire software router waarop je alles kan toevoegen. Vroeger zat de laag die alles regelde met de netwerk trafiek eerder bij de hardware maar je kan dus ook je eigen implementatie schrijven om veel van functionaliteit van de hardware over te nemen. Dit zorgt voor een implementatie die een veel meer trafiek kan verwerken. Deze unikernels zijn rond de 6MB groot, starten op rond de 30 milliseconden en kunnen snel gebruikt worden 45 microseconden. Bij snel gebruikt bedoel ik dat ze worden toegevoegd om netwerk trafiek te verwerken.
+
+Hun documentatie over ClickOS, MiniOS en toolchain om deze unikernels te maken is zeer uitgebreid.
 
 \section{Hedendaags gebruik}
 
