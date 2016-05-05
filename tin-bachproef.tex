@@ -181,7 +181,6 @@
 % thesis) synthese van het document. In ons geval beschrijf je kort de
 % probleemstelling en de context, de onderzoeksvragen, de aanpak en de
 % resultaten.
-  \lipsum[1-4]
 \end{abstract}
 
 \chapter*{Voorwoord}
@@ -365,11 +364,73 @@ Veel van de commentaar op unikernels komt van de onmogelijkheid om in productie 
 
 \section{Implementaties van moderne unikernels}
 
-Deze implementatie van een unikernel komt van Cloud Networking Performance Lab. Ze zijn al langer bekend omdat ze een minimalistisch besturingssysteem hebben gemaakt voor de Xen hypervisor: MiniOS. Vanuit de dezelfde denkwijze als unikernels starten ze met het minimale en kan je de onderdelen die je nodig hebt. 
+\subsection{ClickOS}
 
-Hun unikernel solution richt zich vooral op alles dat te maken heeft met netwerk trafiek. Je kan starten met het clickOS. Deze bestaat een modulaire software router waarop je alles kan toevoegen. Vroeger zat de laag die alles regelde met de netwerk trafiek eerder bij de hardware maar je kan dus ook je eigen implementatie schrijven om veel van functionaliteit van de hardware over te nemen. Dit zorgt voor een implementatie die een veel meer trafiek kan verwerken. Deze unikernels zijn rond de 6MB groot, starten op rond de 30 milliseconden en kunnen snel gebruikt worden 45 microseconden. Bij snel gebruikt bedoel ik dat ze worden toegevoegd om netwerk trafiek te verwerken.
+Deze implementatie van een unikernel komt van Cloud Networking Performance Lab. Ze zijn al langer bekend omdat ze een minimalistisch besturingssysteem hebben gemaakt voor de Xen hypervisor: MiniOS. Vanuit de dezelfde denkwijze als unikernels starten ze met het minimale en kan je de onderdelen die je nodig hebt.
+
+Elke implementatie van een unikernel zal een bepaalde omgeving kiezen waar het op zal werken. We hadden al eerder gezien dat we een binary zullen compileren voor 1 omgeving omdat dit het proces veel gemakkelijker maakt. De omgeving waar ClickOS op focust is de Xen hypervisor die we al eerder hebben aangehaald.
+
+De applicaties waarvoor ClickOS wordt voor gebruikt zijn middleboxes.  Een middlebox is een netwerk apparaat dat netwerktrafiek kan omzetten, filteren, inspecteren of manipuleren. Voorbeelden hiervan zijn firewalls en load balanceres.
+
+ClickOS is gebaseerd op MiniOS. We starten met een modulaire software router waarop je onderdelen kan toevoegen. Vroeger zat de laag die alles regelde met de netwerk trafiek eerder bij de hardware, maar je kan dus ook je eigen implementatie schrijven om veel van functionaliteit van de hardware over te nemen. Dit zorgt voor een implementatie die veel efficiënter is. De resulteerde unikernel is rond de 6MB groot, starten op rond de 30 milliseconden en kunnen snel gebruikt worden 45 microseconden. Bij snel gebruikt bedoel ik dat ze worden toegevoegd om netwerk trafiek te verwerken.
+
+De taal waarin de unikernels die gebruik maken van ClickOS is C++. Bijna alle unikernels gebruiken 1 programmeertaal om hun unikernel in te schrijven.
 
 Hun documentatie over ClickOS, MiniOS en toolchain om deze unikernels te maken is zeer uitgebreid.
+
+\subsection{Clive}
+
+Clive is een besturingssysteem gemaakt voor te werken in gedistribueerde en cloud computing omgevingen. Het heeft veel geleend op vlak van ontwerp van Plan 9. 
+
+Plan 9 wordt ontwikkeld door Bell Labs en dit is gestart vanaf de jaren 80. Het nut van Plan 9 is vooral te vinden in gedistribueerde systemen. Het is een besturingssysteem kernel in de eerste plaats maar ook een collectie van libraries. Elk proces bevindt zich in zijn eigen name space en staat zo los van de andere processen. Deze namespace heeft ook de mogelijk om een connectie te maken met een andere Plan 9 server en zo data uit te wisselen. Dit zorgt ervoor dat het maken van gedistribueerde systemen veel logischer word.
+
+Clive is een besturingssysteem gemaakt door Lsub. Ze gebruiken Go als programmeertaal voor de applicaties. Golang maakt het gemakkelijk voor meerdere instanties van een applicatie naast elkaar te laten werken terwijl ze met elkaar kunnen communiceren. 
+
+Om Go te laten werken werken in een unikernel moeten er een paar aanpassingen worden gedaan. De Go compiler en runtime werden aangepast voor een betere interface open te stellen voor netwerk applicaties. Hiervoor zou de interface van channels moeten worden aangepast om bepaalde moeilijkheden tegen te gaan wanneer men communiceert over het netwerk. Ook moet de applicatie wanneer ze gecompileerd is,  zijn eigen kernel zijn.
+
+Als resultaat krijgen we een unikernel die we kunnen laten werken rechtstreeks op de hardware en andere besturingssysteem.
+
+\subsection{HaLVM}
+
+HaLVM wordt ontwikkeld door Galios. Zij zijn een Amerikaans software development agency dat unikernels al een tijd in productie gebruikt in bepaalde use cases.
+
+De programmeertaal waarin de unikernel van HaLVM wordt geschreven is haskell. Haskell is een functionele programmeertaal met een zeer uitgebreid type system.
+
+Het werd ontwikkeld met als doel voor besturingssysteem componenten te testen. Maar na een tijd werd het mogelijk om het te gebruiken voor meer use cases.
+
+Bij HalVM gaan we terug Xen als omgeving gebruiken. Er is een integratie met de Xen hypervisor waarop de core library van HaLVM op rust. Er bestaat ook een communications library die bestaat uit Haskell File System en Haskell Network Stack. Deze library kan gebruikt in de meeste gevallen als je een netwerklaag nodig hebt. Als we meer mogelijkheden nodig hebben voor de applicatie dan gaan we modules toevoegen. Ze hebben verder een ecosysteem uitgebouwd om het gemakkelijker te maken voor developers om hun eigen modules te bouwen. 
+
+Zoals in de meeste gevallen moet de compiler van Haskell worden aangepast om rechtstreeks te kunnen werken op de Xen hypervisor. Het is ook geen probleem om andere Haskell libraries in de code te gebruiken. Er kunnen soms wel problemen optreden wanneer de compiler zelf wordt aangepast.
+
+HalVM heeft zelf uiterst goede documentatie met een groot aantal voorbeelden. Die voorbeelden zijheel gemakkelijke applicaties tot beginnende complexe applicaties.
+
+Het wordt gebruikt door Galios in productie en dit maakt het gemakkelijk om vragen te stellen. De GitHub repository waar de applicatie zich op bevindt is redelijk actief.
+
+\subsection{Erlang on Xen}
+
+Xen is 1 van de meest gebruikte hypervisors en daarom gaan veel unikernels zich richten om die omgeving. Erlang on Xen is daarbij geen uitzondering.
+
+Erlang on Xen is niet alleen een unikernel. De grote visie is dat ze Erlang infrastructuur willen ontwikkelen die een unikernel gaat opstarten als een request binnenkomt. Zo kunnen ze pieken in gebruik opvangen. Dit was het Just in Time gedeelte dat we al hebben behandelt in 1 van de vorige secties.
+
+De meeste bedrijven of werkgroepen die aan unikernels werken gaan zich enkel werpen op de unikernel niet op de architectuur er rond. Erlang on Xen wil een platform zijn dat unikernels en JIT mogelijk maakt zonder veel problemen.
+
+LING is het besturingssysteem en tegelijk het platform. LING is een erlang VM die herschreven is met unikernels als hoofdgedachte. LING zal dus werken op Xen en een unikernel opstarten wanneer er een request binnenkomt. Wanneer de content dat de unikernel moet verzenden is verzonden zal de unikernel worden vernietigd. 
+
+De focus van Erlang on Xen was xen in het begin. Met het uitbrengen van LING is het mogelijk geworden om ports te maken voor andere omgevingen. Dat heeft het mogelijk gemaakt om het te laten werken op ARM. De omgeving ARM is vooral te vinden in IOT en mobiele applicaties. Unikernel kunnen handig zijn op deze servers omdat ze soms te klein zijn voor een groot besturingssysteem. De ruimte die je wint bij een unikernel kan hierbij helpen. Verder opent dit ook de mogelijkheid voor de unikernels van LING op bare-metal te laten werken.
+
+\subsection{Rumprun}
+
+Rumprun gebruikt rump kernels om een unikernel te maken. Deze rump kernel wordt samengesteld uit componenten afkomstig van NetBSD. NetBSD is een groter besturingssysteem maar zit modulair in elkaar dus dit kunnen we gebruiken om een rump kernel te maken. De rump kernel wordt dan samen met de applicatie verpakt om gebruikt te kunnen worden in verschillende omgevingen.
+
+De toolchain rond de rumprun kernel maakt het gemakkelijker om je applicatie te maken of om te zetten naar een unikernel. 
+
+Er zijn verschillende soorten unikernels. Sommige unikernels specialiseren op basis van programmeertaal en andere op basis van omgeving. Sommige doen zelf beide. Rumprun is hierbij flexibel. Het kan werken op de meeste besturingssystemen die een POSIX applicatie interface openstellen en bijna alle besturingssystemen hebben dit soort interface.
+
+Er wordt ook aangehaald in hun wiki, dat wanneer je een applicatie hebt die specifiek geschreven is om op een programmeertaal-gebaseerde unikernel en jouw omgeving ondersteunt, dat je best die oplossing gebruikt. Als dit niet het geval is dan kan een rumprun kernel een goede oplossing zijn.
+
+De rump-run packages zijn implementaties van drivers en technologieën  die je kan toevoegen aan rumprun kernel. Er zijn een groot aantal packages die je kan gebruiken en de meest bekende zijn zeker aanwezig. Het spijtige is wel dat er nog geen packaging systeem aanwezig is. Dit zou er wel voor zorgen dat er gewerkt kan worden met dependencies en versies van packages. Een packaging systeem maken is natuurlijk geen simpele opdracht en moet eerst goed uitgedacht worden voor het uitgebracht word.
+
+De programmeertalen die ondersteund zijn, zijn de volgende: C, C++, Erlang, Go, Javascript(node.js), Python, Ruby en Rust. De keuze tussen de programmeertalen zorgt voor een groot voordeel tegenover andere unikernels. 
 
 \section{Hedendaags gebruik}
 
