@@ -430,7 +430,45 @@ Er wordt ook aangehaald in hun wiki, dat wanneer je een applicatie hebt die spec
 
 De rump-run packages zijn implementaties van drivers en technologieën  die je kan toevoegen aan rumprun kernel. Er zijn een groot aantal packages die je kan gebruiken en de meest bekende zijn zeker aanwezig. Het spijtige is wel dat er nog geen packaging systeem aanwezig is. Dit zou er wel voor zorgen dat er gewerkt kan worden met dependencies en versies van packages. Een packaging systeem maken is natuurlijk geen simpele opdracht en moet eerst goed uitgedacht worden voor het uitgebracht word.
 
-De programmeertalen die ondersteund zijn, zijn de volgende: C, C++, Erlang, Go, Javascript(node.js), Python, Ruby en Rust. De keuze tussen de programmeertalen zorgt voor een groot voordeel tegenover andere unikernels. 
+De programmeertalen die ondersteund zijn, zijn de volgende: C, C++, Erlang, Go, Javascript(node.js), Python, Ruby en Rust. De keuze tussen de programmeertalen zorgt voor een groot voordeel tegenover andere unikernels.
+
+\subsection{MirageOS}
+
+We kunnen zeggen dat het voor een deel allemaal begon bij MirageOS. Hun paper over unikernels en MirageOS wakkerde veel interesse aan rond unikernels. 
+
+Mirage is een cloud besturingssysteem gemaakt voor veilige en netwerk applicaties met een hoge performantie te maken op verschillende platformen.
+
+De programmeertaal dat je moet gebruiken voor een MirageOS applicatie te maken is OCaml. OCaml is de algemene implementatie van de Caml programmeertaal. OCaml laat toe om object georiënteerd te programmeren met Caml.  Het wordt extensief gebruikt door facebook. Deze taal is niet heel erg bekend en dit kan ervoor zorgen dat het niet veel tractie heeft.
+
+De applicatie kan geschreven worden op een Linux of Mac OSX machine en zal later gecompileerd in een exokernel. Deze applicatie kan dan werken op een Xen hypervisor.
+
+MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking. Het heeft een uitstekende toolchain voor het compileren van applicaties en het debuggen van de resulterende unikernel. Debuggen kan soms tot problemen leiden bij unikernels want men kan niet zelf in de unikernel kijken. Dit komt omdat de unikernel geen shell heeft. De debug optie kan helpen voor het testen van unikernels. De resulterende unikernel kan ook werken op ARM-based apparaten. Dit betekent dat we het kunnen gebruiken voor mobiele en IOT applicaties.
+
+Verder zijn er ook tools dat we werkende MirageOS unikernels kunnen beheren. Dit is onder de vorm van extensies op Xen. Het nagaan van de veiligheid van een extensie die men toevoegt aan Xen moet wel altijd worden gedaan.
+
+\subsection{IncludeOS}
+
+IncludeOS is gemotiveerd door het paper "Maximizing Hypervisor Scalability using Minimal Virtual Machines". Het onderscheid tussen een minimale virtuele machine tegenover een unikernel is zeer klein. Daarom worden beide termen afwisselend gebruikt. Net zoals ClickOS moeten de applicaties geschreven worden in C++.++
+
+Ze zorgen voor een bootloader, standaard libraries, modules voor drivers te implementeren en een build- en deploysysteem. Het is simpel om applicaties te maken voor deze unikernel. Je moet enkel een dependency toevoegen aan je applicatie. Dan kan je je applicatie worden omgezet naar een unikernel. Er veranderd dus niet veel voor de developers zelf. Dit zorgt voor een vlotte overgang en is zeker belangrijk wanneer men kiest voor minimale applicaties te maken.
+
+Het laten van meerdere processen op een unikernel van includeOS is niet mogelijk. Dit kan sommige developers afschrikken. Het gebruik van microservices is nog niet wijdverspreid en kan een factor zijn in het selecteren van een unikernel. Enerzijds gaan bedrijven nooit bij unikernels komen wanneer de architectuur geen microservices bevat. Er zijn ook geen race conditions mogelijk omdat er maar 1 proces mogelijk is.
+
+Er zijn geen plannen om hogere programmeertalen zoals Javascript te ondersteunen. Het zou een goede extra zijn voor meer developers te overtuigen. Ook is IncludeOS niet POSIX compliant en dit kan voor problemen zorgen wanneer ze extra functionaliteit willen toevoegen. 
+
+Als omgeving focussen ze KVM en virtualbox. Hier is het dus gemakkelijk om een unikernel te testen op je eigen machine. Als je services schrijft in C++ dan is IncludeOS een zeer goede keuze. Je kan veel informatie vinden op hun GitHub repository. Pas wel op met alle mogelijkheden die hebt omdat er geen bescherming is van jezelf.
+
+\subsection{osV}
+
+De meest uitgebreide unikernel vanuit mijn oogpunt is OSv. Ze ondersteunen een groot aantal programmeertalen. Waaronder Java, Ruby, Javascript, Scala en vele anderen. Hierbij moeten wel wel vermelden dat de implementaties van Ruby en Javascript in java zijn geschreven. Rhino en JRuby zijn de namen hiervan. Het is simpel om deze programmeertalen toe te voegen wanneer je Java als taal al ondersteunt. Er is wel werk aan de gang voor de native ondersteuning te voorzien voor deze talen.
+
+Verder kan je deze unikernels laten werken op veel omgevingen: VMware, VirtualBox, KVM en Xen. Het is een indrukwekkende lijst van hypervisors de je kan gebruiken. Dit kan ook ervoor zorgen dat je niet vast ziet op 1 omgeving. Er wordt gewerkt om ondersteuning te bieden voor ARM-based apparaten.
+
+Zoals IncludeOS voorheen is OSv geschreven in C++.++
+
+Voor het beheren van een OSv instance kan men gebruik maken van de GUI. Bij de meerderheid van unikernels is informatie krijgen door middel van een GUI onmogelijk. Extensies met de hypervisor kunnen hierbij helpen maar dan nog laat de UX de wensen over. De GUI is gebouwd op een REST API die de componenten van OSv openstellen. Dit komt overheen met de manier hoe docker hun componenten werken. Deze componenten stellen een API open waar de tools verder opgebouwd kunnen worden. Er is zelfs een API specificatie die je kan bekijken op je eigen machine.
+
+OSv ondersteund Amazon Web Services en Google Container Engine als cloud providers. Het is uitzonderlijk dat een unikernel zoveel informatie heeft over hoe je het moet gebruiken. Er is documentatie over cloud providers, hypervisors, hoe je OSv moet gebruiken, hoe je applicaties moet omzetten naar OSv en hoe je aan development voor OSv kan doen.  
 
 \section{Hedendaags gebruik}
 
