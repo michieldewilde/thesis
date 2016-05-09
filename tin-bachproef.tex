@@ -588,14 +588,13 @@ De documentatie heeft tutorials en een technische uitleg hoe MirageOS en zijn on
 Verder zijn er ook tools dat we werkende MirageOS unikernels kunnen beheren. Dit is onder de vorm van extensies op Xen. Het nagaan van de veiligheid van een extensie die men toevoegt aan Xen moet wel altijd worden gedaan.
 
 \subsection{IncludeOS}
-
 \begin{description}
-  \item [Implementatie programmeertaal]: 10
-  \item [Hypervisors]: 10
-  \item [Ondersteunde programmeertaal]: 10
-  \item [Documentatie]: 10
-  \item [Toolchain]: 10
-  \item [GitHub stars]: 10
+  \item [Implementatie programmeertaal]: C/C++
+  \item [Hypervisors]: KVM, VirtualBox
+  \item [Ondersteunde programmeertaal]: C++
+  \item [Documentatie]: 6
+  \item [Toolchain]: 6
+  \item [GitHub stars]: 1341
 \end{description}
 
 IncludeOS is gemotiveerd door het paper "Maximizing Hypervisor Scalability using Minimal Virtual Machines". Het onderscheid tussen een minimale virtuele machine tegenover een unikernel is zeer klein. Daarom worden beide termen afwisselend gebruikt. Net zoals ClickOS moeten de applicaties geschreven worden in C++.
@@ -604,7 +603,11 @@ Ze zorgen voor een bootloader, standaard libraries, modules voor drivers te impl
 
 Het laten van meerdere processen op een unikernel van includeOS is niet mogelijk. Dit kan sommige developers afschrikken. Het gebruik van microservices is nog niet wijdverspreid en kan een factor zijn in het selecteren van een unikernel. Enerzijds gaan bedrijven nooit bij unikernels komen wanneer de architectuur geen microservices bevat. Er zijn ook geen race conditions mogelijk omdat er maar 1 proces mogelijk is.
 
-Er zijn geen plannen om hogere programmeertalen zoals Javascript te ondersteunen. Het zou een goede extra zijn voor meer developers te overtuigen. Ook is IncludeOS niet POSIX compliant en dit kan voor problemen zorgen wanneer ze extra functionaliteit willen toevoegen. 
+Momenteel ligt de focus van IncludeOS voornamelijk op C++. Dit is een strategie dat kan helpen wanneer developers zoeken naar een implementatie die een community heeft. IncludeOS heeft een grote community van C++ developers. Hun doel is vooral om een soortegelijk Node.js te maken maar dan in efficiënt C++.
+
+Er zijn geen plannen om hogere programmeertalen zoals Javascript te ondersteunen. Ook is IncludeOS niet POSIX compliant en dit kan voor problemen zorgen wanneer ze extra functionaliteit willen toevoegen.
+
+Hun documentatie is niet heel uitgebreid maar er wordt actief aan gewerkt om dit in orde te krijgen. Ook de tools lopen wat achter.
 
 Als omgeving focussen ze KVM en virtualbox. Hier is het dus gemakkelijk om een unikernel te testen op je eigen machine. Als je services schrijft in C++ dan is IncludeOS een zeer goede keuze. Je kan veel informatie vinden op hun GitHub repository. Pas wel op met alle mogelijkheden die hebt omdat er geen bescherming is van jezelf.
 
