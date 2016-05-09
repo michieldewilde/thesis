@@ -561,22 +561,29 @@ De programmeertalen die ondersteund zijn, zijn de volgende: C, C++, Erlang, Go, 
 
 \begin{description}
   \item [Implementatie programmeertaal]: OCaml
-  \item [Hypervisors]: Xen
+  \item [Hypervisors]: Xen, Unix
   \item [Ondersteunde programmeertaal]: OCaml
-  \item [Documentatie]: 10
-  \item [Toolchain]: 10
+  \item [Documentatie]: 9
+  \item [Toolchain]: 8
   \item [GitHub stars]: 657
 \end{description}
 
-We kunnen zeggen dat het voor een deel allemaal begon bij MirageOS. Hun paper over unikernels en MirageOS wakkerde veel interesse aan rond unikernels. 
+We kunnen zeggen dat het voor een deel allemaal begon bij MirageOS. Hun paper over unikernels en MirageOS wakkerde veel interesse aan rond unikernels. Ervoor was er wel al sprake van unikernels maar MirageOS zorgde voor veel nieuwe initiatieven.
 
 Mirage is een cloud besturingssysteem gemaakt voor veilige en netwerk applicaties met een hoge performantie te maken op verschillende platformen.
 
-De programmeertaal dat je moet gebruiken voor een MirageOS applicatie te maken is OCaml. OCaml is de algemene implementatie van de Caml programmeertaal. OCaml laat toe om object georiënteerd te programmeren met Caml.  Het wordt extensief gebruikt door facebook. Deze taal is niet heel erg bekend en dit kan ervoor zorgen dat het niet veel tractie heeft.
+De programmeertaal dat je moet gebruiken voor een MirageOS applicatie te maken is OCaml. 
+OCaml is de algemene implementatie van de Caml programmeertaal en voegd object georiënteerd programmeren toe. Het wordt extensief gebruikt door facebook. Deze taal is niet heel erg bekend en dit kan ervoor zorgen dat het niet veel tractie heeft.
+De voornaamste redenen om OCaml te gebruiken zijn static type checking en automatic memory management. De eerste reden is om tegen te gaan dat er iets fout gaat wanneer een applicatie aan het werken is. De compiler gaat kijken of hij geen onveilige code kan vinden. Als dit het geval is wordt er niet gecompileerd.
+Memory management is belangrijk voor resource leaks tegen te gaan. Resource leaks kunnen ervoor zorgen dat de applicatie meer resources gebruikt dan nodig is of zelf de applicatie/systeem laten stoppen met werken.
 
-De applicatie kan geschreven worden op een Linux of Mac OSX machine en zal later gecompileerd in een exokernel. Deze applicatie kan dan werken op een Xen hypervisor.
+De toolchain is zeer uitgebreid van het lokaal maken van de applicatie tot het beheren van de applicaties in productie.
 
-MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking. Het heeft een uitstekende toolchain voor het compileren van applicaties en het debuggen van de resulterende unikernel. Debuggen kan soms tot problemen leiden bij unikernels want men kan niet zelf in de unikernel kijken. Dit komt omdat de unikernel geen shell heeft. De debug optie kan helpen voor het testen van unikernels. De resulterende unikernel kan ook werken op ARM-based apparaten. Dit betekent dat we het kunnen gebruiken voor mobiele en IOT applicaties.
+De applicatie kan geschreven worden op een Linux of Mac OSX machine. Deze applicatie kan dan werken op een Xen of Unix omgeving. Dit geeft veel mogelijkheden voor deployment.
+
+MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking. Het heeft een uitstekende toolchain voor het compileren van applicaties en het debuggen van de resulterende unikernel. Debuggen kan soms tot problemen leiden bij unikernels want men kan niet zelf in de unikernel kijken. Dit komt omdat de unikernel geen shell heeft. De debug optie kan hierbij helpen. De resulterende unikernel kan ook werken op ARM-based apparaten. Dit betekent dat we het kunnen gebruiken voor mobiele en IOT applicaties.
+
+De documentatie heeft tutorials en een technische uitleg hoe MirageOS en zijn onderdelen werken. Doordat MirageOS al volwassen is geworden is er al veel te vinden over MirageOS en ook zijn er een grote collectie van packages die je kan gebruiken.
 
 Verder zijn er ook tools dat we werkende MirageOS unikernels kunnen beheren. Dit is onder de vorm van extensies op Xen. Het nagaan van de veiligheid van een extensie die men toevoegt aan Xen moet wel altijd worden gedaan.
 
