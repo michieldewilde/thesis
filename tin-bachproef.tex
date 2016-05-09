@@ -614,23 +614,26 @@ Als omgeving focussen ze KVM en virtualbox. Hier is het dus gemakkelijk om een u
 \subsection{OSv}
 
 \begin{description}
-  \item [Implementatie programmeertaal]: 10
-  \item [Hypervisors]: 10
+  \item [Implementatie programmeertaal]: C/C++
+  \item [Hypervisors]: VMWare, VirtualBox, KVM, Xen
   \item [Ondersteunde programmeertaal]: 10
   \item [Documentatie]: 10
-  \item [Toolchain]: 10
-  \item [GitHub stars]: 10
+  \item [Toolchain]: 8
+  \item [GitHub stars]: 2121
 \end{description}
 
-De meest uitgebreide unikernel vanuit mijn oogpunt is OSv. Ze ondersteunen een groot aantal programmeertalen. Waaronder Java, Ruby, Javascript, Scala en vele anderen. Hierbij moeten wel wel vermelden dat de implementaties van Ruby en Javascript in java zijn geschreven. Rhino en JRuby zijn de namen hiervan. Het is simpel om deze programmeertalen toe te voegen wanneer je Java als taal al ondersteunt. Er is wel werk aan de gang voor de native ondersteuning te voorzien voor deze talen.
+De meest uitgebreide unikernel vanuit mijn oogpunt is OSv. Ze ondersteunen een groot aantal programmeertalen. Waaronder Java, Ruby, Javascript, Scala en vele anderen. Hierbij moeten wel wel vermelden dat de implementaties van Ruby en Javascript in Java zijn geschreven. Rhino en JRuby zijn de namen hiervan. Het is simpel om deze programmeertalen toe te voegen wanneer je Java als taal al ondersteunt. Er is wel werk aan de gang voor de native ondersteuning te voorzien voor deze talen.
 
 Verder kan je deze unikernels laten werken op veel omgevingen: VMware, VirtualBox, KVM en Xen. Het is een indrukwekkende lijst van hypervisors de je kan gebruiken. Dit kan ook ervoor zorgen dat je niet vast ziet op 1 omgeving. Er wordt gewerkt om ondersteuning te bieden voor ARM-based apparaten.
 
-Zoals IncludeOS voorheen is OSv geschreven in C++.++
+Zoals IncludeOS voorheen is OSv geschreven in C++. 
 
 Voor het beheren van een OSv instance kan men gebruik maken van de GUI. Bij de meerderheid van unikernels is informatie krijgen door middel van een GUI onmogelijk. Extensies met de hypervisor kunnen hierbij helpen maar dan nog laat de UX de wensen over. De GUI is gebouwd op een REST API die de componenten van OSv openstellen. Dit komt overheen met de manier hoe docker hun componenten werken. Deze componenten stellen een API open waar de tools verder opgebouwd kunnen worden. Er is zelfs een API specificatie die je kan bekijken op je eigen machine.
 
-OSv ondersteund Amazon Web Services en Google Container Engine als cloud providers. Het is uitzonderlijk dat een unikernel zoveel informatie heeft over hoe je het moet gebruiken. Er is documentatie over cloud providers, hypervisors, hoe je OSv moet gebruiken, hoe je applicaties moet omzetten naar OSv en hoe je aan development voor OSv kan doen.  
+OSv ondersteund Amazon Web Services en Google Container Engine als cloud providers. Het is uitzonderlijk dat een unikernel zoveel informatie heeft over hoe je het moet gebruiken. Er is documentatie over cloud providers, hypervisors, hoe je OSv moet gebruiken, hoe je applicaties moet omzetten naar OSv en hoe je aan development voor OSv kan doen. 
+Dit is een zegen voor veel developers die hun bestaande applicaties willen omzetten naar unikernels.
+
+Het is de meest populair implemenatie van unikernels van alle implementaties die we hebben overlopen op GitHub. Ook de activiteit is het hoogste.
 
 \chapter{Conclusie}
 \label{ch:conclusie}
