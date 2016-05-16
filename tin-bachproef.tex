@@ -61,20 +61,6 @@
 % Computer Modern
 \renewcommand{\familydefault}{\sfdefault}
 
-% Commando voor invoegen Java-broncodebestanden (dank aan Niels Corneille)
-% Gebruik: \codefragment{source/MijnKlasse.java}{Uitleg bij de code}
-\newcommand{\codefragment}[2]{ \lstset{%
-  language=java,
-  breaklines=true,
-  float=th,
-  caption={#2},
-  basicstyle=\scriptsize,
-  frame=single,
-  extendedchars=\true
-}
-
-\lstinputlisting{#1}}
-
 %%---------- Documenteigenschappen ---------------------------------------
 %% Vul dit aan met je eigen info:
 
@@ -85,7 +71,7 @@
 \newcommand{\promotor}{Bert Van Vreckem}
 
 % De naam van je co-promotor
-\newcommand{\copromotor}{Jan Janssen}
+\newcommand{\copromotor}{Micha Herandez van Leuffen}
 
 % Indien je bachelorproef in opdracht van een bedrijf of organisatie
 % geschreven is, geef je hier de naam.
@@ -217,13 +203,16 @@ Unikernels zijn een een nieuwe stroom binnen het landschap van besturingssysteme
 \chapter{Methodologie}
 \label{ch:methodologie}
 
-Omdat unikernels een zeer theoretisch onderwerp is momenteel, werd er eerst een literatuurstudie uitgevoerd om de begrippen die meespelen binnen dit onderwerp te begrijpen. Veel technische begrippen vraagden om een extensieve kennis van het besturingssysteem. Het oplijsten van de virtualisatietechnologieën geeft een inzicht op het huidige landschap. Er zijn een aantal unikernel implementaties uitgelicht en daarbij werd vanuit bepaalde criteria 1 gekozen. Het opzetten van een applicatie met deze unikernel implementatie was een experiment om te bekijken hoe gemakkelijk men de overstap kan maken naar unikernels. Van de gekozen unikernel werd ook het ecosysteem bekeken om te zien hoe ze staan tegenover de huidige alternatieven.  Verder werd er gekeken naar de technologieën en tools die we nodig hebben om unikernels te laten werken in productie. Dit alles zou een goed beeld moeten geven van het ecosysteem waarin de systeembeheerder zal werken.
+Het begrip unikernel vraagt om een uitgebreide theoretische kennis van huidige besturingssystemen en virtualisatietechnologieën.
+Voor veel van deze concepten goed te begrijpen werd er eerst een literatuurstudie uitgevoerd.
+Artikels en andere informatie over unikernels was simpel te vinden door de volgende website [unikernels.org]. Veel over virtuele machines was te vinden in een paar thesissen van de vorige jaren. De kennis over containers werd voornamelijk gevonden tijdens mijn stage bij Wercker. Een paar boeken over containers, met centraal onderwerp Docker, gaven meer inzicht in containers en hun use cases.
 
-% TODO: Hoe ben je te werk gegaan? Verdeel je onderzoek in grote fasen, en
-% licht in elke fase toe welke stappen je gevolgd hebt. Verantwoord waarom je
-% op deze manier te werk gegaan bent. Je moet kunnen aantonen dat je de best
-% mogelijke manier toegepast hebt om een antwoord te vinden op de
-% onderzoeksvraag.
+Door het literatuuronderzoek konden de eerste hoofdstukken over virtuele machines, containers en unikernels geschreven worden. De thesis focust niet alleen op de mogelijkheden die unikernels hebben. Ook de veranderingen voor systeembeheerders moet bekeken worden.
+
+Microservices en Immutable Infrastructure waren twee gegevens die bekend aan het worden zijn binnen de wereld van devOps en software development. Dit leidde tot een hoofdstuk die hun verband aantoonde met unikernels en containers. De revolutie voor software development en devOps door deze soort technologieën zou een duidelijk beeld geven op de verandering voor systeembeheerders.
+
+Daarna was het tijd voor experimenten. Als eerste was het vinden van een implementatie van een unikernel belangrijk vooraleer we konden beginnen met experimenten.
+Het kiezen van de meest populaire omwille van ongegronde redenen zou niet leiden tot een goed onderzoek. Daarom werden er een aantal implementaties bekeken en met elkaar vergeleken.
 
 \chapter{Virtualisatie}
 \label{ch:virtualisatie}
@@ -369,6 +358,10 @@ Unikernels kunnen gebruikt worden in uiterst uitzonderlijke use cases momenteel.
 
 In het volgende hoofdstuk zullen we bekijken welke concepten en tools de systeembeheerder zal tegenkomen in een toekomst met unikernels. Veel van deze concepten komen we ook nu tegen bij containers.
 
+Enkele voorbeelden van moderne implementaties van unikernels zijn: MirageOS, OSv, HaLVM, LING, ClickOS, Rumprun en IncludeOS.
+
+In het volgende deel zullen bekijken op wat voor manieren we het best unikernels kunnen gebruiken en wat voor gevolgen dit heeft op de architectuur van onze systemen.
+
 \chapter{Architectuur in een wereld van unikernels}
 \section{Microservicers}
 
@@ -415,18 +408,37 @@ Een trend dat we zeker zien en dat zich zal blijven doorzetten is het lenen van 
 
 \subsection{Inleiding}
 
-In het hoofdstuk over unikernels zijn er een aantal moderne implemenaties van unikernels aangehaald. Uit deze implementaties zal er één worden gekozen om het ecosysteem en mogelijkheden van deze implementatie te bekijken. Hierbij zijn er veel verschillende criteria die we kunnen aanhalen. In volgende sectie zullen we de criteria beschrijven en hoe we ze een score geven.
+In het hoofdstuk over unikernels zijn er een aantal voorbeelde van  moderne implemenaties van unikernels aangehaald. Uit deze implementaties zullen er twee worden gekozen om het ecosysteem en mogelijkheden van deze implementatie te bekijken. Hierbij zijn er veel verschillende criteria die we kunnen aanhalen. In volgende sectie zullen we de criteria beschrijven en hoe we ze een score geven. Eén specifieke implementatie die zich richt op één taal en andere die meerdere omgevingen en talen ter beschikking heeft. Hierdoor kunnen we het verschil tussen een algemene en specifieke implementatie zien.
 
 \subsection{Criteria}
 
 \begin{description}
-\item [Implementatie programmeertaal] In welke programmeertaal is de implementatie geschreven?
-\item [Hypervisors] Hypervisors zijn een groot deel waarom unikernels gekozen worden. De meest gebruikte unikernels zijn beschikbaar op een aantal hypervisors. Sommige unikernels specializeren zich in een hypervisor om gebruik te maken van de mogelijkheden van de hypervisor.
-\item [Ondersteunde programmeertaal] Misschien is dat wel de grootste factor bij het kiezen welke unikernel eruit komt voor het experiment. Het is gemakkelijker om een bepaalde implementatie te gebruiken wanneer je kan kiezen uit een aantal populaire programmeertaal. Als je een microservice wilt schrijven in een andere programmeertaal zou het wel handig zij om bij dezelfde implementatie van een unikernel te blijven.
-\item [Documentatie] Wanneer een developer vlug van start kan gaan met een implementatie, zorgt dit voor een betere ervaring voor de developer. Niet alleen de basis is van belang maar ook hoe je meer geadvanceerde situaties moeten worden aangepakt. Documentatie is volgens velen het meest belangrijke onderdeel van een open-source project.
-\item [Tools] Bestaat er een intuitive cli interface die we kunnen gebruiken voor onze applicatie.
-\item [Packages] Bestaan er groot aantal packages die we kunnen gebruiken voor drivers te installeren? Bestaat er een package management systeem dat we kunnen gebruiken om onze dependencies te beheren?
-\item [GitHub stars] Hieruit kunnen we opmaken hoeveel mensen het in de gaten houden of hoe populair is. 
+\item [Implementatie programmeertaal]
+In welke programmeertaal is de implementatie geschreven? De meeste implementaties zijn in C/C++ geschreven. Dit komt vooral door het feit dat veel developers die bezig zijn met unikernels vanuit een achtergrond met besturingssystemen komen.
+De de facto programmeertaal voor een besturingssysteem is C/C++.
+
+\item [Hypervisors] 
+Hypervisors zijn een groot deel waarom unikernels gekozen worden. De meest gebruikte unikernels zijn beschikbaar op een aantal hypervisors. Sommige unikernels specializeren zich in één hypervisor.
+Dit is om gebruik te maken van de specifieke mogelijkheden van de hypervisor en zo de sterktes daarvan ui te buiten.
+
+\item [Ondersteunde programmeertaal] 
+Misschien is dat wel de grootste factor bij het kiezen van een implementaite. Het is gemakkelijker om een bepaalde implementatie te gebruiken wanneer je kan kiezen uit een aantal programmeertalen.
+Als je een microservice wilt schrijven in een andere programmeertaal, zou het wel handig zij om bij dezelfde implementatie te blijven.
+
+\item [Documentatie] 
+Wanneer een developer vlug van start kan gaan met een implementatie, zorgt dit voor een betere ervaring voor de developer. Niet alleen de basis is van belang maar ook hoe je meer geadvanceerde situaties moeten worden aangepakt. Documentatie is volgens velen het meest belangrijke onderdeel van een open-source project.
+
+\item [Tools] 
+Bestaat er een ecosysteem tools dat we kunnen gebruiken voor de implementatie. Platformen en ondersteuning van cloud providers kunnen hierbij passen.
+De mogelijkheid om de applicatie te debuggen is een zeer handig gegeven.
+
+\item [Packages] 
+Dit is tweeledig. Enerzijds willen we de normale package manager voor een programmeertaal blijven gebruiken. Als we hiervan afwijken dan kan het moeilijk wanneer we bugs en andere tegenkomen.
+Ook aan de unikernels zijde kunnen we spreken van packages. Packages zullen we dan eerder bekijken als drivers om bepaalde functionaliteit aan de implementatie te geven. Bijvoorbeeld een bepaald protocol zoals TCP.
+
+\item [GitHub stars] 
+Hieruit kunnen we opmaken hoeveel mensen het in de gaten houden en hoe populair is.
+
 \end{description}
 
 {\footnotesize
@@ -435,17 +447,17 @@ In het hoofdstuk over unikernels zijn er een aantal moderne implemenaties van un
     \hline
     Naam & Taal implementatie & Hypervisor & Ondersteunde talen & Docs & Tools & GitHub \\ \hline
     ClickOS & C/C++ & Xen & bindings & 5 & 7 & 243 \\ \hline
-    HaLVM & Haskell & Xen & Haskell & 10 & 10 & 665 \\ \hline
-    Ling & C/Erlang & Xen & Erlang & 10 & 10 & 523 \\ \hline
-    Rumprun & C & hw, Xen, POSIX & C, C++, Erlang, Go, ... & 10 & 10 & 469 \\ \hline
-    MirageOS & OCaml & Xen & OCaml & 10 & 10 & 657 \\ \hline
-    IncludeOS & C++ & KVM, VirtualBox & C++ & 10 & 10 & 1341 \\ \hline
-    OSv & C/C++ & KVM, Xen, ... & JVM & 10 & 10 & 2121 \\ \hline
+    HaLVM & Haskell & Xen & Haskell & 8 & 6 & 665 \\ \hline
+    LING & C/Erlang & Xen & Erlang & 4 & 6 & 523 \\ \hline
+    Rumprun & C & hw, Xen, POSIX & C, C++, Erlang, Go, ... & 9 & 8 & 469 \\ \hline
+    MirageOS & OCaml & Xen & OCaml & 9 & 8 & 657 \\ \hline
+    IncludeOS & C++ & KVM, VirtualBox & C++ & 6 & 6 & 1341 \\ \hline
+    OSv & C/C++ & KVM, Xen, ... & JVM & 10 & 9 & 2121 \\ \hline
     \end{tabular}
 \end{center} 
 }
 
-De uitleg voor de bovenstaande tabel wordt verder uitlegd in de volgende sectie.
+De inhoud van de bovenstaande tabel wordt verder uitlegd in de volgende sectie.
 
 \newpage
 
@@ -457,20 +469,24 @@ De uitleg voor de bovenstaande tabel wordt verder uitlegd in de volgende sectie.
   \item [Hypervisors]: Xen
   \item [Ondersteunde programmeertaal]: ondersteund door bindings
   \item [Documentatie]: 5
-  \item [Tools]: 7s
+  \item [Tools]: 7
   \item [GitHub stars]: 243
 \end{description}
 
 Deze implementatie van een unikernel komt van Cloud Networking Performance Lab.
 
-De applicaties waarvoor ClickOS wordt voor gebruikt zijn middleboxes. Een middlebox is een netwerk apparaat dat netwerktrafiek kan omzetten, filteren, inspecteren of manipuleren. Voorbeelden hiervan zijn firewalls en load balanceres.
-We starten met een modulaire software router waarop je onderdelen kan toevoegen. Deze werkt op MiniOS. MiniOS is beschikbaar met de Xen hypervisor. Vroeger zat de laag die alles regelde met de netwerk trafiek eerder bij de hardware, maar je kan dus ook je eigen implementatie schrijven om veel van functionaliteit van de hardware over te nemen. Dit zorgt voor een implementatie die veel efficiënter is. De resulteerde unikernel is rond de 6MB groot, starten op rond de 30 milliseconden en kunnen snel gebruikt worden 45 microseconden. Bij snel gebruikt bedoel ik dat ze worden toegevoegd om netwerk trafiek te verwerken.
+De applicaties waarvoor ClickOS wordt voor gebruikt zijn middleboxes. Een middlebox is een netwerk applicatie dat netwerktrafiek kan omzetten, filteren, inspecteren of manipuleren. Voorbeelden hiervan zijn firewalls en load balanceres.
+We starten met een modulaire software router waarop je onderdelen kan toevoegen. Deze werkt op enkel op MiniOS. MiniOS is beschikbaar bij de source van de Xen hypervisor.
 
-De use cases waarbinnen ClickOS kan gebruikt worden is redelijk beperkt. Dit is niet zo zeer een slecht gegeven, maar het is beter als we een implementatie gebruiken die meer algemeen te gerbuike is.
+Vroeger zat de laag die alles regelde met de netwerk trafiek eerder bij de hardware, maar je kan dus ook je eigen implementatie schrijven om veel van functionaliteit van de hardware over te nemen. Dit zorgt voor een implementatie die veel efficiënter is. De resulteerde unikernel is rond de 6MB groot, starten op rond de 30 milliseconden en kunnen snel gebruikt worden 45 microseconden. Bij snel gebruikt bedoel ik dat ze worden toegevoegd om netwerk trafiek te verwerken.
+
+De use cases waarbinnen ClickOS kan gebruikt worden zijn redelijk beperkt. Dit is geen slecht gegeven, maar het is beter als we een implementatie gebruiken die meer algemeen te gebruiken is.
+Als je geen gebruik wilt maken van ingebouwde netwerk functionaliteit van de hardware dan is ClickOS de uitgesproken keuze.
+
 Hun documentatie over ClickOS is verwarrend. Het was een tijd zoeken welk programmeertalen ze ondersteunen.
-Uiteindelijk werd gevonden dat ze swig gebruiken voor hogere talen te integreren met C. Swig zal een wrapper maken maken die de twee delen met elkaar zal verbinden.
+Uiteindelijk werd gevonden dat ze swig gebruiken voor hogere talen te integreren met C. Swig maakt een wrapper die de C/C++ kant verbind met een hogere taal.
 
-Cosmos is de toolchain dat gebruikt word. Het maakt het simpeler om te developen en interactie met de gebruiker te verbeteren. Voor cosmos, zou je zelf de bindings moeten definiëren dus dit zorgt voor minder werk voor de gebruiker.
+Cosmos is de toolchain dat gebruikt word. Het maakt het simpeler om te developen en interactie met de gebruiker te verbeteren. Vooraleer bestond cosmos, zou je zelf de bindings moeten definiëren. Dit is wel wat werk.
 
 ClickOS verwijst naar zijn packages als elements. Die elements voeren in bepaalde actie uit. Dit zijn hele kleine stukken functionaliteit. Er zijn om en bij 300 elementen aanwezig. 
 Het is ook niet moeilijk om zelf elementen te schrijven.
@@ -486,18 +502,19 @@ Het is ook niet moeilijk om zelf elementen te schrijven.
   \item [GitHub stars]: 665
 \end{description}
 
-HaLVM wordt ontwikkeld door Galios. Zij zijn een software development agency dat unikernels al een tijd in productie gebruikt.
+HaLVM wordt ontwikkeld door Galios. Galios is software development agency dat unikernels al een tijd in productie gebruikt.
+Er zijn niet veel bedrijven die unikernels al gebruiken in productie dus ze hebben veel ervaring met de mogelijkheden en moeilijkheden van unikernels.
 
-De programmeertaal waarin de unikernel van HaLVM wordt geschreven is Haskell. Haskell is een functionele programmeertaal met een zeer uitgebreid type system. Door te focussen op één taal 
+De programmeertaal waarin de unikernel van HaLVM wordt geschreven is Haskell. Haskell is een functionele programmeertaal met een uitgebreid type system. HaLVM is een specifieke implementatie die enkel één supervisor en programmeertaal ondersteund. 
 
 Het werd ontwikkeld met als doel voor besturingssysteem componenten snel te maken en te testen. Maar na een tijd is het geëvolueerd naar andere use cases.
 
-Bij HalVM gaan we Xen als omgeving gebruiken. Er is een integratie met de Xen hypervisor waarop de core library van HaLVM op rust. Er bestaat ook een communications library die bestaat uit Haskell File System en Haskell Network Stack. Deze library kan gebruikt in de meeste gevallen als je een netwerklaag nodig hebt. Als we meer mogelijkheden nodig hebben voor de applicatie dan gaan we modules toevoegen. Ze hebben verder een ecosysteem uitgebouwd om het gemakkelijker te maken voor developers om hun eigen modules te bouwen.
+Bij HalVM gaan we de Xen hypervisor als omgeving gebruiken. Er is een integratie met de Xen hypervisor waarop de core library van HaLVM op rust. Er bestaat ook een communications library die bestaat uit Haskell File System en Haskell Network Stack. Deze library kan gebruikt in de meeste gevallen als je een netwerklaag nodig hebt. Als we meer mogelijkheden nodig hebben voor de applicatie dan gaan we modules toevoegen. Ze hebben verder een ecosysteem uitgebouwd om het gemakkelijker te maken voor developers om hun eigen modules te bouwen.
 
-De werkwijze is de volgende: eerst schrijf je best zoveel mogelijk functionaliteit als een normaal Haskell programma. Daarna kan je het programma beginnen refactoren om te gebruiken op HaLVM.
-Dit kan niet gemakkelijk zijn want er zijn maar beperkte mogelijkheden om te debuggen op HalVM.
+De werkwijze is de volgende: eerst schrijf je best zoveel mogelijk functionaliteit als een normaal Haskell programma. Daarna moet je het programma beginnen refactoren om te gebruiken op HaLVM.
+Dit is niet gemakkelijk bij uitgebreide applicaties zijn want er zijn maar beperkte mogelijkheden om te debuggen op HalVM.
 
-Er wordt gebruik gemaakt van de standaard Cabal toolset van Haskell zelf. Cabal neemt het maken en ophalen van packages op zich. Dit geeft beperkte functionaliteit voor HaLVM zelf en er zou nog een uitgebreide tool voor HaLVM zijn.
+Er wordt gebruik gemaakt van de standaard Cabal toolset van Haskell zelf. Cabal neemt het maken en ophalen van packages op zich.
 
 HaLVM heeft zelf uiterst goede documentatie met een groot aantal voorbeelden. Die voorbeelden zijn heel gemakkelijke applicaties tot beginnende complexe applicaties.
 
@@ -516,8 +533,8 @@ Het wordt gebruikt door Galios in productie en dit maakt het gemakkelijk om vrag
   \item [GitHub stars]: 523
 \end{description}
 
-Ling is een Erlang virtuele machine die kan werken op Xen. Het bedrijf achter Ling is Cloudozer. Ze hebben al meerdere language runtimes gemaakt die rechtstreeks op Xen werken.
-Ling is open source maar de rest van tools zijn niet open source. Wanneer je problemen met het ecosysteem moet je support contacteren van Cloudozer.
+Ling is een Erlang virtuele machine die werkt op Xen. Het bedrijf achter Ling is Cloudozer. Ze hebben al meerdere language runtimes gemaakt die rechtstreeks op Xen werken.
+Ling is open source maar de andere tools, die meer het beheren doen, zijn niet open source. Wanneer je problemen met het ecosysteem moet je support contacteren van Cloudozer.
 
 Zoals bij HaLVM moet eerst de applicatie geschreven worden in Erlang. De package manager die gebruikt word met Erlang is Rebar, dit is de standaard Erlang package manager. Na het omzetten van de applicatie naar een Xen image zou de applicatie moeten werken.
 
@@ -541,7 +558,7 @@ Deze tutorials waren ook niet uitgebreid. Bij het bijkijken van de GitHub reposi
   \item [GitHub stars]: 469
 \end{description}
 
-Rumprun gebruikt rump kernels om een unikernel te maken. Deze rump kernel wordt samengesteld uit componenten afkomstig van NetBSD. NetBSD is een groter besturingssysteem maar zit modulair in elkaar dus dit kunnen we gebruiken om een rump kernel te maken. De rump kernel wordt dan samen met de applicatie verpakt om gebruikt te kunnen worden in verschillende omgevingen.
+Rumprun gebruikt rump kernels voor hun implementatie. Deze rump kernel wordt samengesteld uit componenten afkomstig van NetBSD. NetBSD is een groter besturingssysteem maar zit modulair in elkaar. Men kan het dus gebruiken om een rump kernel te samen te stellen. De rump kernel wordt dan samen met de applicatie verpakt om gebruikt te kunnen worden in verschillende omgevingen.
 
 Er is een uitgebreide collectie van hypervisors waaruit je kan kiezen wanneer je een rumprun applicatie hebt. De term hw staat voor hardware. Dit betekent dat rumprun één van de enige implementaties is die rechtstreeks kan werken op hardware. De unikernel kan ook werken op besturingssystemen die een POSIX-interface hebben.
 
@@ -617,7 +634,7 @@ Als omgeving focussen ze KVM en virtualbox. Hier is het dus gemakkelijk om een u
   \item [Implementatie programmeertaal]: C/C++
   \item [Hypervisors]: VMWare, VirtualBox, KVM, Xen
   \item [Ondersteunde programmeertaal]: 10
-  \item [Documentatie]: 10
+  \item [Documentatie]: JVM
   \item [Toolchain]: 8
   \item [GitHub stars]: 2121
 \end{description}
@@ -634,6 +651,27 @@ OSv ondersteund Amazon Web Services en Google Container Engine als cloud provide
 Dit is een zegen voor veel developers die hun bestaande applicaties willen omzetten naar unikernels.
 
 Het is de meest populair implemenatie van unikernels van alle implementaties die we hebben overlopen op GitHub. Ook de activiteit is het hoogste.
+
+\section{Gekozen implementaties}
+
+Zoals al eerder is aangehaald gaan we twee implementaties van unikernels kiezen voor het volgende experiment. Eén ervan moet algemeen zijn dus meerdere hypervisors/programmeertalen ondersteunen.
+De andere mag hoogstens één programmeertaal ondersteunen.
+De keuze voor de algemene implementatie is OSv. De populariteit en hun documentatie sprongen direct in het oog. Ook de mogelijkheden qua hypervisors en programmeertaal is indrukwekkend.
+OSv ondersteunt deze programmeertalen door middel van JVM. Daardoor kunnen we ook het verschil zien tussen een native implementatie en een tussenliggende laag zoals JVM.
+
+Voor de specifieke implementatie zullen we IncludeOS nemen. Eén van de redenen dat IncludeOS gekozen is de grote community die achter de implementatie staat. De andere implementaties gebruiken ofwel een functionele programmeertaal of OCaml.
+Het is ook de perfecte keuze voor microservices want er kan maar één proces tegelijk werken.
+
+\section{Gebruikmaken van Implementatie}
+
+\subsection{Uitleg}
+
+In dit experiment zullen we een applicatie opzetten in de gekozen implementatie en ze deployen op een hypervisor.
+De bedoeling van het experiment is te zien welke vaardigheden je nodig hebt en welke moeilijkheden die je tegenkomt.
+
+\subsection{Gebruikmaken van OSv}
+
+
 
 \chapter{Conclusie}
 \label{ch:conclusie}
