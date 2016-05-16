@@ -71,6 +71,15 @@ url = {http://doi.acm.org/10.1145/2541883.2541895$\backslash$nhttp://dl.acm.org/
 volume = {57},
 year = {2014}
 }
+@inproceedings{Mao2012,
+abstract = {One of many advantages of the cloud is the elasticity, the ability to dynamically acquire or release computing resources in response to demand. However, this elasticity is only meaningful to the cloud users when the acquired Virtual Machines (VMs) can be provisioned in time and be ready to use within the user expectation. The long unexpected VM startup time could result in resource under-provisioning, which will inevitably hurt the application performance. A better understanding of the VM startup time is therefore needed to help cloud users to plan ahead and make in-time resource provisioning decisions. In this paper, we study the startup time of cloud VMs across three real-world cloud providers -- Amazon EC2, Windows Azure and Rackspace. We analyze the relationship between the VM startup time and different factors, such as time of the day, OS image size, instance type, data center location and the number of instances acquired at the same time. We also study the VM startup time of spot instances in EC2, which show a longer waiting time and greater variance compared to on-demand instances.},
+author = {Mao, Ming and Humphrey, Marty},
+booktitle = {Proceedings - 2012 IEEE 5th International Conference on Cloud Computing, CLOUD 2012},
+keywords = {VM startup/acquisition/spinup time,cloud computing,performance study,spot instances},
+pages = {423--430},
+title = {{A performance study on the VM startup time in the cloud}},
+year = {2012}
+}
 @article{Ridge2015,
 abstract = {Systems depend critically on the behaviour of file systems, but that behaviour differs in many details, both between implementations and between each implementation and the POSIX (and other) prose specifications. Building robust and portable software requires understanding these details and differences, but there is currently no good way to systematically describe, investigate, or test file system behaviour across this complex multi-platform interface. In this paper we show how to characterise the envelope of allowed behaviour of file systems in a form that enables practical and highly discriminating testing. We give a mathematically rigorous model of file system behaviour, SibylFS, that specifies the range of allowed behaviours of a file system for any sequence of the system calls within our scope, and that can be used as a test oracle to decide whether an observed trace is allowed by the model, both for validating the model and for testing file systems against it. SibylFS is modular enough to not only describe POSIX, but also specific Linux, OS X and FreeBSD behaviours. We complement the model with an extensive test suite of over 21,000 tests; this can be run on a target file system and checked in less than 5 minutes, making it usable in practice. Finally, we report experimental results for around 40 configurations of many file systems, identifying many differences and some serious flaws.},
 author = {Ridge, Tom and Sheets, David and Tuerk, Thomas and Giugliano, Andrea and Madhavapeddy, Anil and Sewell, Peter},
@@ -83,16 +92,45 @@ title = {{SibylFS : Formal specification and oracle-based testing for POSIX and 
 url = {http://sigops.org/sosp/sosp15/current/2015-Monterey/printable/102-ridge.pdf},
 year = {2015}
 }
+@misc{Wikipedia,
+author = {Wikipedia},
+title = {{Docker (software)}},
+url = {https://en.wikipedia.org/wiki/Docker{\_}{\%}28software{\%}29},
+urldate = {2016-05-16}
+}
+@misc{Wikipediaa,
+author = {Wikipedia},
+title = {{DevOps}},
+url = {https://en.wikipedia.org/wiki/DevOps}
+}
 @article{Yallop,
 author = {Yallop, Jeremy and Sheets, David and Madhavapeddy, Anil},
 file = {:Users/Coding/Dropbox/2015-2016/thesis/2016-cmeleon-flops.pdf:pdf},
 title = {{Declarative foreign function binding through generic programming}}
 }
-@misc{UnikernelCommunity,
+@misc{,
 booktitle = {21/01/2016},
 keywords = {unikernel},
 mendeley-tags = {unikernel},
 title = {{Unikernels}},
 url = {http://unikernel.org/},
-urldate = {10/05/2016}
+urldate = {2016-05-10}
+}
+@article{Mirashe2010,
+abstract = {Computing as you know it is about to change, your applications and documents are going to move from the desktop into the cloud. I'm talking about cloud computing, where applications and files are hosted on a "cloud" consisting of thousands of computers and servers, all linked together and accessible via the Internet. With cloud computing, everything you do is now web based instead of being desktop based. You can access all your programs and documents from any computer that's connected to the Internet. How will cloud computing change the way you work? For one thing, you're no longer tied to a single computer. You can take your work anywhere because it's always accessible via the web. In addition, cloud computing facilitates group collaboration, as all group members can access the same programs and documents from wherever they happen to be located. Cloud computing might sound far-fetched, but chances are you're already using some cloud applications. If you're using a web-based email program, such as Gmail or Hotmail, you're computing in the cloud. If you're using a web-based application such as Google Calendar or Apple Mobile Me, you're computing in the cloud. If you're using a file- or photo-sharing site, such as Flickr or Picasa Web Albums, you're computing in the cloud. It's the technology of the future, available to use today.},
+archivePrefix = {arXiv},
+arxivId = {1003.4074},
+author = {Mirashe, Shivaji P and Kalyankar, N V},
+doi = {10.1145/358438.349303},
+eprint = {1003.4074},
+isbn = {1-58113-199-2},
+issn = {03621340},
+journal = {Communications of the ACM},
+number = {7},
+pages = {9},
+pmid = {22988693},
+title = {{Cloud Computing}},
+url = {http://arxiv.org/abs/1003.4074},
+volume = {51},
+year = {2010}
 }
