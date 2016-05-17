@@ -268,7 +268,6 @@ De hypervisor is een voorbeeld van hardware virtualisatie. Het is een stuk softw
     \label{fig:hypervisor-2}
 \end{wrapfigure}
 
-
 Als eerste zullen we de hosted hypervisor of type 2 hypervisor behandelen. Figuur \ref{fig:hypervisor-2} toont de structuur van een hosted hypervisor. De hosted hypervisor bevindt zich op het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Het is wel compleet afhankelijk voor het host besturingssysteem om zijn taken uit te voeren. Als er problemen optreden in het besturingssysteem van de host zijn er ook problemen bij de hypervisor en daarop volgend de guests. De hele structuur is enkel zo sterk als de host.
 
 Voorbeelden van hosted hypervisors zijn: Oracle Virtualbox (\cite{Oracle2016}) en VMware Workstation (\cite{VMware2016}).
@@ -288,56 +287,53 @@ Er is een laag minder in de structuur dus dit betekent dat er minder instructies
 
 Een paar voorbeelden van bare-metal hypervisors zijn VMware ESXi (\cite{VMware2016a}) en Xen (\cite{XenProject2016}).
 
-\\
-
 \section{Operating System-level Virtualization}
 
-Naast hardware virtualisatie kunnen we ook een besturingssysteem virtualiseren. Bij deze toepassing van virtualisatie worden de mogelijkheden van de kernel van het besturingssysteem gebruikt. De kernel van bepaalde besturingssystemen laat ons toe om meerdere geisoleerde user spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar één besturingssysteem moet zijn om verschillende programma's naast elkaar en geïsoleerd van elkaar te laten werken.
+Naast hardware virtualisatie kunnen we ook een besturingssysteem virtualiseren. Bij deze toepassing van virtualisatie worden de mogelijkheden van de kernel van het besturingssysteem gebruikt. De kernel van bepaalde besturingssystemen laat toe om meerdere geisoleerde name spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar één besturingssysteem moet zijn om verschillende programma's naast elkaar en geïsoleerd van elkaar te laten werken.
 
-De verschillende user spaces maken gebruik van CPU, geheugen en netwerk van de host. Elke user space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geïsoleerd zijn van de andere user spaces. Dit geeft ook eveneens de beperking dat guests geen besturingssysteem kunnen hebben dat niet overeenkomt met het host besturingssysteem.
+De verschillende name spaces maken gebruik van CPU, geheugen en netwerk van de host. Elke name space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geïsoleerd zijn van de andere user spaces. Dit geeft ook eveneens de beperking dat guests geen besturingssysteem kunnen hebben dat niet overeenkomt met het host besturingssysteem.
 
 Tegenover hardware virtualisatie zal besturingssysteem virtualisatie minder gebruik maken van middelen omdat er maar één besturingssysteem is en eveneens het delen van het besturingssysteem. Dit geeft voordelen bij de perfomantie.
 
-Deze user spaces worden ook wel containers genoemd.
-
 Voorbeelden van besturingssysteem virtualisatie zijn: chroot (\cite{Linux}), Solaris Containers (\cite{Oracle2016a}) en Docker (\cite{Docker2016}).
 
-Besturingssysteem virtualisatie is vooral bekend geworden door Docker vanaf 2013 (\cite{Hykes2013}). In het volgende hoofdstuk gaan we verder in op containers en Docker.
+Besturingssysteem virtualisatie is vooral bekend geworden door Docker vanaf 2013 (\cite{Hykes2013}). In het volgende hoofdstuk wordt verder ingegaan op containers en Docker.
 
 \chapter{Containers}
 \label{ch:Containers}
 
-\section{Containers versus virtuele machines}
+\section{Containers}
 
-Het heeft een tijd geduurd vooraleer containers op de voorgrond treden. Het maken van applicaties werd meestal op de eigen machine gedaan omdat het opzetten van een werkomgeving soms te moeilijk was. Er was natuurlijk vagrant die het stukken gemakkelijker maakte maar dan nog voelde het aan als of er nog iets beter aankwam. 
+\begin{wrapfigure}{l}{0.3\textwidth}
+    \centering
+    \includegraphics[width=3cm]{img/container}
+    \caption{structuur van containers}
+    \label{fig:containers}
+\end{wrapfigure}
 
-Lange tijd werd vagrant aangeraden omdat het opzetten van een werkomgeving veel tijd in beslag nam en de meeste applicaties eerder een monolitische structuur hadden. Hierbij bedoelen we een grote applicatie die alles doet tegenover verschillende applicaties die elk 1 ding doen.
+Containers bestaan al een tijd als technologie. In \cite{Soltesz2007} werd al gekeken naar de voordelen van containers tegenover hypervisors. Chroot (\cite{Linux}) is een concept dat veel deelt met containers. Chroot zal de root directory van het huidige process en zijn children veranderen. Er wordt een virtuele kopie gemaakt van het systeem waarin het process kan werken. Het process is dus afgesloten van het systeem en dit zorgt voor meer veiligheid bij het uitvoeren van processen.
 
-Containers was het antwoord op veel van de moeilijkheden van de virtuele machine: het beter gebruiken maken van resources, eenduidige ontwikkelingsomgeving en vlugger kunnen ontwikkelen van applicaties. Dus we hebben twee mogelijkheden om applicaties te maken en te laten werken. Ofwel gebruiken we virtuele machines als de kleinste eenheid ofwel containers.
+Linux Containers of LXC (\cite{Containers}) is een implementatie van besturingssysteem virtualisatie. LXC kan meerdere geïsoleerde Linux systemen laten werken op één host. Deze geïsoleerde Linux systemen worden containers genoemd. Deze containers worden ook getoond in figuur \ref{fig:containers} waarbij de apps en databases containers zijn. Het volgende deel van deze sectie zal de onderdelen van LXC uitleggen en de voordelen ervan.
 
-De container gebruikt resources van het besturingssysteem van de host. Dit zorgt ervoor dat een container vlugger kan gestart worden want het besturingssysteem moet niet opgestart worden. Bij virtuele machine moet men wachten tot het besturingssysteem opgestart is. 
+Zoals we al gezien hebben is de rol van de hypervisor het delen en beheren van de middelen. Om containers te gebruiken moeten iets anders de rol hiervan overnemen. Cgroups is een Linux kernel extension die deze rol overneemt. Door cgroups kunnen we middelen beheren voor processen tot en met containers. Het toont ook de mogelijkheden om checkpoints te creeëren van processen.
 
-De omvang van virtuele machines tegenover containers is al besproken hiervoor. Een gevolg hiervan is dat men meerdere containers naast elkaar kan laten werken. De virtuele machine waarop de docker container werken kunnen dan beslissen hoeveel resources er aan wie worden gegeven.
+Eerder werd ook al aangehaald dat de processen van elkaar gescheiden moeten worden. Dit wordt bereikt door name spaces. De functies die name spaces voorziet zijn uitgebreid. Elke name space heeft zijn eigen bestandssysteemstructuur, netwerk interfaces en process ID space. De containers delen de kernel met alle andere processen die op de kernel aan het werken zijn.
 
-Voor containers was het opzetten van een complexe applicatie met tientallen dependencies een heel moeilijk gegeven. Bij een container moet je gewoon de image downloaden en gebruiken. In deze container is alle configuratie al aanwezig en kan men gewoon starten zonder veel tijd te verspelen aan het configureren en installeren van de applicatie en het besturingssysteem.
+De containers zijn van elkaar afgesloten. Wanneer één container aangetast wordt dan heeft dit geen gevolg op de andere containers.
 
-Omgekeerd kan men ook denken dat de developers niet meer moeten nadenken over het ondersteunen van meerdere systemen. 1 Container image kan gebruikt worden voor iedereen en als men veranderingen wil aanbrengen dan kan men verder op de container bouwen. 
-
-Als men wilt schalen met virtuele machines dan moet je meerdere besturingssystemen opzetten die worden beheert door een hypervisor. Elk besturingssysteem heeft een applicatie en zijn dependencies.
-
-Bij containers delen ze het besturingssysteem en worden beheert door een container engine die zich bevindt op het niveau van het besturingssysteem. Ze delen ook een de kernel van de host en daarbij kan er ook voor gezorgd worden dat gemeenschappelijke dependencies gedeeld kunnen worden over meerdere applicaties. De container engine vervuld dezelfde functie als de hypervisor bij virtuele machines. 
-
-Veiligheid kan een probleem zijn bij containers omdat ze nog niet lang in productie worden gebruikt. Hypervisor zorgen voor extra veiligheid bij virtuele machines omdat ze battle-tested zijn. Ze worden al gebruikt voor lange tijd door grote bedrijven die beveiliging hoog in het vandaag dragen.
+Toch zijn er een paar andere problemen zoals aangehaald in \cite{Madhavapeddy2015}. Processen die als root werken kunnen niet geïsoleerd worden van elkaar. Verder wordt er ook aangehaald dat strengere isolatie nodig is. (tabel 2, \cite{Madhavapeddy2015})
 
 \section{Docker}
 
-Onderdelen van het begrip container bestonden al onder diverse vormen. FreeBSD had jail(1998). Google was begonnen met het ontwikkelen van cGroups voor de linux kernel. Het Linux Containers projects bracht veel van deze technologieën samen om te zorgen dat containers een realiteit konden worden.
+Het was een kwestie van tijd dat de puzzelstukken in elkaar vielen. Dit gebeurde met Docker (\cite{Docker2016}). 
 
-Docker was het bedrijf dat de al de delen samenbracht onder een mooie interface en uitgebreid ecosysteem. Het werd veel gemakkelijker om containers te maken en distribueren. Docker zorgde ervoor dat veel van moeilijkheden van containers verdwenen of veel kleiner werden. Door veel van de componenten van het ecosysteem open te stellen konden ze rekenen op de steun van vele developers. Deze steun kon zijn in de vorm van het melden van bugs of het uitbreiden of verbeteren van huidige componenten. 
+Docker was het bedrijf dat al de delen samenbracht onder uitgebreid ecosysteem. Het werd veel gemakkelijker om containers te maken en te delen met andere. Docker zorgde ervoor dat veel van moeilijkheden van containers verdwenen of veel kleiner werden. Door veel van de componenten van het ecosysteem open te stellen konden ze rekenen op de steun van vele ontwikkelaars. Deze steun kon zijn in de vorm van het melden van bugs of het uitbreiden of verbeteren van huidige componenten.
 
 Er waren andere formaten dan Docker zoals Rocket die het mogelijk maakte voor containers te maken. Maar door hun ecosysteem en de hulp van de open source gemeenschap hebben zijn ze de standaard geworden voor om containers te maken en te verspreiden.
 
 In 2015 werd het Open Container Initiative opgericht. Veel van de grote spelers op vlak van containers zoals Docker, CoreOS, Microsoft en Google maken hier deel van uit. Ze willen een standaard voor containers vastleggen.
+
+In het volgende hoofdstuk bekijken we de werking en mogelijkheden met unikernels.
 
 \chapter{Unikernels}
 \label{ch:unikernels}
