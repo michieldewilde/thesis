@@ -240,16 +240,18 @@ Timesharing werd uitgevonden om het verlies van tijd te beperken. Bij timesharin
 
 Doorheen de tijd werden computers krachtiger en programma's konden niet langer de middelen van de computer benutten. Dit zorgde voor de creatie van virtuele middelen of virtual resources. Om deze virtuele middelen te voorzien moet men bepaalde delen van de computer gaan virtualiseren. Dit kan voorkomen onder verschillende vormen zoals hardware virtualisatie en virtualisatie van het besturingssysteem. 
 
-Het concept van virtualisatie deelt een aantal overeenkomstigheden met timesharing. De computer wordt opgedeeld in verschillende delen bij virtualisatie en bij timesharing gaan we de computer opdelen in contexten. De verschillende delen bij beide concepten moeten ook geïsoleerd zijn van elkaar.
-
-\begin{wrapfigure}{r}{0.2\textwidth}
+\begin{wrapfigure}{r}{0.3\textwidth}
     \centering
-    \includegraphics[width=3cm]{img/virtual-machine}\\
+    \includegraphics[width=3cm]{img/virtual-machine}
+    \caption{structuur van een virtuele machine}
+    \label{fig:virtualmachine}
 \end{wrapfigure}
+
+Het concept van virtualisatie deelt een aantal overeenkomstigheden met timesharing. De computer wordt opgedeeld in verschillende delen bij virtualisatie en bij timesharing gaan we de computer opdelen in contexten. De verschillende delen bij beide concepten moeten ook geïsoleerd zijn van elkaar.
 
 Een aantal voordelen van virtualisatie zijn de volgende: financieel voordeel (men kan van één taak naar meerdere taken gaan op één computer), besparen van energie (\cite{Beloglazov2010}) en veiligheid(\cite{Mortleman2009}.
 
-Virtuele machines gaan een computer emuleren. Het laat toe om een besturingssysteem te gebruiken, wanneer de hardware van de fysieke computer dit niet toelaat. Een virtuele machine kan ook de middelen van de fysieke computer waar het zich op bevindt gebruiken. Dit zorgt ervoor dat de middelen van de fysieke computer kunnen gebruikt worden als virtuele middelen. De fysieke computer zal verder naar verwezen worden als de host machine. Guest is de name dat we geven op virtuele machines die zich bevinden op de host.In het volgende deel zullen we de laag tussen de host machine en virtuele machine bekijken: de hypervisor. 
+Virtuele machines gaan een computer emuleren. Figuur \ref{fig:virtualmachine} toont de structuur van een virtuele machine. Het laat toe om een besturingssysteem te gebruiken, wanneer de hardware van de fysieke computer dit niet toelaat. Een virtuele machine kan ook de middelen van de fysieke computer waar het zich op bevindt gebruiken. Dit zorgt ervoor dat de middelen van de fysieke computer kunnen gebruikt worden als virtuele middelen. De fysieke computer zal verder naar verwezen worden als de host machine. Guest is de naam dat we geven aan virtuele machines die zich bevinden op de host. In het volgende deel zullen we de laag tussen de host machine en virtuele machine bekijken: de hypervisor. 
 
 \section{Hypervisor}
 
@@ -259,26 +261,34 @@ De hypervisor is een voorbeeld van hardware virtualisatie. Het is een stuk softw
 
 \subsection{Hosted Hypervisors}
 
-\begin{wrapfigure}{r}{0.2\textwidth}
+\begin{wrapfigure}{r}{0.3\textwidth}
     \centering
-    \includegraphics[width=3cm]{img/hypervisor-2}\\
+    \includegraphics[width=3cm]{img/hypervisor-2}
+    \caption{structuur van een hosted hypervisor}
+    \label{fig:hypervisor-2}
 \end{wrapfigure}
-Als eerste zullen we de hosted hypervisor of type 2 hypervisor behandelen. De hosted hypervisor bevindt zich op het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Het is wel compleet afhankelijk voor het host besturingssysteem om zijn taken uit te voeren. Als er problemen optreden in het besturingssysteem van de host zijn er ook problemen bij de hypervisor en daarop volgend de guests. De hele structuur is enkel zo sterk als de host.
+
+
+Als eerste zullen we de hosted hypervisor of type 2 hypervisor behandelen. Figuur \ref{fig:hypervisor-2} toont de structuur van een hosted hypervisor. De hosted hypervisor bevindt zich op het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Het is wel compleet afhankelijk voor het host besturingssysteem om zijn taken uit te voeren. Als er problemen optreden in het besturingssysteem van de host zijn er ook problemen bij de hypervisor en daarop volgend de guests. De hele structuur is enkel zo sterk als de host.
 
 Voorbeelden van hosted hypervisors zijn: Oracle Virtualbox (\cite{Oracle2016}) en VMware Workstation (\cite{VMware2016}).
 
 \subsection{Bare-metal Hypervisors}
 
-\begin{wrapfigure}{r}{0.2\textwidth}
+\begin{wrapfigure}{l}{0.3\textwidth}
     \centering
-    \includegraphics[width=3cm]{img/hypervisor-1}\\
+    \includegraphics[width=3cm]{img/hypervisor-1}
+    \caption{structuur van een bare-metal hypervisor}
+    \label{fig:hypervisor-1}
 \end{wrapfigure}
 
-Type 1, bare-metal, embedded of native hypervisor bevindt zich rechtstreeks op de hardware. De voornaamste taak van de hypervisor is het beheren en delen van hardware middelen. Dit maakt de hardware hypervisor kleiner in omvang dan de hosted hypervisor. De hypervisor heeft niet het probleem zoals de hosted hypervisor dat er grote problemen kunnen liggen bij het besturingssysteem van de host omdat er geen besturingssysteem is.
+Type 1, bare-metal, embedded of native hypervisor bevindt zich rechtstreeks op de hardware. Figuur \ref{fig:hypervisor-1} toont de structuur van een bare-emtal hypervisor. De voornaamste taak van de hypervisor is het beheren en delen van hardware middelen. Dit maakt de hardware hypervisor kleiner in omvang dan de hosted hypervisor. De hypervisor heeft niet het probleem zoals de hosted hypervisor dat er grote problemen kunnen liggen bij het besturingssysteem van de host omdat er geen besturingssysteem is.
 
 Er is een laag minder in de structuur dus dit betekent dat er minder instructies moeten uitgevoerd worden bij een bepaalde handeling en dit geeft een beter performantie. Omdat er geen problemen kunnen zijn met het host besturingssysteem kunnen we aannemen dat het stabieler. Wanneer het host besturingssysteem faalt bij een hosted hypervisor dan zullen de guests ook falen.
 
 Een paar voorbeelden van bare-metal hypervisors zijn VMware ESXi (\cite{VMware2016a}) en Xen (\cite{XenProject2016}).
+
+\\
 
 \section{Operating System-level Virtualization}
 
