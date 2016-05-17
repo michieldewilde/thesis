@@ -24,6 +24,7 @@
 \usepackage{eurosym}         % Euro-symbool €
 \usepackage{geometry}
 \usepackage{graphicx}        % Invoegen van tekeningen
+\usepackage{wrapfig}         % Positioneren van tekeningen
 \usepackage[pdftex,bookmarks=true]{hyperref}
                              % PDF krijgt klikbare links & verwijzingen,
                              %  inhoudstafel
@@ -174,8 +175,6 @@
 
 Toen ik begon met programmeren had ik geen idee wat er gebeurde in de achtergrond van de computer. Ik starte met de simpele todolist-applicaties om alles te leren over programmeren. Na een tijd kwam ik een black box tegen: het besturingssysteem. Vooral om servers sneller te laten werken en de techniek erachter te leren kennen begon ik aan een zoektocht. Linux was de startplek bij uitstek. Package managers en file systems waren de eerste concepten die mij met verstomming lieten staan. Toen ik meer en meer naar infrastructuur keek begon ik termen te leren en alle handige tips om ervoor te zorgen dat je server altijd beschikbaar is. Toen een paar jaar geleden Docker voor het eerst echt vaart maakte met containers was ik verbaasd. Ik dacht eerst dat dit nooit zou werken. Na een tijd heb ik wel het licht gezien en gebruikte ik containers meer en meer. Toen er gevraagd werd om een onderwerp voor mijn thesis dacht ik meteen en wat volgens mij de volgende stap is: unikernels.
 
-
-
 \tableofcontents
 
 % Als je een lijst van afkortingen of termen wil toevoegen, dan hoort die
@@ -198,21 +197,20 @@ In hoofdstuk 2 wordt bekeken hoe deze bachelorproef is uitgevoerd.
 
 Om deze programma's te laten werken op servers maakt men gebruik van virtualisatie. Virtualisatie vormt de basis voor veel van de concepten die worden aangehaald. Virtualisatie zal belicht worden in hoofdstuk 3.
 
-Begin 2013 was de eerste release van Docker \cite{Docker}. Docker heeft voor een aantal grote veranderingen geleid voor veel software ontwikkelaars. Dit kwam niet uit het niets. Er waren al veel initiatieven om containers naar het grote publiek te brengen. Docker heeft deze initiatieven kunnen aanwenden om de puzzel compleet te maken. In hoofdstuk 4 worden containers en Docker nader bekeken.
+Op 21 maart 2016 werd op Pycon de eerste demo van Docker gegeven (\cite{Hykes2013}). Docker heeft voor een aantal grote veranderingen geleid voor veel software ontwikkelaars. Dit kwam niet uit het niets. Er waren al veel initiatieven om containers naar het grote publiek te brengen. Docker heeft deze initiatieven kunnen aanwenden om de puzzel compleet te maken. In hoofdstuk 4 worden containers en Docker nader bekeken.
 
 Het hoofdstuk 5 dat unikernels behandelt zal zich focussen op de werking van het concept, de voordelen en de implementaties van unikernels. 
 
 Verder zullen we kijken naar de veranderingen op het vlak van architectuur van programma's en infrastructuur. Dit beperkt zich niet tot unikernels want de meeste concepten kunnen ook mogelijk zijn met containers. Hoofdstuk 6 is bedoeld om concepten aan te halen die veel op de voorgrond zullen treden wanneer containers en unikernels alomtegenwoordig zijn.
 
-Hoofdstuk 7 zal de experimenten behandelen.
+Hoofdstuk 7 zullen de experimenten behandelt worden.
 
 \section{Probleemstelling en Onderzoeksvragen}
 \label{sec:onderzoeksvragen}
 
-Unikernels zijn een een nieuwe stroom binnen het landschap van besturingssystemen. We hebben al aangehaald dat containers een populair werkwijze is, wanneer men programma's wilt ontwikkelen en schaalbaar wilt maken. Unikernels gaat nog een stap verder. De systeembeheerders moeten dus mee en de veranderingen ondergaan. 
+Unikernels zijn een een nieuwe stroom binnen het landschap van besturingssystemen. We hebben al aangehaald dat containers een populaire werkwijze is om software te maken en programma's op te stellen. Unikernels gaat nog een stap verder. De systeembeheerders zullen een paar veranderingen tegenkomen bij het opstellen en onderhouden van programma's. 
 
-De vraag is welke veranderingen er zich zullen voordoen, wanneer unikernels meer gebruikt worden. Zullen de competenties van de systeembeheerder veranderen? Wordt het opzetten van applicaties meer en meer eenvoudiger of juist niet? We kunnen wel spreken over de opvolger van containers maar is deze al werkbaar in de toekomst? Wat is de impact op beveiliging, meer bepaald aspecten als beschikbaarheid, autorisatie, integriteit en vertrouwelijkheid van gegevens?
-
+De vraag is welke veranderingen er zich zullen voordoen, wanneer unikernels meer gebruikt worden. Zullen de competenties van de systeembeheerder veranderen? Wordt het opzetten van applicaties eenvoudiger of niet? We kunnen wel spreken over de opvolger van containers maar is deze al werkbaar in de toekomst? Wat is de impact op beveiliging, meer bepaald aspecten als beschikbaarheid, autorisatie, integriteit en vertrouwelijkheid van gegevens?
 
 \chapter{Methodologie}
 \label{ch:methodologie}
@@ -220,7 +218,7 @@ De vraag is welke veranderingen er zich zullen voordoen, wanneer unikernels meer
 Het begrip unikernel vraagt om een uitgebreide theoretische kennis van huidige besturingssystemen en virtualisatietechnologieën.
 
 Voor veel van deze concepten goed te begrijpen werd er eerst een literatuurstudie uitgevoerd.
-Artikels en andere informatie over unikernels was simpel te vinden door de volgende website [unikernels.org]. Veel over virtuele machines was te vinden in een paar thesissen van de vorige jaren. De kennis over containers werd voornamelijk gevonden tijdens mijn stage bij Wercker. Een paar boeken over containers, met centraal onderwerp Docker, gaven meer inzicht in containers en hun use cases.
+Artikels en andere informatie over unikernels was simpel te vinden door de volgende website (\cite{Unikern}). Veel over virtuele machines was te vinden in een paar thesissen van de vorige jaren. De kennis over containers werd voornamelijk gevonden tijdens mijn stage bij Wercker. Een paar boeken over containers, met centraal onderwerp Docker, gaven meer inzicht in containers en hun use cases.
 
 Door het literatuuronderzoek konden de eerste hoofdstukken over virtuele machines, containers en unikernels geschreven worden. De thesis focust niet alleen op de mogelijkheden die unikernels hebben. Ook de veranderingen voor systeembeheerders moet bekeken worden.
 
@@ -232,39 +230,69 @@ Het kiezen van de meest populaire omwille van ongegronde redenen zou niet leiden
 \chapter{Virtualisatie}
 \label{ch:virtualisatie}
 
-Vroeger was de tijd dat je een computer kon gebruiken beperkt. Vooral bij de eerste computers had men problemen om programma's en concepten uit te werken, omdat de computer door meerdere mensen gebruikt werd. Een voorbeeld van  een situatie uit die tijd is het ontwikkelen van een programma. De source code van een programma werd manueel ingegeven en in een wachtrij geplaatst. Pas een paar dagen later kon men de resultaten van het programma bekijken. Fouten in het geschreven programma zorgen voor een groot tijdsverlies. 
+In dit hoofdstuk zal bekeken worden waarom virtualisatie is onstaan. Verder zal bekeken worden welke concepten meespelen binnen virtualisatie. Dit hoofdstuk dient als een inleiding om concepten zoals containers, unikernels en virtuele machines te kunnen begrijpen.
 
-De grootste bijdrage tot de ontwikkelsnelheid van programma's is de lengte van de feedbackcyclus: hoe snel kan je je programma testen laten werken. Dit leidt tot een verlies van tijd en dus geld.
+Vroeger was de tijd dat je een computer kon gebruiken beperkt. Vooral bij de eerste computers had men problemen om programma's en concepten uit te werken. Dit lag vooral aan de tijd dat je kon werken aan de computer en vele andere mensen wouden de computer ook gebruiken. Een voorbeeld van het ontwikkelen van een programma in die tijd was de volgende: "De broncode van het programma werd ingegeven en in een wachtrij geplaatst. Pas een bepaalde tijd later kon men de resultaten van het programma bekijken. Fouten in het geschreven programma zorgen voor een groot tijdsverlies."
 
-Timesharing werd uitgevonden om het verlies van tijd te beperken. Bij timesharing konden de gebruikers inloggen op een console en zo computer gebruiken. Dit was een technische uitdaging. De computer zou van de ene context naar de andere moeten kunnen veranderen. Timesharing en verschillende gebruikers op 1 computer zou de basis vormen voor de moderne besturingsystemen. Eén Van de nadelen van timesharing is de isolatie van twee verschiilende processen. Als er een kans bestaat dat ze elkaar kunnen beinvloeden is dit een probleem.
+Eén van de grootste bijdrage tot de ontwikkelsnelheid van programma's is de lengte van de feedbackcyclus: hoe snel kan een programma getest worden wanneer er een verandering gebeurd. Als een paar minuten moet worden gewacht op het testen van een kleine verandering, dan is dit niet ideal. Dit leidt tot een verlies van tijd en dus geld.
 
-Doorheen de tijd werden computers meer krachtig en programma's konden niet alle middelen van de computer benutten. Dit zorgde voor de creatie van virtual resources. Deze gingen de fysieke hardware simuleren om zo verschillende programma's tegelijkertijd te laten werken op dezelfde virtuele machine. Deze programma's waren ook geisoleerd van elkaar. Zo werden de middelen van een fysieke machine optimaal gebruikt. 
+Timesharing werd uitgevonden om het verlies van tijd te beperken. Bij timesharing konden de gebruikers inloggen op een console en zo de computer tegelijkertijd gebruiken. Dit was een technische uitdaging. Elke gebruiker en zijn programma's bevinden zich binnen een bepaalde context. De computer zou van de ene context naar de andere moeten kunnen veranderen. Timesharing en verschillende gebruikers op één computer zou de basis vormen voor het moderne besturingssystee. Eén van de moeilijkheden van timesharing is de isolatie van twee verschiilende processen. De twee processen moeten zich bevinden binnen een verschillende context. Deze contexten mogen niet met elkaar elkaar in contact komen of niet elkaar beïnvloeden.
 
-De algemene term voor dit concept is virtualisatie. Bij het virtualiseren van een server gaat men een fysieke server opdelen in verschillende kleinere en geisoleerde delen. Deze delen kunnen dan gebruikt worden door verschillende gebruikers. De voordelen van het virtualiseren van een server zijn de volgende: financieel voordeel (men kan van één taak naar meerdere taken gaan op één server), het besparen van energie (minder servers gebruiken want ze worden beter benut), betere beschikbaarheid en nog vele andere. 
+Doorheen de tijd werden computers krachtiger en programma's konden niet langer de middelen van de computer benutten. Dit zorgde voor de creatie van virtuele middelen of virtual resources. Om deze virtuele middelen te voorzien moet men bepaalde delen van de computer gaan virtualiseren. Dit kan voorkomen onder verschillende vormen zoals hardware virtualisatie en virtualisatie van het besturingssysteem. 
+
+Het concept van virtualisatie deelt een aantal overeenkomstigheden met timesharing. De computer wordt opgedeeld in verschillende delen bij virtualisatie en bij timesharing gaan we de computer opdelen in contexten. De verschillende delen bij beide concepten moeten ook geïsoleerd zijn van elkaar.
+
+\begin{wrapfigure}{r}{0.2\textwidth}
+    \centering
+    \includegraphics[width=3cm]{img/virtual-machine}\\
+\end{wrapfigure}
+
+Een aantal voordelen van virtualisatie zijn de volgende: financieel voordeel (men kan van één taak naar meerdere taken gaan op één computer), besparen van energie (\cite{Beloglazov2010}) en veiligheid(\cite{Mortleman2009}.
+
+Virtuele machines gaan een computer emuleren. Het laat toe om een besturingssysteem te gebruiken, wanneer de hardware van de fysieke computer dit niet toelaat. Een virtuele machine kan ook de middelen van de fysieke computer waar het zich op bevindt gebruiken. Dit zorgt ervoor dat de middelen van de fysieke computer kunnen gebruikt worden als virtuele middelen. De fysieke computer zal verder naar verwezen worden als de host machine. Guest is de name dat we geven op virtuele machines die zich bevinden op de host.In het volgende deel zullen we de laag tussen de host machine en virtuele machine bekijken: de hypervisor. 
 
 \section{Hypervisor}
 
-Een hypervisor is een stuk software, firmware of hardware waarop een virtuele machine zich bevindt. De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke virtuele machine die zich bevindt op de host machine zal dan gebruik maken van deze middelen. Doordat virtualisatie alomtegenwoordig werd in datacenters heeft het ervoor gezorgd dat de meeste logica ook meer kwam te liggen bij de hypervisor. Cloud computing komt zeer sterk opzetten en dit zorgt ervoor dat de meeste mensen niet in contact komen met hypervisors.
+De hypervisor is een voorbeeld van hardware virtualisatie. Het is een stuk software, firmware of hardware dat de laag vormt tussen de virtuele machine en de host machine. De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke virtuele machine die zich bevindt op de host machine zal dan gebruik maken van een gedeelte van deze middelen. Doordat virtualisatie alomtegenwoordig geworden is in datacenters (\cite{Soundararajan2010}) heeft dit ervoor gezorgd dat er meer logica komt te liggen bij de hypervisor. De hypervisor neemt verder de rol op zich van het verdelen van de middelen en het beheren van de guests. Er zijn twee soorten hypervisors: type 1 en type 2. Type 1 is de bare-metal hypervisor en type 2 de hosted hypervisor. De volgende twee segmenten zullen deze twee verschillende types uitleggen.
+
+\newpage
 
 \subsection{Hosted Hypervisors}
 
-Een hosted hypervisor zal zich bevinden op een het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Dit heeft als voordeel dat de hardware niet zo belangrijk is maar zorgt voor een extra laag tussen de hardware en de hypervisor. Een goede regel is: "hoe minder lagen we hebben, hoe beter de performantie." Wanneer je een Ubuntu instantie hebt in een virtuele machine dan zal de computer de hypervisor zijn. De computer kan dan de virtuele machine beheren en veranderingen uitvoeren.
+\begin{wrapfigure}{r}{0.2\textwidth}
+    \centering
+    \includegraphics[width=3cm]{img/hypervisor-2}\\
+\end{wrapfigure}
+Als eerste zullen we de hosted hypervisor of type 2 hypervisor behandelen. De hosted hypervisor bevindt zich op het besturingssysteem van de host machine en heeft geen directe toegang tot de hardware. Het is wel compleet afhankelijk voor het host besturingssysteem om zijn taken uit te voeren. Als er problemen optreden in het besturingssysteem van de host zijn er ook problemen bij de hypervisor en daarop volgend de guests. De hele structuur is enkel zo sterk als de host.
 
-Voorbeelden van een hosted hypervisor zijn: Virtualbox en VMware Workstation.
+Voorbeelden van hosted hypervisors zijn: Oracle Virtualbox (\cite{Oracle2016}) en VMware Workstation (\cite{VMware2016}).
 
 \subsection{Bare-metal Hypervisors}
 
-Een alternatief is een bare-metal hypervisor. Hierbij is er geen extra laag tussen de hardware en de virtuele machine. We hebben geen host besturingssysteem nodig omdat de hypervisor zich rechtstreeks bevindt op de hardware. Dit zorgt voor betere performantie, schaalbaarheid en stabiliteit.
+\begin{wrapfigure}{r}{0.2\textwidth}
+    \centering
+    \includegraphics[width=3cm]{img/hypervisor-1}\\
+\end{wrapfigure}
 
-\section{Hardware Virtualization}
+Type 1, bare-metal, embedded of native hypervisor bevindt zich rechtstreeks op de hardware. De voornaamste taak van de hypervisor is het beheren en delen van hardware middelen. Dit maakt de hardware hypervisor kleiner in omvang dan de hosted hypervisor. De hypervisor heeft niet het probleem zoals de hosted hypervisor dat er grote problemen kunnen liggen bij het besturingssysteem van de host omdat er geen besturingssysteem is.
 
-De virtuele machine is een toepassing van de virtualisatie van de hardware. Een virtuele machine bevindt zich op een fysieke machine door gebruik te maken van een hypervisor. De nadelen van een virtuele machine als de kleinste eenheid is de schaalbaarheid en de veiligheid. Wanneer je je eigen server opstelde dan moet je een besturingssysteem kiezen. Meestal gaan we kiezen voor een Linux distributie. Daarna moet je de software installeren die ervoor zorgt dat de applicatie kan werken. Daaropvolgend moet je je server beveiligen. Het veranderen van de SSH-poort, zorgen dat de root-user niet te bereiken is. IPtables en firewalls opstellen. Voor dit te vergemakkelijken kunnen we gebruikmaken van een configuratie management tool (Chef, Puppet, Ansible...).
+Er is een laag minder in de structuur dus dit betekent dat er minder instructies moeten uitgevoerd worden bij een bepaalde handeling en dit geeft een beter performantie. Omdat er geen problemen kunnen zijn met het host besturingssysteem kunnen we aannemen dat het stabieler. Wanneer het host besturingssysteem faalt bij een hosted hypervisor dan zullen de guests ook falen.
 
-Meest bekende voorbeelden van bare-metal hypervisors zijn VMware ESXi, Microsoft Hyper-V en Xen.
+Een paar voorbeelden van bare-metal hypervisors zijn VMware ESXi (\cite{VMware2016a}) en Xen (\cite{XenProject2016}).
 
 \section{Operating System-level Virtualization}
 
-Naast hardware virtualisatie kunnen we ook gebruikmaken van de virtualisatie van het besturingssysteem. Bij deze toepassing van virtualisatie gaan we de mogelijkheden van de kernel van het besturingssysteem gebruiken. De kernel van bepaalde besturingssystemen laat ons toe om meerdere geisoleerde user spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar 1 besturingssysteem en een kernel zijn. De verschillende user spaces maken gebruik van CPU, geheugen en netwerk van de host server. Elke user space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geisoleerd zijn de andere user spaces. Tegenover hardware virtualisatie zal de besturingssysteem virtualisatie minder gebruik maken van het geheugen en de CPU omdat er maar 1 kernel is en niet meerdere besturingssystemen. Het opstarten neemt maar een fractie van de tijd in beslag tegenover virtuele machines. Deze user spaces worden ook wel containers genoemd. 
+Naast hardware virtualisatie kunnen we ook een besturingssysteem virtualiseren. Bij deze toepassing van virtualisatie worden de mogelijkheden van de kernel van het besturingssysteem gebruikt. De kernel van bepaalde besturingssystemen laat ons toe om meerdere geisoleerde user spaces tegelijkertijd te laten werken. Dit zorgt ervoor dat de dat er maar één besturingssysteem moet zijn om verschillende programma's naast elkaar en geïsoleerd van elkaar te laten werken.
+
+De verschillende user spaces maken gebruik van CPU, geheugen en netwerk van de host. Elke user space heeft zijn eigen configuratie omdat de user spaces op zichzelf staan en geïsoleerd zijn van de andere user spaces. Dit geeft ook eveneens de beperking dat guests geen besturingssysteem kunnen hebben dat niet overeenkomt met het host besturingssysteem.
+
+Tegenover hardware virtualisatie zal besturingssysteem virtualisatie minder gebruik maken van middelen omdat er maar één besturingssysteem is en eveneens het delen van het besturingssysteem. Dit geeft voordelen bij de perfomantie.
+
+Deze user spaces worden ook wel containers genoemd.
+
+Voorbeelden van besturingssysteem virtualisatie zijn: chroot (\cite{Linux}), Solaris Containers (\cite{Oracle2016a}) en Docker (\cite{Docker2016}).
+
+Besturingssysteem virtualisatie is vooral bekend geworden door Docker vanaf 2013 (\cite{Hykes2013}). In het volgende hoofdstuk gaan we verder in op containers en Docker.
 
 \chapter{Containers}
 \label{ch:Containers}
@@ -380,7 +408,7 @@ Enkele voorbeelden van moderne implementaties van unikernels zijn: MirageOS, OSv
 In het volgende deel zullen bekijken op wat voor manieren we het best unikernels kunnen gebruiken en wat voor gevolgen dit heeft op de architectuur van onze systemen.
 
 \chapter{Architectuur in een wereld van unikernels}
-\section{Microservicers}
+\section{Microservices}
 
 De laatste 20 jaar werd er meestal 1 grote applicatie gemaakt die alle functionaliteit op zich nam. Deze soort van applicaties zijn simpel te maken tot een bepaalde punt. Een applicatie die alle zeer groot is en veel functionaliteit heeft noemen we een monoliet of monolith in het Engels. De architectuur waarin deze soort applicaties voorkomen noemen we monolithic architecture. 
 
