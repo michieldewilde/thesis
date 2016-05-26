@@ -79,7 +79,8 @@
 \newcommand{\instelling}{Hogeschool Gent}
 
 % De titel van het rapport/bachelorproef
-\newcommand{\titel}{Unikernels}
+\newcommand{\titel}{De rol van systeenbeheerder binnen een architectuur met
+unikernels}
 
 % Datum van indienen
 \newcommand{\datum}{29 mei 2015}
@@ -164,16 +165,17 @@
 
 
 \begin{abstract}
-% TODO: De "abstract" of samenvatting is een kernachtige (max 1 blz. voor een
-% thesis) synthese van het document. In ons geval beschrijf je kort de
-% probleemstelling en de context, de onderzoeksvragen, de aanpak en de
-% resultaten.
+
+Het efficiënt gebruiken van de middelen die ter beschikking worden gesteld is vanzelfsprekend. Doorheen de tijd zijn er innovaties gekomen om dit steeds naar een hoger niveau te tillen bij software ontwikkeling en systeembeheer. Eerst was er sprake van virtuele machines en dan later kwamen software containers ter sprake. In de sector van informatica is stilstaan gelijk aan achteruit gaan. Het gemak en gebruikvriendelijk is een andere focus van deze innovaties. 
+
+Unikernels is een opkomende manier voor het maken en gebruiken van programma's in een productieomgeving. Diverse onderwerpen zoals besturingssystemen worden nader bekeken of er geen verbeteringen kunnen gemaakt worden. Unikernels vraag om een andere kijk op programma's in de productieomgeving en hoe er gewerkt wordt met de architectuur en infrastructuur. Deze bachelorproef focust op de rol van de systeembeheerder binnen een architectuur van unikernels. Er wordt nader gekeken naar de competenties van systeembeheerder binnen dit soort architectuur. Ook de vergelijking tussen containers en unikernels wordt gemaakt. Verder bekijken we huidige implementaties van unikernels om een beter beeld te krijgen op het ecosysteem rond unikernels.
+
 \end{abstract}
 
 \chapter*{Voorwoord}
 \label{ch:voorwoord}
 
-Deze bachelorproef is tot stand gekomen uit eigen interesse. Computers hebben mij in mijn jeugd altijd al gefascineerd. Het heeft een tijd geduurd vooraleer ik begon met programmeren. Ik begon met de simpele applicatie maar al snel werd het meer complex.  Het beheren van servers en infrastructuur was een uitdaging die ik zeker aanging. De traditionele server maakten plaats voor containers en daar begon voor mij zoektocht naar beter en efficïenter. Een paar maanden voor mijn bachelorproef kwam ik het concept van unikernels tegen. Dit leek mij een goed onderwerp voor mijn bachelorproef en was ook beschikbaar. Het was een mooie uitdaging om meer te leren over concepten rond systeembeheer. Ik hoop dat deze bachelorproef beantwoord aan de verwachtingen en dat er veel uit kan geleerd worden.
+Deze bachelorproef is tot stand gekomen uit eigen interesse. Computers hebben mij sinds mijn jeugd al gefascineerd. Het heeft een tijd geduurd vooraleer ik begon met programmeren. Ik begon met de simpele applicatie maar al snel werd het meer complex.  Het beheren van servers en infrastructuur was een uitdaging die ik zeker aanging. De traditionele server maakten plaats voor containers en daar begon voor mij zoektocht naar het beter en efficïenter gebruik maken van de middelen in een omgeving. Ook gemak was een factor die meespeelde. Een paar maanden voor mijn bachelorproef kwam ik het concept van unikernels tegen. Dit leek mij een goed onderwerp voor mijn bachelorproef en was ook al als onderwerp beschikbaar gesteld. Het was een mooie uitdaging om meer te leren over concepten rond systeembeheer en software ontwikkeling. Ik hoop dat deze bachelorproef beantwoord aan de verwachtingen en dat er veel uit kan geleerd worden.
 
 Ik wens dhr. Van Vreckem te bedanken voor de begeleiding voor de bachelorproef.
 
@@ -183,8 +185,6 @@ Verder bedank ik de werknemers van mijn stageplaats, Wercker BV. In het bijzonde
 
 \chapter{Inleiding}
 \label{ch:inleiding}
-
-Wanneer een programma wordt gemaakt dan kan het lokaal op de computer dat het gemaakt is. Lokaal is geen permanente oplossing. Het programma moet worden opgesteld en beheert worden op een server. Dit is de taak van systeembeheerders in een notendop.
 
 Bij het opleveren van software gaat eerst de software eerst lokaal ontwikkelt worden. Wanner de software opgeleverd wordt dan zal het geplaatst worden in een productieomgeving. Deze omgeving kan van de klant of het bedrijf dat de software ontwikkelt heeft zijn. Het geschreven programma van de lokale ontwikkelomgeving naar de productieomgeving brengen is de rol van de systeembeheerder. De productieomgeving bestaat uit servers die zich lokaal in het bedrijf bevinden of bij een cloud provider.
 
@@ -334,32 +334,32 @@ Toch zijn er een paar andere problemen zoals aangehaald in \cite{madhavapeddy_ji
 
 \section{Docker}
 
-Het was een kwestie van tijd dat de puzzelstukken in elkaar vielen. Dit gebeurde met Docker (\cite{docker_docker_2016}). 
+Docker (\cite{docker_docker_2016}) is een open source project om software containers te gebruiken voor programma's gemakkelijk op te stellen. Docker is eveneens het bedrijf dat al de delen samenbracht in een uitgebreid ecosysteem. Docker maakte de handelingen rond containers simpeler en intuïtief. Het werd gemakkelijk om containers te maken en te delen met anderen. Door veel van de componenten van het ecosysteem open te stellen voor het publiek konden ze rekenen op de steun van vele open source ontwikkelaars.
 
-Docker was het bedrijf dat al de delen samenbracht onder uitgebreid ecosysteem. Docker maakte de handelingen rond containers simpeler en intuïtief. Het werd gemakkelijk om containers te maken en te delen met andere. Door veel van de componenten van het ecosysteem open te stellen konden ze rekenen op de steun van vele ontwikkelaars.
+Er waren andere formaten dan Docker zoals rkt \ref{_rkt_????} die het mogelijk maakte voor containers te maken. Maar door hun ecosysteem en de hulp van de open source gemeenschap hebben is Docker de meest populair optie \ref{oreilly_media_docker_2015} geworden om met software containers te werken.
 
-Er waren andere formaten dan Docker zoals Rocket die het mogelijk maakte voor containers te maken. Maar door hun ecosysteem en de hulp van de open source gemeenschap hebben is Docker de standaard geworden om containers te maken en ermee te werken.
+In 2015 werd het Open Container Initiative opgericht. Veel grote spelers op vlak van software containers zoals Docker, CoreOS, Microsoft en Google maken hier deel van uit. Samen willen ze een standaard voor software containers vastleggen. \ref{}.
 
-In 2015 werd het Open Container Initiative opgericht. Veel van de grote spelers op vlak van containers zoals Docker, CoreOS, Microsoft en Google maken hier deel van uit. Ze willen een standaard voor containers vastleggen.
-
-In het volgende hoofdstuk bekijken we de werking en mogelijkheden met unikernels.
+De problemen die we bij software containers tegenkomen hebben voornamelijk betrekking tot beveiliging. Unikernels kan een veiliger alternatief zijn. In het volgende hoofdstuk bekijken we de werking en mogelijkheden met unikernels.
 
 \chapter{Unikernels}
 \label{ch:unikernels}
 
 \section{Inleiding}
 
-Dit hoofdstuk zal uitleggen waarom unikernels ontwikkeld worden. De verschillende eigenschappen en voordelen worden ook aangehaald. Als laatste deel van dit hoofdstuk wordt bekeken welke implementaties van unikernels er al bestaan en wat de verschillende ertussen zijn.
+Dit hoofdstuk zal uitleggen uit welke delen een unikernel bestaat en een beter beeld geven op de voordelen van unikernels. De eigenschappen worden ook angehaald. In het volgende hoofdstuk wordt bekeken welke implementaties van unikernels er al bestaan en wat de verschillen ertussen zijn.
 
-Virtuele machines (hoofdstuk \ref{ch:virtualisatie}) zijn er gekomen wanneer men de middelen van computers beter wou gebruiken. Toch werden de middelen niet ten volle gebruikt door grote besturingssystemen met enkele werkende processen. Maar er zijn processen die aan het werken zijn maar geen nut hebben. Containers (hoofdstuk \ref{ch:Containers}) waren een reactie op dit probleem. De middelen werden efficiënter gebruikt doordat er maar één besturingssysteem was en de containers de delen van het host OS hergebruikten. De isolatie en veiligheid van containers zorgt wel voor een aantal problemen. Unikernels probeert het probleem van veiligheid en isolatie op te lossen en de voordelen van containers te behouden.
+Virtuele machines (hoofdstuk \ref{ch:virtualisatie}) zijn er gekomen wanneer men de middelen van computers beter wou gebruiken. Toch werden de middelen niet optimaal benut door de besturingssystemen die werden gebruikt. Bij containers (hoofdstuk \ref{ch:Containers}) worden delen van het besturingssysteeem gedeeld. De middelen werden efficiënter gebruikt doordat er maar één besturingssysteem was en de containers de delen van het host besturingssysteem hergebruikten.
 
-De eerste implementaties van unikernels komen we tegen op het einde van de jaren 90. Exokernel (\cite{mit_mit_1998}) werd ontwikkelt door MIT. Het had als doel zo weinig mogelijk abstractie de software ontwikkelaars op te leggen. De software ontwikkelaars kunnen zelf keuzes maken voor de abstractie. Nemesis (\cite{university_of_cambridge_nemesis_2000}) werd vanuit University of Cambridge ontwikkeld. Ze hadden eerder multimedia use cases als doel in hun achterhoofd.
+Unikernels (\ref{madhavapeddy_unikernels_2013}) gaat een andere weg op. Bij unikernels wordt er gekeken naar het besturingssysteem. Traditionele besturingssystemen zoals Ubuntu worden onder loep genomen en er wordt gekeken of we deze besturingssystemen niet kleiner en meer gespecializeerd kunnen maken.
 
-Unikernels vragen inzicht in een aantal verschillende concepten. De kernel ligt aan de basis van een besturingssysteem en zal in de volgende sectie worden uitgelegd.
+De eerste implementaties van unikernels komen we tegen op het einde van de jaren 90. Exokernel (\cite{mit_mit_1998}) werd ontwikkelt door MIT. Het had als doel zo weinig mogelijk abstractie de software ontwikkelaars op te leggen. De software ontwikkelaars kunnen zelf keuzes maken voor de abstractie. Nemesis (\cite{university_of_cambridge_nemesis_2000}) werd vanuit University of Cambridge ontwikkeld. Ze hadden eerder multimedia use cases als doel hadden.
+
+Unikernels vragen inzicht in een aantal verschillende technologiën. De kernel ligt aan de basis van een besturingssysteem en zal in de volgende sectie worden uitgelegd.
 
 \section{Kernel}
 
-De kernel is het programma dat zich centraal bevindt in het besturingssysteem. Het werkt rechtstreeks met de hardware van de computer. De kernel kan gezien worden als het fundament waar het hele besturingssysteem op steunt. Omdat het een belangrijke rol vervult in de computer is veel van het geheugen van de kernel beveiligd zodat andere applicaties geen veranderingen kunnen aanbrengen. Als er iets fout zou gaan met de kernel, dan heeft dit rechtstreeks gevolgen op het besturingssysteem. Al de handelingen die de kernel uitvoert bevinden zich in de kernel space. Daartegenover gebeurd wat de gebruiker uitvoert in de user space. Het is van uiterst belang dat de kernel space en user space strikt van elkaar gescheiden zijn. Als dit niet zo zou zijn dan zou een besturingssysteem en tevens de computer onstabiel en niet veilig zijn. De kernel voert nog andere taken uit zoals memory management en system calls. Figuur \ref{fig:kernel} toont de positie van de kernel aan.
+De kernel is het programma dat zich centraal bevindt in het besturingssysteem. Het werkt rechtstreeks met de hardware van de computer. De kernel kan gezien worden als het fundament waar het hele besturingssysteem op steunt. Omdat het een belangrijke rol vervult in het besturingssysteem is veel van het geheugen van de kernel beveiligd zodat andere applicaties geen veranderingen kunnen aanbrengen. Als er iets fout zou gaan met de kernel, dan heeft dit rechtstreeks gevolgen op het besturingssysteem. Al de handelingen die de kernel uitvoert bevinden zich in de kernel space. Daartegenover gebeurd wat de gebruiker uitvoert in de user space. Het is van uiterst belang dat de kernel space en user space strikt van elkaar gescheiden zijn. Als dit niet zo zou zijn dan zou een besturingssysteem en tevens de computer onstabiel en niet veilig zijn. De kernel voert nog andere taken uit zoals memory management en system calls. Figuur \ref{fig:kernel} toont de positie van de kernel binnen het systeem.
 
 \begin{wrapfigure}{r}{0.3\textwidth}
     \centering
@@ -372,19 +372,19 @@ Als een programma wordt uitgevoerd dan bevindt die zich in de user space. Om het
 
 Volgend boek heeft meer informatie over de werking van de kernel (\cite{bovet_understanding_2005}).
 
-De twee volgende delen van library besturingssysteem en single address space dat hierop volgt, zal de twee belangrijkste eigenschappen van unikernels uitleggen.
+De twee volgende delen, die hierop volgen, zullen de belangrijkste eigenschappen van unikernels uitleggen.
 
 \section{Library besturingssysteem}
 
-Elke virtuele machine binnen de architectuur van cloud computing heeft meestal één functie. Dit is al getoond in figuur \ref{fig:virtualmachine}. Elke guest heeft een gespecialiseerde rol om de middelen dat het ter beschikking krijgt optimaal te benutten.
-Dezelfde architectuur van kan men terugvinden bij containers. De besturingssystemen die de virtuele machines en containers gebruiken is algemeen te noemen. Dit is aangehaald in \cite{madhavapeddy_unikernels_2013}.
+Elke virtuele machine binnen de architectuur van een productieomgeving heeft meestal één functie. Dit is al getoond in figuur \ref{fig:virtualmachine}. Elke guest heeft een gespecialiseerde rol om de middelen dat het ter beschikking krijgt optimaal te benutten.
+Dezelfde architectuur en denkwijze van kan men terugvinden bij containers. De besturingssystemen die de virtuele machines en containers gebruiken is traditioneel te noemen. Dit is aangehaald in \cite{madhavapeddy_unikernels_2013}.
 
-Als er dieper wordt ingegaan op deze evolutie dan wordt er vastgesteld dat er steeds kleinere eenheden worden gebruikt. Eerst was de computer de eenheid, dan werd er van virtuele machine naar containers gegaan.
+Als er dieper wordt ingegaan op deze evolutie dan kunnen we een patroon vaststellen: er worden steeds kleinere eenheden gebruikt. Eerst was de computer de eenheid, dan de virtuele machine en dan de software containers. Een unikernel kunnen we ook bekijken als een eenheid binnen dit patroon.
 
-Het meest gebruikte besturingssysteem voor servers is het Ubuntu besturingssysteem (\cite{matthias_gelbmann_ubuntu_2016}) met 32\%. Veel programma's van databases tot en met web applicaties gebruiken het. Dit terwijl een database en een web applicatie andere middelen en functies nodig hebben.
-Er zijn er ook gespecialiseerde besturingssystemen zoals Mini-OS (\cite{satya_popuri_tour_????}) die veel van de overbodige functies van een algemeen besturingssysteem niet gebruiken. Deze gespecialiseerde besturingssystemen zijn wel in de minderheid.
+Het meest gebruikte besturingssysteem voor servers is het Ubuntu besturingssysteem (\cite{matthias_gelbmann_ubuntu_2016}) met 32\%. Veel programma's van databases tot en met web applicaties gebruiken het. Dit terwijl een database en een web applicatie andere middelen en functionaliteit nodig hebben.
+Er zijn er ook gespecialiseerde besturingssystemen zoals Mini-OS (\cite{satya_popuri_tour_????}) die veel van de overbodige functies van een traditioneel besturingssysteem niet gebruiken. Deze gespecialiseerde besturingssystemen zijn in de minderheid en ook niet zeer gekend.
 
-Algemene besturingssystemen zijn niet de basis die men nodig heeft in een architectuur waar elke eenheid gespecialiseerd is. Alpine (\cite{alpine_linux_development_team_alpine_????}) is een Linux besturingssysteem dat zeer minimaal is. Het beschikt over een uitgebreide package repository. Dit maakt het een ideaal besturingssysteem voor containers mee te bouwen. Je kan starten met een kleine basis en alle onderdelen toevoegen die je nodig hebt. Dit zorgt voor betere prestatie en een container met kleinere omvang.
+Traditionele besturingssystemen zijn niet de basis die men nodig heeft in een architectuur waar elke eenheid gespecialiseerd is. Alpine (\cite{alpine_linux_development_team_alpine_????}) is een Linux besturingssysteem dat een zeer minimale basis heeft. Tevens beschikt het over een uitgebreide package repository. Dit maakt het een ideaal besturingssysteem voor de basis van software containers. Je kan starten met een kleine basis en alle onderdelen toevoegen die je nodig hebt. Dit zorgt voor een container met een kleinere omvang. Hier wordt verder over uitgeweid in sectie \ref{sec:bene_unikernels}.
 
 \begin{wrapfigure}{r}{0.4\textwidth}
     \centering
@@ -395,66 +395,66 @@ Algemene besturingssystemen zijn niet de basis die men nodig heeft in een archit
 
 Niet alleen hebben sommige delen geen nut meer, maar soms kan dat ervoor zorgen dat de prestatie van een besturingssysteem gehinderd wordt voor bepaalde taken. Het is dezelfde analogie als het gebruiken van een hamer voor elke klus.
 
-Alpine is zeer miniem als besturingssysteem. Het concept van Library besturingssysteem (\cite{madhavapeddy_unikernels_2013}) neemt dit nog een stap verder. Er wordt met een absoluut minieme basis gestart. Daarna worden alleen de componenten toegevoegd die nodig zijn voor de functie die de eenheid uitvoerd. Library duidt op de verschillende onderdelen of componenten die je kan toevoegen.
+Het concept van bibrary besturingssystemen (\cite{madhavapeddy_unikernels_2013}) neemt dit nog een stap verder. Er wordt met een absoluut minieme basis gestart. Daarna worden alleen de componenten toegevoegd die nodig zijn voor de functionaliteit die de eenheid uitvoerd. Library duidt op de verschillende onderdelen of componenten die kunnen worden toegevoegd.
 
-Web applicaties hebben verschillende functies nodig om te kunnen communiceren. Hiervoor bestaan netwerkprotocollen. TCP is een kritiek protocol om te communiceren met internet. Bij algemene besturingssystemen, zoals Ubuntu, is dit al aanwezig. Omdat er gestart wordt met een minimale basis, moeten deze protocollen geïmplementeerd worden. Gelukkig zijn er libraries die hiervoor kunnen gebruikt worden. De libraries, broncode en configuratie worden dan gecompileerd. Als resultaat heb je dan een afbeelding. Deze afbeelding wordt een unikernel genoemd. De unikernel wordt gecompileerd voor één omgeving en kan alleen gebruikt worden op die omgeving. Dit is een verschil met containers en virtuele machines die meer los staan van de omgeving dan unikernels.
+Web applicaties hebben verschillende functies nodig om te kunnen communiceren. Hiervoor bestaan netwerkprotocollen. TCP is een kritiek protocol om te communiceren met het internet. Bij algemene besturingssystemen, zoals Ubuntu, is dit al aanwezig. Omdat er gestart wordt met een minimale basis, moeten deze protocollen geïmplementeerd worden. Gelukkig zijn er libraries die hiervoor kunnen gebruikt worden. De libraries, broncode en configuratie worden dan gecompileerd. Als resultaat heb je dan een image. Wanneer deze image wordt uitgevoerd dan hebben we een werkende unikernel. De unikernel wordt gecompileerd voor één omgeving en kan alleen gebruikt worden op die omgeving. Dit is een verschil met containers en virtuele machines die meer los staan van de omgeving waarin ze zich bevinden.
 
-Er werd al gesproken dat de unikernel alleen zal werken op de omgeving waarvoor het gecompileerd is. Dit is omdat de drivers voor de hardware componenten moeten worden geschreven. Kleine veranderingen in de specificatie of interface van een hardware component zorgt ervoor dat de driver niet meer werkt. Drivers zijn de grootste hindering die men tegenkomt bij library besturingssystemen. Hypervisors lossen dit probleem op door een standaard interface open te stellen. Zo moet er alleen maar één driver worden geschreven voor de hardware component. Dit neemt veel van het werk voor het maken van unikernels weg. De protocollen waar eerder over gesproken is het grootste werk bij unikernels.
-
-Een unikernel wordt bekeken als een eenheid.
+Er werd al gesproken dat de unikernel alleen zullen werken op de omgeving waarvoor het gecompileerd is. Dit is omdat de drivers voor de hardware componenten moeten worden geschreven. Kleine veranderingen in de specificatie of interface van een hardware component zorgt ervoor dat de driver niet meer werkt. Drivers zijn de grootste hindering die men tegenkomt bij library besturingssystemen. Hypervisors lossen dit probleem op door een standaard interface open te stellen. Zo moet er alleen maar één driver worden geschreven voor de hardware component. Dit neemt veel van het werk voor het maken van unikernels weg. De protocollen, waar eerder over gesproken is, wordt het grootste deel van het werk.
 
 \section{Single Address Space}
 
-In een unikernel bestaat er geen concept van user of kernel space. Alle processen bevinden zich in dezelfde omgeving. Dit zou problemen geven bij traditionele besturingssystemen. Maar bij het compileren van de unikernel wordt de broncode, libraries en configuratie gecontroleerd. Dit is om te kijken of er zich geen problemen kunnen voordoen. De afwezigheid van het vragen van toestemming tussen de twee spaces zorgt voor betere prestatie. Deze verbetering van prestatie komt doordat de hardware kan worden aangesproken zonder dat er verandert moet worden van context.
+In een unikernel bestaat er geen concept van user of kernel space. Alle processen bevinden zich binnen dezelfde omgeving. Dit zou problemen geven bij traditionele besturingssystemen. Maar bij het compileren van de unikernel wordt de broncode, libraries en configuratie gecontroleerd. Dit is om te kijken of er zich geen problemen kunnen voordoen. De afwezigheid van de communicatie tussen de kernel en user spaces zorgt voor een beter een prestatie. Deze verbetering van de prestatie komt ook doordat de hardware kan worden aangesproken zonder dat er verandert moet worden van context.
 
-Eén globale address space zorgt voor problemen met de isolatie van processen. Meerdere programma's naast elkaar laten werken op een library operating system is complex. De hypervisor lost dit probleem gedeeltelijk op. Een mogelijke oplossing voor dit probleem wordt verder besproken in Hoofdstuk \ref{ch:architectuur-met-unikernels}.
+Eén globale address space zorgt voor problemen met de isolatie van processen. Meerdere programma's naast elkaar laten werken op een library besturingssysteem is complex. De hypervisor lost dit probleem gedeeltelijk op. Een mogelijke oplossing voor dit probleem wordt verder besproken in Hoofdstuk \ref{ch:architectuur-met-unikernels}.
 
 \section{Veiligheid}
 
-De hoge veiligheid van unikernels is een gevolg van de specialisatie van de eenheid. Bij virtuele machines en containers zijn algemene besturingssystemen de basis. Deze besturingssystemen hebben zeer veel functionaliteit dat niet nodig is voor de taak dat ze uitvoeren. De overbodige functionaliteit kan zorgen voor een lagere prestatie, maar ook voor meer veiligheidsrisico's. Het is gemakkelijker om de veiligheid te garanderen van een kleine codebasis tegenover een grote. Daar komt nog bij dat er specifieke implementaties zijn voor een omgeving. Het is veel moeilijker om zelf code te schrijven voor een specifieke implementatie te buiten tegenover een algemene implementatie.
+De hoge mate van veiligheid van unikernels is een gevolg van de specialisatie van de eenheid. Bij virtuele machines en containers zijn traditionele besturingssystemen de basis. Deze besturingssystemen hebben zeer veel functionaliteit dat niet nodig is voor de taak dat ze uitvoeren. De overbodige functionaliteit kan zorgen voor een lagere prestatie, maar ook voor meer veiligheidsrisico's. Het is gemakkelijker om de veiligheid te garanderen van een kleinere broncode tegenover een grote. Daar komt nog bij dat de unikernel implementaties gebruikt die specifiek zijn voor de omgeving. Het vraagt veel meer moeite om een gespecialiseerde implementatie te schrijven tegenover een algemene implementatie. Het marktaandeel van de algmene implementatie zal ook veel groter zijn tegenover de specifieke implementatie.
 
-Verder heeft een unikernel geen shell of een andere mogelijkheid om een unikernel aan te passen terwijl hij aan het werken is. Eén unikernel overnemen heeft geen gevolg op de andere unikernels. Daarbij komt nog dat hypervisors meer veiligheid garanderen (\cite{colp_breaking_2011}).
+Verder heeft een unikernel geen shell of een andere mogelijkheid om een unikernel aan te passen terwijl hij aan het werken is. Eén unikernel overnemen heeft geen gevolg op de andere unikernels. Daarbij komt nog dat de hypervisors zelf meer veiligheid garanderen (\cite{colp_breaking_2011}).
 
 \section{Andere voordelen}
+\label{sec:bene_unikernels}
 
-De omvang van een unikernel is zeer laag tegenover een virtuele machine of een container. Zoals we al eerder aanhaalden kunnen containers ook zeer klein zijn wanneer ze een miniem besturingssysteem gebruiken. Een voorbeeld daarvan is Alpine dat start vanaf 5 MB (\cite{_gliderlabs/docker-alpine_????}).
+De omvang van een unikernel is kleiner dan een virtuele machine of een container. Zoals er al eerder werd aangehaald kunnen containers ook een kleine omvang hebben wanneer ze een miniem besturingssysteem gebruiken. Een voorbeeld daarvan is Alpine dat start vanaf 5 MB (\cite{_gliderlabs/docker-alpine_????}).
 Een voorbeeld van de omvang van een unikernel kan gevonden worden in \cite[hoofdstuk 4, p.~10]{madhavapeddy_jitsu:_2015} met 1 MB.
 
-Het systeem optimaliseren kan ook in veel grotere mate gebeuren (\cite{madhavapeddy_turning_2010}) dan algemene besturingssystemen.
+Het systeem optimaliseren kan ook in veel grotere mate gebeuren (\cite{madhavapeddy_turning_2010}) dan traditioneel besturingssystemen.
 
 \section{Productie}
 
-Veel van het commentaar op unikernels komt van de moeilijkheid om te kijken wat er fout gaat in productie (\cite{bryan_cantrill_unikernels_2016}). Aanpassingen doen in productie om problemen te verhelpen is niet de beste manier om iets op te lossen. Het programma moet uitgebreid getest worden vooraleer het productie wordt opgesteld. Wanneer er dan toch iets fout gaat in productie dan zal men de situatie proberen na te bootsen in een soortgelijke omgeving. Het terugzetten van een oudere versie van de applicatie kan helpen om de gebruikers geen ongemak te voorzien en tevens meer tijd te hebben om bepaalde problemen op te lossen.
+Veel van de commentaar op unikernels komt van de moeilijkheden om te kijken wat er fout gaat in productie (\cite{bryan_cantrill_unikernels_2016}). Aanpassingen doen in productie om problemen te verhelpen is niet de beste manier om iets op te lossen. Het programma moet uitgebreid getest worden vooraleer het in de productieomgeving wordt opgesteld. Wanneer er dan toch iets fout gaat in productie dan zal men de situatie proberen na te bootsen in een soortgelijke omgeving. Het terugzetten van een oudere versie van het programma kan helpen om de gebruikers geen ongemak te laten ondervinden en tevens meer tijd te hebben om bepaalde problemen op te lossen.
 
 \section{Hedendaags gebruik}
 
-Unikernels kunnen momenteel gebruikt worden in uiterst bepaalde situaties. Er was hetzelfde fenomeen bij containers een paar jaar geleden vooraleer Docker op de voorgrond trad. Elke technologie zal dit ondergaan omdat iets intuïtiever maken en veralgemenen kost tijd.
+Unikernels kunnen momenteel gebruikt worden in beperkte situaties. Er was hetzelfde fenomeen te vinden bij software containers een paar jaar geleden vooraleer Docker op de voorgrond trad. Elke technologie ondergaat een tijd om matuur te worden.
 
-In het volgende deel zullen we implementaties van unikernels vergelijken om een beeld te krijgen van de huidige mogelijkheden.
+In het volgende deel zullen we implementaties van unikernels vergelijken om een beter beeld te krijgen van de huidige mogelijkheden en het huidige landschap binnen unikernels.
 
 \chapter{Vergelijking implementaties unikernels}
 
 \section{Inleiding}
 
-In het hoofdstuk over unikernels zijn er een aantal voorbeelde van moderne implemenaties van unikernels aangehaald. Hierbij zijn er verschillende criteria die aangehaald kunnen worden. In volgende sectie zullen we de criteria beschrijven.
+In het hoofdstuk over unikernels zijn er een aantal voorbeelden van moderne implemenaties van unikernels aangehaald. In dit hoofdstuk zullen er een aantal implementaties van unikernels worden vergeleken met elkaar. Het volgende deel zal aanhalen welke criteria er zullen gebruikt worden om deze vergelijking te realiseren.
 
 \section{Criteria}
 
 \begin{description}
 \item [Implementatie programmeertaal]
-In welke programmeertaal is de implementatie geschreven? De meeste implementaties zijn in C/C++ geschreven. Dit komt vooral door het feit dat veel software ontwikkelaars die zich bezig houden met unikernels komen vanuit een achtergrond met besturingssystemen komen.
+Op het eerste zicht lijkt de programmeertaal waarin de implementatie geschreven is niet belangrijk. Dit is wel belangrijk voor te weten of het een programmeertaal is waarbij gemakkelijk kan gewerkt worden.
+Een meer voor de hand liggende programmeertaal, zoals C++, zal gemakkelijker open source ontwikkelaars aantrekken. En dat is ook een belangrijk gegeven.
+De meeste implementaties zijn in C/C++ geschreven. Dit komt vooral door het feit dat veel software ontwikkelaars die zich bezig houden met unikernels komen vanuit een achtergrond met besturingssystemen komen.
 De meest gebruikte programmeertaal voor een besturingssysteem is C/C++.
 
 \item [Hypervisors] 
-Hypervisors zijn een groot deel waarom unikernels gekozen worden. De meest gebruikte unikernels zijn beschikbaar op een aantal hypervisors. Sommige unikernels specialiseren zich in één hypervisor.
-Dit is om gebruik te maken van de specifieke mogelijkheden van de hypervisor en zo de sterktes daarvan uit te buiten.
+Hypervisors zijn een groot deel van de keuze voor het kiezen van een implemenatie. De meest gebruikte unikernels zijn beschikbaar op een aantal hypervisors. Als er veel omgevingen waarop de unikernels kunnen werken dan is het gemakkelijk om van omgeving te veranderen als bedrijf. Wendbaarheid en inspelen op veranderingen zal gemakkelijker gebeuren wanneer je beschikt over een uitgebreid aantal mogelijkheden.
 
-\item [Ondersteunde programmeertalen] 
-De grootste factor bij het kiezen van een implementatie van een unikernel. Het is gemakkelijker om een bepaalde implementatie te gebruiken wanneer je kan kiezen uit een aantal programmeertalen.
-Als je een microservice wilt schrijven in een andere programmeertaal, zou het wel handig ze om bij dezelfde implementatie te blijven.
+\item [Ondersteunde programmeertalen]
+Sommige unikernels ondersteunen een aantal programmeertalen om te zorgen dat er niet moet veranderd worden van implementatiem, wanneer je een andere programmeertaal kiest voor een bepaalde toepassing.
+Programmeertalen hebben hun sterke en zwakke kanten en keuze hebben uit een aantal programmeertalen helpt voor een groter aantal verschillende toepassingen te schrijven.
 
 \item [GitHub stars] 
-Hieruit kunnen we opmaken hoeveel mensen het in de gaten houden en hoe populair is.
+GitHub bepaalt de status van jouw open source project. Open source software wordt meer en meer gebruikt door bedrijven en de keuze is gemakkelijk te maken tussen een project met veel sterren en een project met weinig sterren. Hierbij spreken we wel over projecten met dezelfde functionailiteit. Door GitHub kan gekeken worden of er actief aan het project gewerkt word of het onderhouden wordt. De gemeenschap van een project is ook belangrijk voor de keuze te maken van welk project je kiest.
 
 \end{description}
 
@@ -480,7 +480,7 @@ De inhoud van de bovenstaande tabel wordt per implementatie uitgelegd in het vol
 
 \section{Implementaties van moderne unikernels}
 
-\subsection{ClickOS (\cite{martins_clickos_2014})}
+\subsection{ClickOS}
 \begin{description}
   \item [Implementatie programmeertaal]: C/C++
   \item [Hypervisors]: Xen
@@ -488,23 +488,23 @@ De inhoud van de bovenstaande tabel wordt per implementatie uitgelegd in het vol
   \item [GitHub stars]: 243
 \end{description}
 
-Deze implementatie van een unikernel wordt ontwikkeld door Cloud Networking Performance Lab.
+ClickOS  (\cite{martins_clickos_2014}) wordt ontwikkeld door Cloud Networking Performance Lab.
 
-De programma's waarvoor ClickOS wordt voor gebruikt zijn middleboxes. Een middlebox is een netwerk applicatie dat netwerktrafiek kan omzetten, filteren, inspecteren of manipuleren. Voorbeelden hiervan zijn firewalls en load balanceres.
-Een modulaire software vormt het startpunt. Op de router worden onderdelen toegevoegd. Deze unikernel werkt alleen op MiniOS. MiniOS is beschikbaar bij de source van de Xen hypervisor.
+De toepassingen, waarvoor ClickOS voornamelijk wordt gebruikt, zijn middleboxes. De programma's waarvoor ClickOS wordt voor gebruikt zijn middleboxes. Een middlebox is een netwerk applicatie dat netwerktrafiek kan omzetten, filteren, inspecteren of manipuleren. Voorbeelden hiervan zijn firewalls en load balanceres.
+Een modulaire router vormt het startpunt. Op deze router worden onderdelen toegevoegd. Deze unikernel werkt alleen op MiniOS. MiniOS is beschikbaar bij de broncode van de Xen hypervisor.
 
-Door een evolutie binnen netwerk laag (\cite{garcia_villalba_trends_2015}) wordt veel van de functionaliteit, die vroeger bij de hardware zat, nu in software geïmplementeerd. Dit laat het toe om een eigen implementatie schrijven om veel van functionaliteit van de hardware over te nemen.
+Door een evolutie binnen netwerk laag (\cite{garcia_villalba_trends_2015}) wordt veel van de functionaliteit, die vroeger bij de hardware zat, nu in software geïmplementeerd. Dit laat toe om een eigen implementatie schrijven om veel functionaliteit van de hardware over te nemen.
 Dit zorgt voor een implementatie die aangepast kan worden aan de eigen situatie.
 
 De use cases waarbinnen ClickOS kan gebruikt worden zijn beperkt. Als je geen gebruik wilt maken van ingebouwde netwerk functionaliteit van de hardware dan is ClickOS de uitgesproken keuze.
 
-Er wordt Swig gebruikt om ondersteuning te bieden voor hogere programmeertalen. Swig maakt een bindings die C/C++ verbindt met een hogere taal.
+Er wordt Swig gebruikt om ondersteuning te bieden voor hogere programmeertalen. Swig maakt een bindings die C/C++ verbindt met een hogere programmeertaal.
 
-ClickOS verwijst naar zijn packages als elements. Die elements voeren in bepaalde actie uit. Dit zijn hele kleine stukken functionaliteit. Er zijn om en bij de 300 elementen aanwezig. Het is niet moeilijk om zelf je element te maken.
+ClickOS verwijst naar zijn packages als elements. Die elements voeren in bepaalde actie uit. Dit zijn hele kleine stukken functionaliteit. Er zijn om en bij de 300 elementen beschikbaar voor te gebruiken. Het is simpel om zelf je eigen element te maken en te distribueren.
 
-Meer informatie kan gevonden worden op \cite{cloud_networking_performance_lab_cloud_????}.
+Meer informatie kan gevonden worden volgende website: \cite{cloud_networking_performance_lab_cloud_????}.
 
-\subsection{HaLVM (\cite{galois_inc._haskell_????})}
+\subsection{HaLVM}
 
 \begin{description}
   \item [Implementatie programmeertaal]: Haskell
@@ -513,23 +513,23 @@ Meer informatie kan gevonden worden op \cite{cloud_networking_performance_lab_cl
   \item [GitHub stars]: 665
 \end{description}
 
-HaLVM wordt ontwikkeld door Galios. Galios is software development agency dat unikernels al een tijd in productie gebruikt.
-Er zijn niet veel bedrijven die unikernels al gebruiken in productie, dus ze hebben veel ervaring met de mogelijkheden en moeilijkheden van unikernels.
+HaLVM (\cite{galois_inc._haskell_????}) wordt ontwikkeld door Galios. Galios is een software ontwikkelings agentschap dat unikernels al een tijd in productie gebruikt.
+Er zijn niet veel bedrijven die unikernels al gebruiken in productie, dus ze hebben al ervaring met de mogelijkheden en moeilijkheden van unikernels.
 
-De programmeertaal waarin de unikernel van HaLVM wordt geschreven is Haskell. Haskell is een functionele programmeertaal met een uitgebreid type system. HaLVM is een specifieke implementatie die één supervisor en programmeertaal ondersteund.
+De programmeertaal waarin de unikernel van HaLVM wordt geschreven is Haskell. Haskell is een functionele programmeertaal met een uitgebreid type system. HaLVM is een implementatie die één supervisor en één programmeertaal ondersteund.
 
-Het werd ontwikkeld met als doel voor besturingssysteem componenten snel te maken en te testen. Maar na een tijd is het geëvolueerd naar andere use cases.
+Het werd ontwikkeld met als doel voor besturingssysteem componenten snel te maken en te testen. Na een tijd is het geëvolueerd naar andere use cases.
 
-Bij HalVM wordt de Xen hypervisor als omgeving gebruiken. Er is een integratie met de Xen hypervisor waarop de core library van HaLVM op rust. Er bestaat ook een communications library die bestaat uit Haskell File System en Haskell Network Stack. Deze library kan gebruikt worden in de meeste gevallen als je een netwerkfunctionaliteit nodig hebt. Als we meer mogelijkheden nodig hebben voor de applicatie dan gaan we modules toevoegen. Er is een ecosysteem uitgebouwd om het gemakkelijker te maken voor software ontwikkelaars om hun eigen modules te bouwen.
+Bij HalVM wordt de Xen hypervisor als omgeving gebruiken. Er is een integratie met de Xen hypervisor waarop de core library van HaLVM op rust. Er bestaat ook een communications library die bestaat uit het Haskell File System en de Haskell Network Stack. Deze library kan gebruikt worden in de meeste gevallen als je een netwerkfunctionaliteit nodig hebt. Als we meer mogelijkheden nodig hebben voor een programma dan kunnen er modules worden toegevoegd. Er is een ecosysteem uitgebouwd om het gemakkelijker te maken voor software ontwikkelaars om hun eigen modules te bouwen.
 
-De werkwijze is de volgende: eerst wordt er zoveel mogelijk functionaliteit als een normaal Haskell programman geschreven. Daarna moet het programma beginnen aangepast worden om het te gebruiken op HaLVM.
+De werkwijze is de volgende: eerst wordt er zoveel mogelijk functionaliteit als een normaal Haskell programman geschreven. Daarna moet het programma aangepast worden om het te gebruiken op HaLVM.
 Dit is niet gemakkelijk bij uitgebreide applicaties zijn, want er zijn maar beperkte mogelijkheden om te debuggen op HalVM.
 
-Zoals in de meeste gevallen moet de compiler van Haskell worden aangepast om rechtstreeks te kunnen werken op de Xen hypervisor. Het is ook geen probleem om standaard Haskell libraries in de code te gebruiken.
+Zoals in de meeste gevallen moet de compiler van Haskell worden aangepast om de unikernel te maken. Het is ook geen probleem om standaard Haskell libraries in de code te gebruiken.
 
-Het wordt gebruikt door Galios in productie en dit maakt het gemakkelijk om vragen te stellen. De GitHub repository waar de applicatie zich op bevindt, is over het algemeen actief.
+Het wordt gebruikt door Galios in productie en dit maakt het gemakkelijk om vragen te stellen. De GitHub repository, waar de applicatie zich op bevindt, is over het algemeen actief en is populair voor maar één programmeertaal te ondersteunen.
 
-\subsection{Ling (\cite{erlang_on_xen_cloudozer/ling_????})}
+\subsection{Ling}
 
 \begin{description}
   \item [Implementatie programmeertaal]: C/Erlang
@@ -538,16 +538,20 @@ Het wordt gebruikt door Galios in productie en dit maakt het gemakkelijk om vrag
   \item [GitHub stars]: 523
 \end{description}
 
-Ling is een Erlang virtuele machine die werkt op Xen. Het bedrijf achter Ling is Cloudozer. Ze hebben al meerdere language runtimes gemaakt die rechtstreeks op Xen werken.
-Ling is open source maar de andere tools, die het beheren doen, zijn niet open source. Wanneer je problemen met het ecosysteem moet de ondersteuning van Cloudozer gecontacteerd worden.
+Ling (\cite{erlang_on_xen_cloudozer/ling_????}) is een Erlang virtuele machine die werkt op de Xen hypervisor. Het bedrijf achter Ling is Cloudozer. Ze hebben al meerdere language runtimes gemaakt die rechtstreeks op Xen werken.
+Ling is open source maar de andere tools, die onder meer het beheren doen van unikernels, zijn niet open source. Wanneer je problemen met het ecosysteem hebt, moet de ondersteuning van Cloudozer gecontacteerd worden.
 
 Zoals bij HaLVM moet eerst de applicatie geschreven worden in Erlang. De package manager die gebruikt word met Erlang is Rebar, dit is de standaard Erlang package manager. Na het omzetten van de applicatie naar een Xen afbeelding zou de unikernel moeten werken.
 
 Railing is een tool die meegeleverd is met Ling die je toelaat om erlang on Xen afbeeldingen te maken. We gebruiken ook xl utility van Xen om domeinen te beheren.
-De focus van Erlang on Xen was de Xen hypervisor in het begin. Met het uitbrengen van LING is het mogelijk geworden om ports te maken voor andere omgevingen. Dit heeft veel nieuwe omgevingen voor IOT en mobiele applicaties mogelijk gemaakt.
-Unikernel kunnen handig zijn op deze omgevingen omwille van de kleine omvang. Verder opent dit ook de mogelijkheid voor de unikernels van LING op bare-metal te laten werken.
+De focus van Erlang on Xen was de Xen hypervisor in het begin. 
 
-\subsection{Rumprun (\cite{rumpkernel/rumprun_0000})}
+Bij het uitbrengen van een nieuwe versie van LING is het mogelijk geworden om ports te maken voor andere omgevingen. Dit heeft veel nieuwe omgevingen, zoals IOT en mobiele omgevingen, mogelijk gemaakt.
+Unikernel kunnen handig zijn op deze omgevingen omwille van de kleine omvang, er is namelijk geen uitgebreid besturingssysteem nodig. 
+
+Verder opent dit ook de mogelijkheid voor de unikernels van LING op bare-metal te laten werken.
+
+\subsection{Rumprun}
 
 \begin{description}
   \item [Implementatie programmeertaal]: C
@@ -556,25 +560,22 @@ Unikernel kunnen handig zijn op deze omgevingen omwille van de kleine omvang. Ve
   \item [GitHub stars]: 469
 \end{description}
 
-Rumprun gebruikt rump kernels voor hun implementatie. Deze rump kernels worden samengesteld uit componenten afkomstig van NetBSD. NetBSD is een algemeen besturingssysteem maar is modulair geschreven.
-Men kan het dus gebruiken om een rump kernel te samen te stellen. De rump kernel wordt dan samen met de applicatie verpakt om gebruikt te kunnen worden in verschillende omgevingen.
+Rumprun  (\cite{rumpkernel/rumprun_0000}) gebruikt rump kernels voor hun implementatie. Deze rump kernels worden samengesteld uit componenten afkomstig van NetBSD. NetBSD is een traditioneel besturingssysteem maar is modulair geschreven. Men kan het dus gebruiken om een rump kernel samen te stellen.
 
-Er is een uitgebreide collectie van hypervisors waaruit je kan kiezen wanneer je een rumprun applicatie hebt. De term hw duidt op hardware. Dit betekent dat rumprun één van de enige implementaties is die rechtstreeks kan werken op hardware. De unikernel kan ook werken op besturingssystemen die een POSIX-interface hebben.
+Er is een uitgebreide keuze aan hypervisors waaruit je kan kiezen. De term hw duidt op hardware. Dit betekent dat rumprun één van de enige implementaties is die rechtstreeks kan werken op hardware. De unikernel kan ook werken op besturingssystemen die een POSIX-interface hebben. De POSIX-interface duidt op Unix systemen.
 
 Er zijn verschillende soorten unikernels. Sommige unikernels specialiseren op basis van programmeertaal en andere op basis van omgeving. Sommige doen zelf beide. Rumprun doet beide. Dit is wel niet zonder gevolg. De prestatie zal niet een gespecialiseerde unikernel kunnen evenaren.
 
-Er wordt ook aangehaald in de wiki dat wanneer een programma de mogelijkheid heeft om een gespecialiseerde unikernel te gebruiken, gebruik je best die oplossing. Als dit niet het geval is dan kan een rumprun kernel een goede oplossing zijn.
-
-De rump-run packages zijn implementaties van drivers, protocollen en libraries die kunnen toegevoegd worden aan rumprun kernels. Er zijn een groot aantal packages die kunnen gebruikt en de meest bekende zijn zeker aanwezig.
+De rump-run packages zijn implementaties van drivers, protocollen en libraries die kunnen toegevoegd worden aan de rumprun kernels. Er zijn een groot aantal packages die kunnen gebruikt en de meest bekende zijn aanwezig.
 Het spijtige is wel dat er nog geen packaging systeem aanwezig is. Dit zou er wel voor zorgen dat er gewerkt kan worden met verschillende dependencies en versies van packages.
 
-Rumprun verziet zelf geen compiler. Er wordt gebruik gemaakt van een compiler die aanwezig is op het systeem. In het geval van Mac OS X moet je een aparte compiler installeren. Het is wel goed dat native op Mac OS X de build tools kunnen gebruikt worden. Meestal moet je zelf een omgeving opstellen.
+Rumprun verziet zelf geen compiler. Er wordt gebruik gemaakt van een compiler die aanwezig is op het systeem. In het geval van Mac OS X moet je een aparte compiler installeren.
 
 De programmeertalen die ondersteund zijn, zijn de volgende: C, C++, Erlang, Go, Javascript(node.js), Python, Ruby en Rust. De keuze van programmeertalen is uitgebreid.
 
 Meer informatie is te vinden in volgende thesis: \cite{kantee_flexible_2012}.
 
-\subsection{MirageOS (\cite{mirage/mirage_0000})}
+\subsection{MirageOS}
 
 \begin{description}
   \item [Implementatie programmeertaal]: OCaml
@@ -583,20 +584,21 @@ Meer informatie is te vinden in volgende thesis: \cite{kantee_flexible_2012}.
   \item [GitHub stars]: 657
 \end{description}
 
-Er kan gezegd worden dat het voor een deel allemaal begon bij MirageOS. Hun paper (\cite{madhavapeddy_unikernels_2013}) over unikernels en MirageOS wakkerde veel interesse aan rond unikernels. Ervoor was er wel al sprake van unikernels maar MirageOS zorgde voor veel nieuwe initiatieven.
+Er kan gezegd worden dat het voor een deel allemaal begon bij MirageOS (\cite{mirage/mirage_0000}). Hun paper (\cite{madhavapeddy_unikernels_2013}) over unikernels en MirageOS wakkerde veel interesse aan rond unikernels. Ervoor was er wel al sprake van unikernels maar MirageOS zorgde voor veel nieuwe initiatieven.
 
-Mirage is een cloud besturingssysteem gemaakt voor veilige netwerk applicaties met een hoge prestatie te maken op verschillende omgevingen.
+Mirage is een cloud besturingssysteem gemaakt om veilige netwerk toepassingen met een hoge prestatie te maken op verschillende omgevingen.
 
 De programmeertaal dat gebruikt word voor een MirageOS applicatie te maken is OCaml.
 OCaml is de algemene implementatie van de Caml programmeertaal en voegt object georiënteerd programmeren toe. Het wordt extensief gebruikt door facebook. Deze taal is niet heel erg bekend en dit kan ervoor zorgen dat het niet veel tractie heeft.
-De voornaamste redenen om OCaml te gebruiken zijn static type checking en automatic memory management. De eerste reden is om tegen te gaan dat er iets fout gaat wanneer een applicatie aan het werken is. De compiler gaat kijken of hij geen onveilige code kan vinden. Als dit het geval is, wordt er het programma niet gecompileerd.
-Memory management is belangrijk voor resource leaks tegen te gaan. Resource leaks kunnen ervoor zorgen dat de applicatie meer resources gebruikt dan nodig is of zelf het programma of systeem laten stoppen met werken.
 
-De applicatie kan geschreven worden op een Linux of Mac OSX machine. Deze applicatie kan dan werken op een Xen of Unix omgeving. Dit geeft veel mogelijkheden voor het te gebruiken.
+De voornaamste redenen om OCaml te gebruiken zijn static type checking en automatic memory management. De eerste reden is om tegen te gaan dat er iets fout gaat wanneer een programma aan het werken is. De compiler gaat kijken of hij geen onveilige code kan vinden. Als dit het geval is, wordt het programma niet gecompileerd.
+Memory management is belangrijk voor resource leaks tegen te gaan. Resource leaks kunnen ervoor zorgen dat het programma meer resources gebruikt dan nodig is. In het extreme geval kan het systeem waarop het programma werkt ook hinder ondervinden van dit probleem.
 
-MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking. Het heeft een uitstekende toolchain voor het compileren van applicaties en het debuggen van de resulterende unikernel. Debuggen kan soms tot problemen leiden bij unikernels want men kan niet zelf in de unikernel kijken. Dit komt omdat de unikernel geen shell heeft. De debug optie kan hierbij helpen. De resulterende unikernel kan ook werken op mobiele omgevingen.
+De applicatie kan geschreven worden op een Linux of Mac OSX besturingssysteem. Deze applicatie kan dan werken op een Xen of Unix omgeving. Dit geeft veel mogelijkheden op het vlak van omgevingen. Er zijn plannen om mobiele omgevingen te ondersteunen.
 
-\subsection{IncludeOS (\cite{oslo_and_akershus_university_college_hioa-cs/includeos_????})}
+MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking. Het heeft een uitstekende toolchain voor het compileren van programma's en het debuggen van de resulterende unikernel. Debuggen kan soms tot problemen leiden bij unikernels want er kan niet in de unikernel gekeken worden welke problemen zich voordoen. Dit komt omdat de unikernel geen shell heeft. De debug optie kan hierbij helpen.
+
+\subsection{IncludeOS}
 \begin{description}
   \item [Implementatie programmeertaal]: C/C++
   \item [Hypervisors]: KVM, VirtualBox
@@ -604,9 +606,9 @@ MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking
   \item [GitHub stars]: 1341
 \end{description}
 
-IncludeOS is gemotiveerd door \cite{bratterud_maximizing_2013}. Het onderscheid tussen een minimale virtuele machine tegenover een unikernel is zeer klein. Daarom worden beide termen afwisselend gebruikt. Net zoals ClickOS moeten de applicaties geschreven worden in C++.
+IncludeOS (\cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}) is gemotiveerd door het paper van \cite{bratterud_maximizing_2013}. Het onderscheid tussen een minimale virtuele machine tegenover een unikernel is zeer klein. Daarom worden beide termen afwisselend gebruikt. Net zoals ClickOS moeten de applicaties geschreven worden in C++.
 
-IncludeOS zorgt voor een bootloader, standaard libraries, modules voor drivers te implementeren en een build- en deploysysteem. Het is simpel om applicaties te maken voor deze unikernel. Je moet allen één dependency toevoegen aan het programma. Dan kan het worden omgezet naar een unikernel. Er veranderd dus niet veel voor de developers zelf. Dit zorgt voor een vlotte overgang en is zeker belangrijk wanneer men kiest voor minimale applicaties te maken.
+IncludeOS zorgt voor een bootloader, standaard libraries, modules voor de drivers te implementeren en een build- en deploysysteem. Het is simpel om applicaties te maken voor deze unikernel. Je moet allen één dependency toevoegen aan het programma. Dan kan het worden omgezet naar een unikernel. Er veranderd dus niet veel voor de software ontwikkelaars. Dit zorgt voor een vlotte overgang en dit is zeker belangrijk wanneer men kiest voor minimale applicaties te maken.
 
 Meerdere processen tegelijk laten werken op een unikernel van includeOS is niet mogelijk. Dit kan sommige software ontwikkelaars afschrikken. Het gebruik van microservices (hoofdstuk \ref{ch:architectuur-met-unikernels} sectie \ref{ch:microservices}) is nog niet wijdverspreid en kan een factor zijn bij het selecteren van een unikernel implementatie. Enerzijds gaan bedrijven nooit bij unikernels komen wanneer hun architectuur niet gebaseerd op microservices. Er zijn ook geen race conditions mogelijk omdat er maar één proces mogelijk is.
 
@@ -614,9 +616,9 @@ Momenteel ligt de focus van IncludeOS voornamelijk op C++. Dit is een strategie 
 
 Er zijn geen plannen om hogere programmeertalen zoals Javascript te ondersteunen. Ook is IncludeOS niet POSIX compliant en dit kan voor problemen zorgen wanneer er extra functionaliteit moet worden toegevoegd.
 
-Als omgeving focussen ze KVM en virtualbox. Hier is het dus gemakkelijk om een unikernel te testen op je eigen machine. Als je services schrijft in C++ dan is IncludeOS een zeer goede keuze. Er kan meer informatie gevonden worden op de GitHub repository: \cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}.
+Als omgeving focussen ze KVM en virtualbox. Het is het dus gemakkelijk om een unikernel te testen op de ontwikkelomgeving. Als je services schrijft in C++ dan is IncludeOS een zeer goede keuze. Er kan meer informatie gevonden worden op de GitHub repository: \cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}.
 
-\subsection{OSv (\cite{cloudius-systems/osv_0000})}
+\subsection{OSv}
 
 \begin{description}
   \item [Implementatie programmeertaal]: C/C++
@@ -625,33 +627,32 @@ Als omgeving focussen ze KVM en virtualbox. Hier is het dus gemakkelijk om een u
   \item [GitHub stars]: 2121
 \end{description}
 
-De meest uitgebreide unikernel vanuit mijn oogpunt is OSv. Er wordt een hoog aantal programmeertalen geondersteund. Waaronder Java, Ruby, Javascript, Scala en vele anderen. Hierbij moeten wel wel vermelden dat de implementaties van Ruby en Javascript in Java zijn geschreven. Rhino en JRuby zijn de namen hiervan. Het is simpel om deze programmeertalen toe te voegen wanneer je Java als taal al ondersteunt. Er wordt gewerkt aan de native ondersteuning voor deze talen.
+OSv (\cite{cloudius-systems/osv_0000}) is een implementatie die een grote naam heeft binnen de unikernel wereld. De meest uitgebreide unikernel vanuit mijn oogpunt is OSv. Er wordt een hoog aantal programmeertalen geondersteund. Waaronder Java, Ruby, Javascript, Scala en vele anderen. Hierbij moeten wel wel vermelden dat de implementaties van Ruby en Javascript in Java zijn geschreven. Rhino en JRuby zijn de namen van deze implemenaties. Het is simpel om deze programmeertalen toe te voegen wanneer je Java als programmeertaal ondersteunt. Er wordt gewerkt om de native ondersteuning voor deze programmeertaal te gebruiken.
 
 Verder kunnen de resulterende unikernels werken op veel omgevingen: VMware, VirtualBox, KVM en Xen. Het is een indrukwekkende lijst van hypervisors de je kan gebruiken. Dit kan helpen om tegen te gaan dat men vast zou zitten op een bepaalde omgevingen.
 
 Zoals IncludeOS voorheen is OSv geschreven in C++.
 
-Voor het beheren van een OSv instance kan gebruik worden gemaakt van de GUI. Bij de meerderheid van unikernels is informatie te vinden door middel van een GUI onmogelijk. Extensies met de hypervisor kunnen hierbij helpen, maar dan nog laat de UX de wensen over. De GUI is gebouwd op een REST API die de componenten van OSv openstellen. Dit komt overheen met de manier hoe docker hun architectuur werkt. Deze componenten stellen een API open waar de tools verder opgebouwd kunnen worden. Er is een API-specificatie die lokaal kan bekeken worden.
+Voor het beheren van een OSv instance kan gebruik worden gemaakt van de GUI. Bij de meerderheid van unikernels is informatie te vinden door middel van een GUI onmogelijk. Extensies met de hypervisor kunnen hierbij helpen, maar dan nog laat de UX de wensen over. De GUI is gebouwd op een REST API die de componenten van OSv openstellen. Dit komt overheen met de manier hoe Docker hun architectuur werkt. Deze componenten stellen een API open waar de tools verder opgebouwd kunnen worden. Er is een API-specificatie die kan bekeken worden om te zien hoe deze componenten met elkaar werken.
 
 OSv ondersteund Amazon Web Services en Google Container Engine als cloud providers. Het is uitzonderlijk dat een unikernel zoveel informatie heeft over hoe het moet gebruikt worden. Er is documentatie over cloud providers, hypervisors, hoe OSv moet gebruikt worden, hoe programma's moet omgezet naar de implementatie. En wat nodig is om zelf te sleutelen aan OSv.
 
-Het is de meest populaire implemenatie van unikernels van alle implementaties die we hebben overlopen op GitHub. Ook de activiteit op de Github repository is het hoogste.
+Het is de meest populaire implemenatie van unikernels van alle implementaties die we hebben overlopen tijdens deze vergelijking. Ook de activiteit op de Github repository is het hoogste van alle bekeken unikernels.
 
 Meer informatie is te vinden in volgende paper: \cite{kivity_osvoptimizing_2014}.
 
 \section{Conclusie}
 
-Er zijn veel verschillende soorten implementaties van unikernels op dit moment. Er is MirageOS die als één van de eerste opkwam en ook de meest extreme weg opgaat met het starten van een minieme basis. HalVM bevindt zich in aan de dezelfde kant als MirageOS. Terwijl OSv en Rumprun zich bevinden aan de overkant. Ze ondersteunen een groot aantal programmeertalen en omgevingen. Dit wordt mogelijk gemaakt door een compatibel laag te gebruiken. 
+Er zijn veel verschillende soorten implementaties van unikernels op dit moment. Er is MirageOS die als één van de eerste opkwam en ook de meest extreme weg opgaat met het starten van een minieme basis. HalVM bevindt zich in aan de dezelfde kant als MirageOS. Terwijl OSv en Rumprun zich bevinden aan de overkant. Ze ondersteunen een groot aantal programmeertalen en omgevingen. Dit wordt mogelijk gemaakt door een compatibiliteitslaag te gebruiken. 
 
 Hetzelfde fenomeen kunnen we vinden met de toepassingen waar de unikernels kunnen voor gebruikt worden. ClickOS heeft vooral middlebox applicaties als doel en andere unikernels kunnen voor uiteenlopende situaties kunnen gebruikt worden.
 
-\chapter{Architectuur in een wereld van unikernels}
-\label{ch:architectuur-met-unikernels}
+Volgend hoofdstukken zullen bekijken welke technologiën en denkwijzes naar de voorgrond komen bij unikernels.
 
-\section{Microservices}
+\chapter{Microservices}
 \label{ch:microservices}
 
-Over het algemeen worden programma's gemaakt als één grote blok. Al de functionaliteit en verantwoordelijk wordt gestopt in één programma. Een programma veel afzonderlijke functionaliteit bezit, noemen we een monoliet of monolith in het Engels. De architectuur waarin deze soort applicaties voorkomen noemen we een monolithische architectuur. Software ontwikkelaars worden geleerd door middel van patronen om functionaliteit en verantwoordelijkheid van elkaar te scheiden. Modulariteit is hierbij een belangrijk gegeven.
+De meeste programma's worden gemaakt door een monolothische architectuur te hanteren (\cite{villamizar_evaluating_2015}). Alle functionaliteit en verantwoordelijkheden worden gestopt in één programma. Dit soort van programma wordt een monoliet of monolith in het Engels genoemd. De architectuur waarin deze soort programma's voorkomen noemen we een monolithische architectuur. Software ontwikkelaars worden geleerd door middel van patronen (\cite{tichy_catalogue_1997}) om functionaliteit en verantwoordelijkheid van elkaar te scheiden. Modulariteit is hierbij een belangrijk gegeven.
 
 \begin{wrapfigure}{r}{0.4\textwidth}
     \centering
@@ -660,11 +661,11 @@ Over het algemeen worden programma's gemaakt als één grote blok. Al de functio
     \label{fig:pr}
 \end{wrapfigure}
 
-Een probleem dat veel voorkomt bij een monolithische architectuur is dat het programma zeer complex wordt na een tijd. Functionaliteit toevoegen is niet vanzelfsprekend meer. Er moet rekening worden gehouden met de andere delen van het programma. Nieuwe ontwikkelaars die het programma niet kennen moeten eerst een paar weken het programma verkennen. Dan pas kan er begonnen worden met nieuwe functionaliteit te schrijven.
+Een probleem dat veel voorkomt bij een monolithische architectuur is dat het programma zeer complex wordt na verloop van tijd (\cite{villamizar_evaluating_2015}). Functionaliteit toevoegen is niet vanzelfsprekend bij een complex programma want er moet rekening worden gehouden met de andere delen van het programma. Nieuwe software ontwikkelaars die het programma niet kennen moeten eerst een paar weken het programma verkennen. Dan pas kan er begonnen worden met nieuwe functionaliteit te schrijven.
 
-Schaalbaarheid is een probleem waar ook tegen gelopen wordt na een tijd. Sommige onderdelen van een programma moeten meer trafiek kunnen verwerken dan andere delen. Zoals we al aanhaalden in hoofdstuk \ref{ch:virtualisatie}. Sommige programma's hebben nu éénmaal een andere verdeling van middelen nodig. Dit is hetzelfde bij de interne delen van programma. Het schalen van deze componenten is alleen mogelijk door een nieuwe instantie toe te voegen van de hele applicatie of de implementatie te verbeteren.
+Schaalbaarheid is een probleem waar ook tegen gelopen wordt na verloop van tijd (\cite{villamizar_evaluating_2015}). Sommige onderdelen van een programma moeten meer trafiek kunnen verwerken dan andere delen. Zoals we al aanhaalden in hoofdstuk \ref{ch:virtualisatie}, hebben verschillende soorten programma's nu éénmaal andere middelen nodig. Dit is hetzelfde bij de interne delen van programma. Het schalen van deze componenten is alleen mogelijk door een nieuwe instantie toe te voegen van de hele applicatie of de implementatie te verbeteren. Eén groot programma is ook niet handig voor grote teams te laten samenwerken. Het uitbrengen van een versie moet dan nagegaan worden bij alle teams die aan dat programma werken.
 
-Al langer bestaat het idee om een groot programma op te splitsen in kleinere programma's. Telecommunicatie is een industrie waarin microservices al werden gebruikt \cite{griffin_survey_2007}. De opkomst van containers heeft dit idee alleen maar meer verspreid. De architectuur waarbinnen dit idee wordt gebruikt, wordt microservices architectuur genoemd. De microservices kunnen we bekijken als deelapplicaties die één verantwoordelijkheid hebben.
+Al langer bestaat het idee om een groot programma op te splitsen in kleinere programma's. Telecommunicatie is een industrie waarin microservices al werden gebruikt \cite{griffin_survey_2007}. De opkomst van containers heeft dit deze werkwijze meer verspreid. Dit komt omdat het gemakkelijker is geworden om kleinere programma's met elkaar te verbinden zelf als ze zich niet op dezelfde omgeving bevinden. De architectuur waarbinnen dit idee wordt gebruikt, wordt microservices architectuur genoemd. De microservices kunnen we bekijken als deelapplicaties die één verantwoordelijkheid hebben.
 
 \begin{wrapfigure}{r}{0.4\textwidth}
     \centering
@@ -676,7 +677,7 @@ Al langer bestaat het idee om een groot programma op te splitsen in kleinere pro
 
 Een programma opsplitsen in componenten, met één verantwoordelijkheid, zorgt ervoor dat het meer schaalbaar is. Containers en unikernels helpen hierbij. Het opstarten van een nieuwe instantie van een microservice neemt minder tijd in beslag dan een nieuwe instantie dan een monoliet.
 
-Bij microservices zal de topologie van het probleem moeten gekend zijn. Starten met het gebruiken van microservices architecture wanneer men het domein niet goed kent, vraagt om problemen. Het ontwerpen van een microservices architectuur moet goed uitgewerkt zijn. Anders kan later gelopen worden op problemen met de architectuur. Een monolithische architecture zal beter kunnen reageren op dit probleem. Als men later het domein kent kunnen we een microservices architecture gebruiken. Hiervoor moet men de monoliet modulair schrijven. Modulairiteit is een vanzelfsprekende bouwsteen binnen programmeren dus we kunnen hiervan uitgaan.
+Bij microservices zal de topologie van het probleemdomein goed gekend moeten zijn. Starten met het gebruiken van microservices architecture wanneer men het domein niet goed kent, vraagt om problemen. Het ontwerpen van een microservices architectuur moet goed gebeuren. Anders kan later gelopen worden op problemen met de gehele architectuur en moeten andere microservices worden herschreven. Een monolithische architecture zal beter kunnen reageren op dit probleem. Als men later het domein kent kunnen we een microservices architecture gebruiken. Hiervoor moet de monoliet modulair geschreven worden. Modulariteit is een vanzelfsprekende bouwsteen binnen programmeren dus we kunnen hiervan uitgaan.
 
 De complexiteit van een monoliet wordt overgebracht naar het communiceren en het behouden van de consistentie van de microservices. Verder wordt ook het opstellen de architectuur moeilijker. Dit betekent dat er meer werk komt te liggen bij systeembeheerders.
 
@@ -693,33 +694,36 @@ De communicatie van de microservices gebeurd via het netwerk. Dit maakt het moge
 
 Een monolithische architectuur opstellen in productie is relatief simpel tegenover een microservices architectuur. Wanneer er een nieuwe versie moet worden opgesteld in productie kan gebruik worden gemaakt van blue-green deployment (\cite{martin_fowler_bluegreendeployment_2016}). Waarbij we een oude en nieuwe versie hebben van de architectuur en de router het verkeer verlegd naar de nieuwe architectuur. Dit zorgt voor een gemakkelijk overgang.
 
-Bij microservices kan gebruik gemaakt worden van canary release (\cite{danilo_sato_canaryrelease_2014}). Hier wordt weer een nieuwe versie opgesteld met de laatste veranderingen van de architectuur. De router gaat een deel van het verkeer naar de nieuwe architectuur versturen. Naarmate de tijd vordert, wordt het vertrouwen in de nieuwe versie nagegaan. Als het vertrouwen is toegenomen dan zal meer verkeer naar de nieuwe versie worden gestuurd. Zo kan men problemen nagaan en er sneller op reageren. Uiteindelijk krijgt de oude versie geen verkeer meer en wordt alleen de nieuwe versie gebruikt.
+Bij microservices kan gebruik gemaakt worden van een canary release strategie (\cite{danilo_sato_canaryrelease_2014}). Hier wordt weer een nieuwe versie opgesteld met de laatste veranderingen van de architectuur. De router gaat een deel van het verkeer naar de nieuwe architectuur versturen. Naarmate de tijd vordert, wordt het vertrouwen in de nieuwe versie nagegaan. Als het vertrouwen is toegenomen dan zal meer verkeer naar de nieuwe versie worden gestuurd. Zo kan men problemen nagaan en er sneller op reageren. Uiteindelijk krijgt de oude versie geen verkeer meer en wordt alleen de nieuwe versie gebruikt.
 
-De systeembeheerder krijgt meer werk omdat er nu tientallen microservices moeten beheerd worden in plaats van één grote applicatie. Het beheren van deze microservices en hun logs wordt een belangrijk bron deel van de architectuur. Men kan zeggen dat deze microservices veel simpeler zijn om te verstaan omdat hun functionaliteit beperkt is. Sommige halen aan dat het de complexiteit die we niet meer tegenkomen in de applicatie nu terechtkomt bij het samen laten werken van de microservices.
+De systeembeheerder krijgt meer werk omdat er nu tientallen microservices moeten beheerd worden in plaats van één grote applicatie. Het beheren van deze microservices en hun logs wordt een belangrijke bron van informatie binnnen de architectuur. Men kan zeggen dat deze microservices simpeler zijn om te verstaan omdat de functionaliteit per microservices beperkt is. Sommige halen aan dat het de complexiteit die we niet meer tegenkomen in de applicatie nu terechtkomt bij het samen laten werken van de microservices.
 
 De rol van systeembeheerder zal nauwer komen te liggen bij die van software ontwikkelaar. Er moet ook meer communicatie gebeuren tussen de systeembeheerders en software ontwikkelaars. De structuur van de architectuur moet samen besproken worden om een inzicht te krijgen in de uiteindelijke oplossing. Een microservices architectuur brengt deze twee groepen dichter bij elkaar. Meer informatie over de veranderingen die microservices hebben op systeembeheerders is te vinden in volgende thesis: \cite{balalaie_microservices_2016}.
 
-\section{Immutable Infrastructure}
+\chapter{Immutable Infrastructure}
 
-Unikernels vraagt ook een verschuiving van de manier dat we over infrastructuur denken. Immutable infrastructure (\cite{martin_fowler_phoenixserver_2012}) is een opkomende gedachtegang. Er wordt geen enkele verandering aangebracht aan de programma's die zich in productie bevinden. Als er een probleem is dan wordt een nieuwe versie gemaakt en in productie geplaatst. Dit is al te zien bij sommige cloud providers die werken door middel van een git push om de voormalige versie te vervangen. Dit zorgt voor een betere veiligheid en de hele cyclus van ontwikkelen naar productie wordt veel kleiner.
+Unikernels vraagt ook een verschuiving van de manier waarop de infrastructuur en architectuur van een programma beheert wordt. Immutable infrastructure (\cite{martin_fowler_phoenixserver_2012}) is een opkomende gedachtegang. Er wordt geen enkele verandering aangebracht aan de programma's die zich in productie bevinden. Als er een probleem is dan wordt een nieuwe versie in productie geplaatst. Dit is al te zien bij sommige cloud providers die werken door middel van een git push om de voormalige versie te vervangen. Dit zorgt voor een hogere mate aan veiligheid en de hele cyclus van ontwikkelen naar productie wordt veel kleiner.
 
-Canary releases zijn hierbij een ideale toepassingen.
+Canary releases zijn hierbij een ideale strategie voor veranderingen in de architectuur van het programma aan te brengen.
 
-Een nieuw gegeven is ook dat infrastructuur meer wordt benaderd zoals programmeren (\cite{morris_infrastructure_2016}). Dit doen we door de infrastructure uitermate te testen en herhaalbare patronen te gebruiken. Ook wordt de configuratie bijgehouden in versie beheer. Door dit te doen krijgen we een beeld van wat er gebeurd met de infrastructuur door de tijd heen. Dit geeft de systeembeheerder de mogelijkheid om problemen terug te leiden naar één verandering. Het is belangrijk dat er steeds kleine veranderingen gebeuren zodat problemen gemakkelijker kunnen herleid worden naar één oorzaak. Gebruik maken van versie beheer zal niets uitmaken wanneer tientallen veranderingen gebundeld in één verandering.
-
-Een trend dat zeker gebeurd en dat zich zal blijven doorzetten is het lenen van principes tussen de wereld van systeembeheerders en software ontwikkelaars.
-
-\chapter{Experimenten}
-\label{ch:experimenten}
+Een nieuw gegeven is ook dat infrastructuur meer wordt benaderd zoals programmeren (\cite{morris_infrastructure_2016}). Dit doen we door de infrastructure uitermate te testen en herhaalbare patronen te gebruiken. Ook wordt de configuratie bijgehouden in versie beheer. Door dit te doen krijgen we een beeld van wat er gebeurd met de infrastructuur door de tijd heen. Dit geeft de systeembeheerder de mogelijkheid om problemen terug te leiden naar één verandering. Het is belangrijk dat er steeds kleine veranderingen gebeuren zodat problemen gemakkelijker kunnen herleid worden naar één oorzaak. Gebruik maken van versie beheer zal niets uitmaken wanneer tientallen wijzigingen zijn gebundeld in één verandering.
 
 \chapter{Conclusie}
 \label{ch:conclusie}
 
-% TODO: Trek een duidelijke conclusie, in de vorm van een antwoord op de
-% onderzoeksvra(a)g(en). Reflecteer kritisch over het resultaat. Zijn er
-% zaken die nog niet duidelijk zijn? Heeft het ondezoek geleid tot nieuwe
-% vragen die uitnodigen tot verder onderzoek?
+Het efficiënt gebruiken van de middelen van de productieomgeving is een belangrijk gegeven, wanneer IT een groter deel uitmaakt van de meeste bedrijven. Innoveren om deze omgeving beter te gebruiken is broodnodig. Virtuele machines, containers en unikernels zijn maar enkele innovaties die dit doen. Deze bachelorproef richt zich vooral op de rol van systeembeheerder binnen bedrijven. Software containers hebben al gezorgd voor grotere veranderingen binnen de meeste bedrijven. Doorheen de bachelorproef werd gekeken naar nieuwe innovaties, vooral unikernels, die een invloed kunnen hebben op de rol van systeembeheerder.
 
+De eerste onderzoeksvraag, waarop een antwoord kan worden gegeven, heeft betrekking tot de competenties van de systeembeheerder. Zoals al eerder is aangehaald is een architectuur van microservices van uiterst belang wanneer men unikernels wil gebruiken. De rol van systeembeheerder zal meer bestaan uit het communiceren met het software ontwikkelingsteam en de structuur van de architectuur uitwerken. Door microservices te gebruiken, wordt het opzetten van programma's een grotere taak. Het beheren en opstellen zal moeten gebeuren door de systeembeheerder en het software ontwikkelingsteam. De logs geven inzicht in de staat van de architectuur en het interpreteren van de logs zal met meer gemak gebeuren door het team dat het ontwikkeld heeft. Een nieuwe rol die gedeeltelijk bestaat uit software ontwikkelaar en systeembeheerder zal een betere werking als gevolg geven. Communicatie wordt ook van vitaal belang om ongename verassingen tegen te gaan.
+
+De volgende onderzoeksvraag behandelt het opzetten van de architectuur. Doordat het programma bestaat uit meerdere microservices, moeten deze microservices met elkaar in verbinding staan voor een werkend programma te hebben. Software defined network en orchestratie frameworks kunnen hierbij helpen maar het wordt niet eenvoudiger om programma's op te stellen en te beheren. Microservices vermindert complexiteit in de broncode maar deze verhuist naar het opstellen en het onderhouden van programma's.
+
+De use cases van containers en unikernels komen overeen met elkaar. Software containers zijn matuur en kunnen gerust gebruikt worden in productie. Unikernels heeft nog een lange weg te gaan om een mature status te bereiken. Het gebruiken van unikernels in productie bij algemen use cases is niet aan te raden. De voordelen van unikernels zijn duidelijk, maar er moet nog een duidelijker ecosysteem rond gevormd worden om een betere keuze te worden dan containers in sommige use cases. En compleet vervangen zal niet gebeuren, omdat er tegen veel moeilijkheden wordt gestoten bij het debuggen van unikernels. Dit is een belangrijke kwestie die nog moet behandelt worden.
+
+Unikernels vragen ook een grote verandering van architectuur wanneer er nog geen gebruik wordt gemaakt van microservices. Alle twee deze technologiën tegelijk introduceren kan leiden tot een moeizame overgang met slechte ervaringen.
+
+De beveiliging dat bereikt wordt bij unikernels is niet te onderschatten, maar er moet veel worden opgeofferd om dit te gebruiken in een zinvolle situatie. Er zijn alle niche use cases waar unikernels kunnen gebruikt worden zoals middleboxes, maar het domein waarin deze gebruikt worden is beperkt.
+
+De uiteindelijke conclusie is dat unikernels veel goeds belooft en tevens waarmaakt. Er zijn wel opofferingen die moeten gebeuren die een gevolg hebben op de hele architectuur en infrastructuur. Als er een ecossysteem rond unikernels wordt gevormd zoals bij containers (Docker), dan zullen unikernels gebruikt kunnen worden in een algemenere context.
 
 \bibliographystyle{apa}
 \bibliography{tin-bachproef}
