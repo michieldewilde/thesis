@@ -37,8 +37,8 @@
 \usepackage[T1]{fontenc}     % Ivm lettertypes
 \usepackage{lmodern}
 \usepackage{textcomp}
+\usepackage{listings}
 
-\usepackage{lipsum}          % Voor vultekst (lorem ipsum)
 
 %%---------- Layout ------------------------------------------------------
 
@@ -79,8 +79,7 @@
 \newcommand{\instelling}{Hogeschool Gent}
 
 % De titel van het rapport/bachelorproef
-\newcommand{\titel}{De rol van systeenbeheerder binnen een architectuur met
-unikernels}
+\newcommand{\titel}{Vergelijking van unikernel-implementaties}
 
 % Datum van indienen
 \newcommand{\datum}{29 mei 2015}
@@ -241,13 +240,13 @@ Microservices en Immutable Infrastructure zijn twee gegevens die bekend aan het 
 
 In dit hoofdstuk zal bekeken worden waarom en hoe virtualisatie ontstaan is. Verder zal bekeken worden welke concepten meespelen binnen virtualisatie. Dit hoofdstuk dient als een inleiding om concepten zoals containers, unikernels en virtuele machines te kunnen begrijpen.
 
-In de jaren 60 was de tijd dat je een computer kon gebruiken beperkt (\ref{conferences_modern_1968}).  Bij de eerste computers had men problemen om programma's uit te werken. Dit lag vooral aan de tijd dat je kon werken aan de computer. Er waren vele mensen die aan één computer aan het werken waren en dit zorgde voor een tijdsnood. Een voorbeeld van het ontwikkelen van een programma in die tijd was de volgende: "De broncode van het programma werd ingegeven en in een wachtrij geplaatst. Pas een bepaalde tijd later kon men de resultaten van het programma bekijken. Fouten in het geschreven programma zorgen voor een groot tijdsverlies." (\ref{conferences_modern_1968})
+In de jaren 60 was de tijd dat je een computer kon gebruiken beperkt (\cite{conferences_modern_1968}).  Bij de eerste computers had men problemen om programma's uit te werken. Dit lag vooral aan de tijd dat je kon werken aan de computer. Er waren vele mensen die aan één computer aan het werken waren en dit zorgde voor een tijdsnood. Een voorbeeld van het ontwikkelen van een programma in die tijd was de volgende: "De broncode van het programma werd ingegeven en in een wachtrij geplaatst. Pas een bepaalde tijd later kon men de resultaten van het programma bekijken. Fouten in het geschreven programma zorgen voor een groot tijdsverlies." (\cite{conferences_modern_1968})
 
 Eén van de grootste bijdrage tot de ontwikkelsnelheid van programma's is de lengte van de feedbackcyclus: hoe snel kan een programma getest worden wanneer er een verandering gebeurd. Als een paar minuten moet worden gewacht op het testen van een kleine verandering, dan is dit niet ideaal. Dit leidt tot een verlies van tijd en dus geld.
 
-timesharing (\ref{pyke_jr._time-shared_1967}) werd uitgevonden om het verlies van voorgenoemde tijd te beperken. Bij timesharing kunnen gebruikers inloggen op een console en zo tegelijk van de computer gebruik maken. Dit was een technische uitdaging. Elke gebruiker en zijn programma's bevinden zich binnen een afzonderlijke context. De computer zou van de ene context naar de andere moeten kunnen veranderen. Timesharing zou de basis vormen voor het moderne besturingssysteem. Eén van de moeilijkheden van timesharing is de isolatie van twee verschillende processen. De twee processen moeten zich bevinden binnen een verschillende context. Deze contexten mogen niet met elkaar in contact komen of elkaar niet beïnvloeden.
+timesharing (\cite{pyke_jr._time-shared_1967}) werd uitgevonden om het verlies van voorgenoemde tijd te beperken. Bij timesharing kunnen gebruikers inloggen op een console en zo tegelijk van de computer gebruik maken. Dit was een technische uitdaging. Elke gebruiker en zijn programma's bevinden zich binnen een afzonderlijke context. De computer zou van de ene context naar de andere moeten kunnen veranderen. Timesharing zou de basis vormen voor het moderne besturingssysteem. Eén van de moeilijkheden van timesharing is de isolatie van twee verschillende processen. De twee processen moeten zich bevinden binnen een verschillende context. Deze contexten mogen niet met elkaar in contact komen of elkaar niet beïnvloeden.
 
-Doorheen de tijd kregen de computers meer middelen. De meeste programma's konden niet langer de alle middelen van de computer benutten. Dit zorgde voor de creatie van virtuele middelen of virtual resources (\ref{vakilinia_modeling_2015}). Om deze virtuele middelen te voorzien moeten bepaalde delen van de computer gevirtualiseerd worden. Dit kan voorkomen als verschillende vormen zoals hardware virtualisatie en virtualisatie van het besturingssysteem.
+Doorheen de tijd kregen de computers meer middelen. De meeste programma's konden niet langer de alle middelen van de computer benutten. Dit zorgde voor de creatie van virtuele middelen of virtual resources (\cite{vakilinia_modeling_2015}). Om deze virtuele middelen te voorzien moeten bepaalde delen van de computer gevirtualiseerd worden. Dit kan voorkomen als verschillende vormen zoals hardware virtualisatie en virtualisatie van het besturingssysteem.
 
 \begin{wrapfigure}{r}{0.3\textwidth}
     \centering
@@ -260,11 +259,11 @@ Het concept van virtualisatie deelt een aantal gelijkenissen met timesharing. De
 
 Een aantal voordelen van virtualisatie zijn de volgende: financieel voordeel (men kan van één taak naar meerdere taken gaan op één computer), besparen van energie (\cite{beloglazov_energy_2010}) en veiligheid(\cite{mortleman_security_2009}).
 
-Een virtuele machine (\ref{smith_architecture_2005}) bootst een computer na. Het laat toe om een besturingssysteem te gebruiken, wanneer de hardware van de fysieke computer dit niet toelaat. Een virtuele machine kan ook de middelen van de fysieke computer waar het zich op bevindt gebruiken. Dit zorgt ervoor dat de middelen van de fysieke computer kunnen gebruikt worden als virtuele middelen. De fysieke computer zal verder naar verwezen worden als de host machine. Guest is de naam dat we geven aan virtuele machines die zich bevinden op de host. In het volgende deel zullen we de laag tussen de host machine en virtuele machine bekijken: de hypervisor. Figuur \ref{fig:virtualmachine} toont de structuur van een virtuele machine. 
+Een virtuele machine (\cite{smith_architecture_2005}) bootst een computer na. Het laat toe om een besturingssysteem te gebruiken, wanneer de hardware van de fysieke computer dit niet toelaat. Een virtuele machine kan ook de middelen van de fysieke computer waar het zich op bevindt gebruiken. Dit zorgt ervoor dat de middelen van de fysieke computer kunnen gebruikt worden als virtuele middelen. De fysieke computer zal verder naar verwezen worden als de host machine. Guest is de naam dat we geven aan virtuele machines die zich bevinden op de host. In het volgende deel zullen we de laag tussen de host machine en virtuele machine bekijken: de hypervisor. Figuur \ref{fig:virtualmachine} toont de structuur van een virtuele machine. 
 
 \section{Hypervisor}
 
-Een hypervisor (\ref{popek_formal_1974}) is een voorbeeld van hardware virtualisatie. Het is een stuk software, firmware of hardware dat de laag vormt tussen de virtuele machine en de host machine. De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke virtuele machine die zich bevindt op de host machine zal dan gebruik maken van een gedeelte van deze middelen. Doordat virtualisatie alomtegenwoordig geworden is in datacenters (\cite{soundararajan_impact_2010}) heeft het ervoor gezorgd dat er meer logica komt te liggen bij de hypervisor. De hypervisor neemt verder de rol op zich van het verdelen van de middelen en het beheren van de guests. Er zijn twee soorten hypervisors: type 1 en type 2. Type 1 is de bare-metal hypervisor en type 2 de hosted hypervisor. De volgende twee delen zullen deze twee types uitleggen.
+Een hypervisor (\cite{popek_formal_1974}) is een voorbeeld van hardware virtualisatie. Het is een stuk software, firmware of hardware dat de laag vormt tussen de virtuele machine en de host machine. De host machine zorgt voor de middelen zoals CPU, RAM, ... Elke virtuele machine die zich bevindt op de host machine zal dan gebruik maken van een gedeelte van deze middelen. Doordat virtualisatie alomtegenwoordig geworden is in datacenters (\cite{soundararajan_impact_2010}) heeft het ervoor gezorgd dat er meer logica komt te liggen bij de hypervisor. De hypervisor neemt verder de rol op zich van het verdelen van de middelen en het beheren van de guests. Er zijn twee soorten hypervisors: type 1 en type 2. Type 1 is de bare-metal hypervisor en type 2 de hosted hypervisor. De volgende twee delen zullen deze twee types uitleggen.
 
 \newpage
 
@@ -336,9 +335,9 @@ Toch zijn er een paar andere problemen zoals aangehaald in \cite{madhavapeddy_ji
 
 Docker (\cite{docker_docker_2016}) is een open source project om software containers te gebruiken voor programma's gemakkelijk op te stellen. Docker is eveneens het bedrijf dat al de delen samenbracht in een uitgebreid ecosysteem. Docker maakte de handelingen rond containers simpeler en intuïtief. Het werd gemakkelijk om containers te maken en te delen met anderen. Door veel van de componenten van het ecosysteem open te stellen voor het publiek konden ze rekenen op de steun van vele open source ontwikkelaars.
 
-Er waren andere formaten dan Docker zoals rkt \ref{_rkt_????} die het mogelijk maakte voor containers te maken. Maar door hun ecosysteem en de hulp van de open source gemeenschap hebben is Docker de meest populair optie \ref{oreilly_media_docker_2015} geworden om met software containers te werken.
+Er waren andere formaten dan Docker zoals rkt \cite{_rkt_????} die het mogelijk maakte voor containers te maken. Maar door hun ecosysteem en de hulp van de open source gemeenschap hebben is Docker de meest populair optie \cite{oreilly_media_docker_2015} geworden om met software containers te werken.
 
-In 2015 werd het Open Container Initiative opgericht. Veel grote spelers op vlak van software containers zoals Docker, CoreOS, Microsoft en Google maken hier deel van uit. Samen willen ze een standaard voor software containers vastleggen. \ref{}.
+In 2015 werd het Open Container Initiative opgericht. Veel grote spelers op vlak van software containers zoals Docker, CoreOS, Microsoft en Google maken hier deel van uit. Samen willen ze een standaard voor software containers vastleggen. \cite{}.
 
 De problemen die we bij software containers tegenkomen hebben voornamelijk betrekking tot beveiliging. Unikernels kan een veiliger alternatief zijn. In het volgende hoofdstuk bekijken we de werking en mogelijkheden met unikernels.
 
@@ -351,7 +350,7 @@ Dit hoofdstuk zal uitleggen uit welke delen een unikernel bestaat en een beter b
 
 Virtuele machines (hoofdstuk \ref{ch:virtualisatie}) zijn er gekomen wanneer men de middelen van computers beter wou gebruiken. Toch werden de middelen niet optimaal benut door de besturingssystemen die werden gebruikt. Bij containers (hoofdstuk \ref{ch:Containers}) worden delen van het besturingssysteeem gedeeld. De middelen werden efficiënter gebruikt doordat er maar één besturingssysteem was en de containers de delen van het host besturingssysteem hergebruikten.
 
-Unikernels (\ref{madhavapeddy_unikernels_2013}) gaat een andere weg op. Bij unikernels wordt er gekeken naar het besturingssysteem. Traditionele besturingssystemen zoals Ubuntu worden onder loep genomen en er wordt gekeken of we deze besturingssystemen niet kleiner en meer gespecializeerd kunnen maken.
+Unikernels (\cite{madhavapeddy_unikernels_2013}) gaat een andere weg op. Bij unikernels wordt er gekeken naar het besturingssysteem. Traditionele besturingssystemen zoals Ubuntu worden onder loep genomen en er wordt gekeken of we deze besturingssystemen niet kleiner en meer gespecializeerd kunnen maken.
 
 De eerste implementaties van unikernels komen we tegen op het einde van de jaren 90. Exokernel (\cite{mit_mit_1998}) werd ontwikkelt door MIT. Het had als doel zo weinig mogelijk abstractie de software ontwikkelaars op te leggen. De software ontwikkelaars kunnen zelf keuzes maken voor de abstractie. Nemesis (\cite{university_of_cambridge_nemesis_2000}) werd vanuit University of Cambridge ontwikkeld. Ze hadden eerder multimedia use cases als doel hadden.
 
@@ -405,7 +404,7 @@ Er werd al gesproken dat de unikernel alleen zullen werken op de omgeving waarvo
 
 In een unikernel bestaat er geen concept van user of kernel space. Alle processen bevinden zich binnen dezelfde omgeving. Dit zou problemen geven bij traditionele besturingssystemen. Maar bij het compileren van de unikernel wordt de broncode, libraries en configuratie gecontroleerd. Dit is om te kijken of er zich geen problemen kunnen voordoen. De afwezigheid van de communicatie tussen de kernel en user spaces zorgt voor een beter een prestatie. Deze verbetering van de prestatie komt ook doordat de hardware kan worden aangesproken zonder dat er verandert moet worden van context.
 
-Eén globale address space zorgt voor problemen met de isolatie van processen. Meerdere programma's naast elkaar laten werken op een library besturingssysteem is complex. De hypervisor lost dit probleem gedeeltelijk op. Een mogelijke oplossing voor dit probleem wordt verder besproken in Hoofdstuk \ref{ch:architectuur-met-unikernels}.
+Eén globale address space zorgt voor problemen met de isolatie van processen. Meerdere programma's naast elkaar laten werken op een library besturingssysteem is complex. De hypervisor lost dit probleem gedeeltelijk op. Een mogelijke oplossing voor dit probleem wordt verder besproken in Hoofdstuk \ref{ch:microservices}.
 
 \section{Veiligheid}
 
@@ -458,7 +457,8 @@ GitHub bepaalt de status van jouw open source project. Open source software word
 
 \end{description}
 
-{\footnotesize
+\begin{table}[ht]
+\caption{Implementaties unikernels}
 \begin{center}
     \begin{tabular}{| l | l | l | l | l |}
     \hline
@@ -473,6 +473,8 @@ GitHub bepaalt de status van jouw open source project. Open source software word
     \end{tabular}
 \end{center} 
 }
+\label{tab:impl_unikernels}
+\end{table}
 
 De inhoud van de bovenstaande tabel wordt per implementatie uitgelegd in het volgende deel.
 
@@ -610,7 +612,7 @@ IncludeOS (\cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}) i
 
 IncludeOS zorgt voor een bootloader, standaard libraries, modules voor de drivers te implementeren en een build- en deploysysteem. Het is simpel om applicaties te maken voor deze unikernel. Je moet allen één dependency toevoegen aan het programma. Dan kan het worden omgezet naar een unikernel. Er veranderd dus niet veel voor de software ontwikkelaars. Dit zorgt voor een vlotte overgang en dit is zeker belangrijk wanneer men kiest voor minimale applicaties te maken.
 
-Meerdere processen tegelijk laten werken op een unikernel van includeOS is niet mogelijk. Dit kan sommige software ontwikkelaars afschrikken. Het gebruik van microservices (hoofdstuk \ref{ch:architectuur-met-unikernels} sectie \ref{ch:microservices}) is nog niet wijdverspreid en kan een factor zijn bij het selecteren van een unikernel implementatie. Enerzijds gaan bedrijven nooit bij unikernels komen wanneer hun architectuur niet gebaseerd op microservices. Er zijn ook geen race conditions mogelijk omdat er maar één proces mogelijk is.
+Meerdere processen tegelijk laten werken op een unikernel van includeOS is niet mogelijk. Dit kan sommige software ontwikkelaars afschrikken. Het gebruik van microservices (hoofdstuk \ref{ch:microservices}) is nog niet wijdverspreid en kan een factor zijn bij het selecteren van een unikernel implementatie. Enerzijds gaan bedrijven nooit bij unikernels komen wanneer hun architectuur niet gebaseerd op microservices. Er zijn ook geen race conditions mogelijk omdat er maar één proces mogelijk is.
 
 Momenteel ligt de focus van IncludeOS voornamelijk op C++. Dit is een strategie dat kan helpen wanneer software ontwikkelaars zoeken naar een implementatie die een gemeenschap heeft. IncludeOS heeft een grote gemeenschap van C++ software ontwikkelaars. Hun doel is vooral om een soortgelijk Node.js te maken maar dan in efficiënt C++.
 
@@ -648,6 +650,213 @@ Er zijn veel verschillende soorten implementaties van unikernels op dit moment. 
 Hetzelfde fenomeen kunnen we vinden met de toepassingen waar de unikernels kunnen voor gebruikt worden. ClickOS heeft vooral middlebox applicaties als doel en andere unikernels kunnen voor uiteenlopende situaties kunnen gebruikt worden.
 
 Volgend hoofdstukken zullen bekijken welke technologiën en denkwijzes naar de voorgrond komen bij unikernels.
+
+\chapter{Unikernels in de praktijk}
+\label{ch:unikernels_praktijk}
+
+\section{Inleiding}
+
+Nadat het theoretische gedeelte is uitgelegd, en een vergelijking van de verschillende soorten implementaties van unikernels is uitgevoerd, wordt het tijd om unikernels uit te testen in de praktijk. De huidige implementaties van unikernels geven een zekere vrijheid wat voor soort applicaties er kunnen opgezet worden. 
+
+Er kan gesproken worden over twee types van applicaties: dynamische en statische. Hiernaar wordt ook verwezen in het Engels als stateless en statefull. Blogs en websites zonder veel functionaliteit zijn stateless. Het resultaat van de applicatie qua functionaliteit zal hetzelfde zijn voor iedereen. Statefull applicaties zijn web applicaties zoals Wordpress en de meeste applicaties waar er informatie wordt bijgehouden en kan worden aangepast zonder de applicatie aan te passen en herop te starten. Het overgrote deel van de applicaties die werken met unikernels zijn stateless.
+
+Veel van toepassingen die werken met unikernels bevinden zich meestal in een bepaald segment. Dit is het geval met technologiëen die nog moet toegroeien naar algemene of meerdere use cases. Toepassingen die gebruikmaken van unikernels maken zullen zich grotendeels bevinden binnen de netwerklaag. Bij de algemenere implementaties van unikernels die zich gaan focussen om meerdere programmeertalen is een applicatie zoals wordpress gemakkelijker op te stellen. Rumprun heeft al pogingen gedaan om een soort van RAMP (RumpRun, Apache, MySQL, PHP) opstellingen te maken maar dit staat nog in vroeg stadium. Het maken van unikernels voor statische applicaties is dus een betere keuze voor de verschillende soorten unikernels te vergelijken. Hierdoor werd gekozen voor het opzetten van een unikernel voor een statische blog.
+
+MirageOS is een unikernel die zich focust op OCaml. Het bestaat al een geruime tijd en heeft al een grote groep achter hen staan. Als algemene unikernel is er de keuze tussen RumpRun en OSv. Rumprun is de meest mature optie van de twee en er is de meeste informatie over beschikbaar op het huidig moment.
+
+Als hypervisor wordt er gekozen voor Xen want MirageOS en Rumprun ondersteunen deze beide. Bij nader onderzoek is gebleken dat Xen de meest stabiele omgeving is om de unikernels op te testen. Bij het gebruiken van een Unix omgeving werden er veel obstakels gevonden die niet op een korte termijn waren op te lossen. De meeste demo's van unikernels worden ook meestal op de Xen omgeving gedaan omwille van de grote van het marktaandeel van Xen.
+
+\section{Opstelling}
+
+Deze opstelling wordt uitgevoerd op een virtuele machine want er worden extensieve veranderingen uitgevoerd op het besturingssysteem. Voor deze opstelling lokaal op te stellen zijn er drie vereisten nodig. Ten eerste de Virtualbox hypervisor voor een virtuele machine op te laten werken. Verder Vagrant om de ontwikkelingomgeving op te stellen. Vagrant en Virtualbox gaan hand in hand om een simpele start te hebben wanneer een bepaalde ontwikkelingomgeving nodig hebt. Vagrant werkt door middel van een bestand (VagrantFile) met alle configuratie erin beschreven. Het haalt eerst een box op waarop de configuratie wordt toegepast. Een box kan een Ubuntu besturingssysteem dat nog niet is aangepast of in deze situatie een besturingssysteem waarop allerhande configuraties zijn uitgevoerd. Packer is de laatste vereiste, het zal gebruikt worden om de box op te stellen die zal gebruikt worden. 
+
+\begin{description}
+\item [Virtualbox] - https://www.virtualbox.org/
+\item [Vagrant] - https://www.vagrantup.com/
+\item [Packer] - https://www.packer.io/ 
+\end{description}
+
+Allereest moeten alle voorgenoemde vereisten zijn geïnstalleerd op uw machine voor er verder kan worden gegaan. MirageOS heeft een repository met alle benodigdheden om deze virtuele machine op te stellen. Deze kan gevonden worden op de volgende link: https://github.com/michieldewilde/mirage-vagrant-vms. Haal deze repository lokaal op de machine en navigeer naar de locatie van deze opgehaalde folder. Er is keuze uit ubuntu 14.04, ubuntu 14.10, debian 7.8.0 en xenserver 6.5.0. Er is gekozen voor Ubuntu 14.04 omdat er het minste problemen bij dit besturingssysteem zijn vastgesteld voor deze opstelling. De Makefile bevat voor de gemakkelijkheid commando's voor de virtuele machine op te stellen zonder een lijst van commando's in te geven.
+
+\noindent Het volgende commando zal een nieuwe box aanmaken door het gebruik van Packer:
+\begin{lstlisting}[language=bash]
+  $ make ubuntu-14.04-box
+\end{lstlisting}
+
+\noindent Het volgende commando neemt de box, die is aangemaakt door het vorige commando, en past de configuratie erop toe:
+\begin{lstlisting}[language=bash]
+  $ make ubuntu-14.04-box
+\end{lstlisting}
+
+\noindent Navigeer naar de folder van het gekozen besturingssysteem en ssh in de virtuele machine: 
+\begin{lstlisting}[language=bash]
+  $ cd ubuntu-14.04 && vagrant ssh
+\end{lstlisting}
+
+\section{MirageOS}
+
+MirageOS is gestart vanaf nul met een schone lei. Dit betekende dat veel van de bestaande tools die nu worden gebruikt worden, zoals webservers (Apache, Nginx) en Databases (MySQL), herschreven zouden moeten worden. Het duurt een tijd voordat deze tervoorschijn komen en dit is één van de grootste redenen dat er gekozen is voor een statische applicatie.
+
+De opstelling die gemaakt is in de vorige sectie heeft de toolset van MirageOS ook geïnstalleerd. Verder moet er worden gekeken of de juiste versie van Ocaml en OPAM (package manager) is geïnstalleerd:
+
+\noindent OPAM versie:
+\begin{lstlisting}[language=bash]
+  $ opam --version
+  # De versie moet minstens 1.2.2 zijn.
+  1.2.2
+\end{lstlisting}
+
+\noindent Ocaml versie:
+\begin{lstlisting}[language=bash]
+  $ ocaml -version
+  # Deze moet 4.02.3 of hoger zijn.
+  $ opam switch 4.02.3
+\end{lstlisting}
+
+In de login shell moet de omgeving van opam geëvalueerd wanneer er ingelogd wordt. Dit kan gedaan worden door de volgenden lijn toe te voegen aan het ~/.bashrc bestand:
+
+\begin{lstlisting}[language=bash]
+  $ eval `opam config env`
+\end{lstlisting}
+
+\noindent Verder moeten er ook gekeken of de versie van mirage niet moet upgedate moet worden:
+\begin{lstlisting}[language=bash]
+  $ opam install mirage
+  $ mirage --help
+  # Versienummer moet hoger zijn 2.9.0
+\end{lstlisting}
+
+Het mirage commando kan gebruikt worden voor applicaties te maken en te deployeren.
+
+Als statische website zullen we de website van MirageOS zelf gebruiken. De repository van de website bevindt zich op de volgende link: https://github.com/mirage/mirage-www/. Eerst moet de repository in de virtuele machine worden gehaald. 
+
+\noindent Dit doen we door het git commando te gebruiken:
+\begin{lstlisting}[language=bash]
+  $ git clone https://github.com/mirage/mirage-www/
+\end{lstlisting}
+
+Vooraleer we de omgeving van de applicatie gaan configureren moet het mogelijk worden gemaakt om de Xen hypervisor te laten communiceren met de virtuele machine. Deze twee zijn afgeschermd van elkaar en daarom moet er een TUN/TAP constructie worden gemaakt. 
+
+sudo modprobe tun
+\noindent Dit doen we als volgt:
+\begin{lstlisting}[language=bash]
+  $ sudo apt-get install tunctl
+  $ sudo modprobe tun # laden van de tuntap kernel module
+  $ sudo tunctl # maak een tap0 interface
+  $ sudo ifconfig tap0 10.0.0.1 up # start tap0 op en wijs tap0 naar IP
+\end{lstlisting}
+
+Navigeer naar de gehaalde folder van de MirageOS website. 
+\noindent Daarna moet de omgeving voor de applicatie worden ingesteld:
+\begin{lstlisting}[language=bash]
+  $ cd mirage-www
+  $ make prepare
+  $ cd src
+  $ mirage configure --xen \ # configureren voor de Xen hypervisor
+      -vv --net direct \ #  direct MirageOS network stack
+      --dhcp true \ maak gebruik van DHCP
+      --tls false --network=0
+\end{lstlisting}
+
+Hierdoor is de omgeving van de applicatie goed ingesteld.
+\noindent Het compilen van de unikernel:
+\begin{lstlisting}[language=bash]
+  $ make
+\end{lstlisting}
+
+Eerst moeten nog file blocks worden aanmaken om de afbeeldingen en de stylesheets te kunnen gebruiken:
+\noindent Aanmaken file blocks
+\begin{lstlisting}[language=bash]
+  $ ./make-fat_block1-image.sh
+\end{lstlisting}
+
+Verder moet er nog een paar wijzigingen worden aangebracht in het www.xl bestand. Dit bestand wordt doorgegeven naar de Xen launcher om de unikernel te starten.
+\noindent Het disk gedeelte moeten worden aangepast naar het volgende:
+\begin{lstlisting}
+disk = ['format=raw,
+         vdev=xvde,
+         access=rw,
+         target=/home/vagrant/mirage-www/src/fat_block2.img',
+        'format=raw,
+         vdev=xvdc,
+         access=rw,
+         target=/home/vagrant/mirage-www/src/fat_block1.img
+      ']
+\end{lstlisting}
+
+
+\noindent Uiteindelijk kunnen we de unikernel starten:
+\begin{lstlisting}[language=bash]
+  $ sudo xl -v create -c www.xl
+\end{lstlisting}
+
+Doorheen de output kan gezien worden op welk IP de statische website staat te luisteren. Als er gegaan wordt naar dat IP om de lokale machine dan kan de MirageOS website worden gezien.
+
+\section{Rumprun}
+
+Bij de rumprun unikernel zal gebruik gemaakt worden van Nginx webserver om een statische website weer te geven. 
+Allereerst moeten we de build tools van Rumprun installeren.
+Dit wordt gedaan als volgt.
+
+\noindent We halen de Rumprun repository op en alle dependencies
+\begin{lstlisting}[language=bash]
+  $ git clone http://repo.rumpkernel.org/rumprun
+  $ cd rumprun
+  $ git submodule update --init
+\end{lstlisting}
+
+Verder moeten we toolchain maken voor de omgeving dat zal gebruikt worden. In dit geval is het Xen.
+\begin{lstlisting}[language=bash]
+  $ ./build-rr.sh xen
+\end{lstlisting}
+
+Dit maakt een folder aan genaamd rumprun met daarin een bin folder dit moet toegevoegd worden aan het PATH.
+\noindent Toevoegen Rumprun toolchain aan PATH:
+\begin{lstlisting}[language=bash]
+  $ export PATH=${PATH}:$(pwd)/rumprun/bin
+\end{lstlisting}
+
+De toolchain voor Rumprun unikernels te maken is geïnstalleerd en nu moet er een nginx Rumprun unikernel worden opgehaald.
+\noindent Ophalen Nginx unikernel:
+\begin{lstlisting}[language=bash]
+  $ git clone http://repo.rumpkernel.org/rumprun-packages
+  $ cd rumprun-packages/
+  $ cd nginx/
+\end{lstlisting}
+
+Er moet ook een package worden geïnstalleerd om een ISO bestand te maken. Dit zal gebruikt worden voor bestanden te laden in de unikernel.
+\noindent Installeren genisoimage:
+\begin{lstlisting}[language=bash]
+  $ sudo apt-get install genisoimage
+\end{lstlisting}
+
+De volgende stap is om Nginx te compileren.
+\noindent Compileren Nginx:
+\begin{lstlisting}[language=bash]
+  $ make
+\end{lstlisting}
+
+De unikernel werkt nu al maar moet omgezet worden naar een unikernel die werkt op de Xen hypervisor.
+\noindent unikernel voor Xen maken:
+\begin{lstlisting}[language=bash]
+  $ rumprun-bake xen_pv ./nginx.bin bin/nginx
+\end{lstlisting}
+
+Hierbij is nginx.bin de unikernel die moet worden gestart.
+
+\noindent Uitvoeren van de Nginx unikernel:
+\begin{lstlisting}[language=bash]
+  $ rumprun -T tmp xen -M 64 -i \
+  $ -b images/data.iso,/data \ # data van www folder laden (inhoud van statische website)
+  $ -I mynet,xenif,bridge=br0 -W mynet,inet,dhcp \ # dhcp instellen
+  $ -- nginx.bin -c /data/conf/nginx.conf # laden van unikernel en configuratie
+\end{lstlisting}
+
+De bridge br0 ,die in MirageOS en Rumprun unikernel wordt gebruikt, is een host-only bridge tussen de host en de virtuele machine om netwerkverkeer tussen beide te laten werken.
+
+\section{Conclussie}
+
+Dit hoofdstuk focust vooral op de tools dat moeten gebruikt worden om de unikernels te maken en te deployen. Elke implementatie van een unikernel heeft zijn eigen build tools en meestal zijn deze niet echt consistent met elkaar. Dit kan leiden tot frustaties als er naar andere omgeving wordt verhuisd en er gebruikt van andere build tools moet worden gemaakt. Er zijn verschillende pogingen om al deze build tools achter één interface te brengen en ze zo simpel te kunnne gebruiken. Spijtig genoeg staat dit alles nog in een vroeg stadium. Statische applicaties en specifieke netwerktoepassingen zijn één van de enige mogelijkheden momenteel om unikernels in productie te gebruiken. Er is ook geprobeerd geweest om een Wordpress blog op te stellen met behulp van Rumprun maar er werd zodanig veel tegen moeilijkheden gestoten dat dit zeer moeilijk was. Daarbij kwam nog dat het hele gegeven zeer traag is om te veranderingen te kunnen maken en de gevolgen ervan te zien. In de volgende hoofdstukken zal er gekeken worden naar concepten die essentieëel zijn binnen een architectuur die gebruik maakt van unikernels.
 
 \chapter{Microservices}
 \label{ch:microservices}
