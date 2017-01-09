@@ -1,0 +1,63 @@
+\section{Rumprun}
+
+Bij de rumprun unikernel zal gebruik gemaakt worden van Nginx webserver om een statische website weer te geven. 
+Allereerst moeten we de build tools van Rumprun installeren.
+Dit wordt gedaan als volgt.
+
+\noindent We halen de Rumprun repository op en alle dependencies
+\begin{lstlisting}[language=bash]
+  $ git clone http://repo.rumpkernel.org/rumprun
+  $ cd rumprun
+  $ git submodule update --init
+\end{lstlisting}
+
+Verder moeten we toolchain maken voor de omgeving dat zal gebruikt worden. In dit geval is het Xen.
+\begin{lstlisting}[language=bash]
+  $ ./build-rr.sh xen
+\end{lstlisting}
+
+Dit maakt een folder aan genaamd rumprun met daarin een bin folder dit moet toegevoegd worden aan het PATH.
+\noindent Toevoegen Rumprun toolchain aan PATH:
+\begin{lstlisting}[language=bash]
+  $ export PATH=${PATH}:$(pwd)/rumprun/bin
+\end{lstlisting}
+
+De toolchain voor Rumprun unikernels te maken is geïnstalleerd en nu moet er een nginx Rumprun unikernel worden opgehaald.
+\noindent Ophalen Nginx unikernel:
+\begin{lstlisting}[language=bash]
+  $ git clone http://repo.rumpkernel.org/rumprun-packages
+  $ cd rumprun-packages/
+  $ cd nginx/
+\end{lstlisting}
+
+Er moet ook een package worden geïnstalleerd om een ISO bestand te maken. Dit zal gebruikt worden voor bestanden te laden in de unikernel.
+\noindent Installeren genisoimage:
+\begin{lstlisting}[language=bash]
+  $ sudo apt-get install genisoimage
+\end{lstlisting}
+
+De volgende stap is om Nginx te compileren.
+\noindent Compileren Nginx:
+\begin{lstlisting}[language=bash]
+  $ make
+\end{lstlisting}
+
+De unikernel werkt nu al maar moet omgezet worden naar een unikernel die werkt op de Xen hypervisor.
+\noindent unikernel voor Xen maken:
+\begin{lstlisting}[language=bash]
+  $ rumprun-bake xen_pv ./nginx.bin bin/nginx
+\end{lstlisting}
+
+Hierbij is nginx.bin de unikernel die moet worden gestart.
+
+\noindent Uitvoeren van de Nginx unikernel:
+\begin{lstlisting}[language=bash]
+  $ rumprun -T tmp xen -M 64 -i \
+  $ -b images/data.iso,/data \ # data van www folder laden (inhoud van statische website)
+  $ -I mynet,xenif,bridge=br0 -W mynet,inet,dhcp \ # dhcp instellen
+  $ -- nginx.bin -c /data/conf/nginx.conf # laden van unikernel en configuratie
+\end{lstlisting}
+
+Het IP van de Nginx webserver is te vinden in de output in het gedeelte van DHCP. Het is het IP adres.
+
+De bridge br0 ,die in MirageOS en Rumprun unikernel wordt gebruikt, is een host-only bridge tussen de host en de virtuele machine om netwerkverkeer tussen beide te laten werken.

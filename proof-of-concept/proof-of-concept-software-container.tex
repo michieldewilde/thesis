@@ -1,0 +1,60 @@
+\section{Opstelling Software Containers}
+
+Deze opstelling maakt gebruik van virtualbox als hypervisor met daarop Docker om de software containers te beheren en configureren.
+De vereisten voor deze opstelling zijn:
+\begin{description}
+\item [Docker Toolbox] - https://www.docker.com/products/docker-toolbox
+\item [Repository Go Software Container Omgeving] - https://github.com/michieldewilde/docker-golang-bp
+\item [Simpele web server] - https://github.com/michieldewilde/go-web-example
+\item [Git] - https://git-scm.com/
+\end{description}
+
+Er zijn al nieuwere versies van Docker uitgebracht voor specifieke besturingssystemen zoals Docker for Mac and Windows. Deze vertonen echter problemen bij het opstellen van unikerneles in het volgende hoofdstuk. Docker Toolbox laat toe om beide omgevingen te ondersteunen. Docker maakt het gemakkelijk om applicaties te deployen in software containers.
+
+\noindent Het volgende commando zal de repository met de configuratie van de software containers ophalen:
+\begin{lstlisting}[language=bash]
+  $ git clone https://github.com/michieldewilde/docker-golang-bp
+\end{lstlisting}
+
+Ga naar de opgehaalde directory en daarbinnen vindt uw een bestand genaamd Dockerfile met alle configuratie om de simpele web server op te halen en op te stellen binnen een software container.
+
+\begin{lstlisting}[language=docker,caption={Dockerfile},breaklines=true,label={code:docker}]
+# Gebruik de officiële go software container als basis
+FROM golang:1.6
+
+# Haal de repository met het voorbeeld op
+RUN go get github.com/michieldewilde/go-web-example
+
+# Compileer het project
+RUN go install github.com/michieldewilde/go-web-example
+
+# Wanneer de software container wordt gestart, voer het gecompileerde project uit
+ENTRYPOINT /go/bin/go-web-example
+
+# Open poort 8080 om de web server te kunnen bereiken van op de host
+EXPOSE 8080
+\end{lstlisting}
+
+Als Docker geïnstalleerd wordt dan wordt nog een extra tool mee geïnstalleerd: docker-machine. Deze tool laat toe om Docker hosts te creëren. Deze laat dan toe om met docker client die zich bevindt op de host te communiceren. 
+
+Er zijn nog manieren om een meer uitgebreide en/of geavanceerde opstelling te bereiken dit kan bereikt worden door gebruik te maken van het docker-compose commando.
+
+\begin{lstlisting}[language=docker-compose,caption={docker-compose.yaml},breaklines=true,label={code:docker-compose}]
+# gebruik versie twee van de docker-compose syntax
+version: '2'
+# de verschillende componenten die moeten nodig zijn voor de opstelling
+services:
+  # onze simpele web server van de vorige voorbeelden
+  go-web-example:
+    # wanneer de service gecompileerd moet worden, gebruik de Dockerfile in de huidige directory (Dockerfile van het vorige voorbeeld)
+    build: .
+    # stel de pport 8080 open
+    ports:
+     - "8080:8080"
+  # extra component voor database functionaliteit
+  redis:
+    # Gebruik de officiële redis software container
+    image: "redis:alpine"
+\end{lstlisting}
+
+Door gebruik te maken van een docker-compose bestand wordt de opstelling van de verschillende componenten simpeler gemaakt. Ook het schalen van de componenten wanneer er extra last is voor de component wordt simpeler. Dit komt omdat elke component gescheiden is van elkaar. Het toevoegen van extra componenten aan een opstelling kan dus gebeuren door een service toe te voegen aan het docker-compose bestand. Op de virtuele machine zou deze helemaal moeten worden geïnstalleerd en geconfigureerd worden. 

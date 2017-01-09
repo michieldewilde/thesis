@@ -1,0 +1,42 @@
+\section{Opstelling Virtuele Machine}
+
+Deze opstelling maakt gebruik van virtualbox als hypervisor met Vagrant, als configuratie tool, om de ontwikkelomgeving gemakkelijk op te stellen. 
+De vereisten voor deze opstelling zijn:
+\begin{description}
+\item [Virtualbox] - https://www.virtualbox.org/
+\item [Vagrant] - https://www.vagrantup.com/
+\item [Repository Go Virtuele machine omgeving] - https://github.com/michieldewilde/vagrant-golang-bp
+\item [Git] - https://git-scm.com/
+\end{description}
+
+Het besturingssysteem dat wordt gebruikt is Debian. De opstelling is simpel te noemen, omdat er enkel wordt uitgegaan applicatie die zich bevindt op de virtuele machine. In een productie omgeving zullen deze twee componenten zich uiteraard niet op dezelfde virtuele machine bevinden. Go wordt gebruikt als programmeertaal om de applicatie op de virtuele machine te demonstreren.
+
+Allereerst is git nodig om de repository lokaal te downloaden. Git is een versie controle systeem om gemakkelijk grote en kleine projecten te beheren en te ontwikkelen wanneer er in team gewerkt wordt.
+
+\noindent Het volgende commando zal de repository met de configuratie van de virtuele machine ophalen:
+\begin{lstlisting}[language=bash]
+  $ git clone https://github.com/michieldewilde/vagrant-golang-bp
+\end{lstlisting}
+
+De Vagrantfile in deze directory bevat de configuratie voor deze machine en zal ook zorgen dat de huidige directory van de host synchroniseert met de toegewezen directory in de virtuele machine.
+
+\noindent Het volgende commando stelt de virtuele machine op en configureert deze:
+\begin{lstlisting}[language=bash]
+  $ vagrant up
+\end{lstlisting}
+
+\noindent Om deze virtuele machine te betreden wordt het volgende commando uitgevoerd:
+\begin{lstlisting}[language=bash]
+  $ vagrant ssh
+\end{lstlisting}
+
+Alle inhoud van de directory die we binnen hebben gehaald, bevindt zich op het /vagrant path. De programmeertaal Go heeft een structuur voor de projecten waarmee er wordt gewerkt. Er kan gezien worden in de directory die is binnengehaalt dat er een src directory is. Binnen de src directory bevindt zich een main.go bestand. 
+
+\noindent Om dit bestand uit te voeren:
+\begin{lstlisting}[language=bash]
+  $ go run main.go
+\end{lstlisting}
+
+Nu staat er een web server op en de deze kan bereikt worden door in uw browser het IP van de virtuele machine in te geven, 192.168.10.10, en de poort 8080 met als prefix : er aan toe te voegen.
+
+Bij deze is er een ontwikkelomgeving opgesteld voor de programmeertaal Go opgesteld met daarbij een web server gestart. Het opstellen van een hele virtuele machine voor één applicatie kan overdreven lijken, maar daarbij zijn de vereisten voor de Go ontwikkelomgeving gescheiden van de host machine. Het toevoegen van extra onderdelen kan met gemak gebeuren door andere paketten te installeren en te configureren. De functie van de virtuele machine die momenteel is opgezet is algemeen en kan gemakkelijk veranderen door onderdelen toe te voegen. Daarbij kan de virtuele machine met een algemeen besturingssysteem, Debian, beschouwd worden als niet gespecialiseerd. Dit is een uiteindelijk doel van elke component in de ontwikkelomgeving. 

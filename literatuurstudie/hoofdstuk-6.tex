@@ -1,0 +1,216 @@
+\chapter{Vergelijking implementaties unikernels}
+\label{ch:vergelijking-unikernels}
+
+\section{Inleiding}
+
+In het hoofdstuk over unikernels zijn er een aantal voorbeelden van moderne implemenaties van unikernels aangehaald. In dit hoofdstuk zullen er een aantal implementaties van unikernels worden vergeleken met elkaar. Het volgende deel zal aanhalen welke criteria, er zullen gebruikt worden om deze vergelijking te realiseren.
+
+\section{Criteria}
+
+\begin{description}
+\item [Implementatie programmeertaal]
+Op het eerste zicht lijkt de programmeertaal waarin de implementatie geschreven niet belangrijk. Dit is wel belangrijk om te weten of het een programmeertaal is waar gemakkelijk kan mee gewerkt worden.
+Een meer voor de hand liggende programmeertaal, zoals C++, zal gemakkelijker open source ontwikkelaars aantrekken. En dat is ook een belangrijk gegeven.
+De meeste implementaties zijn in C/C++ geschreven. Dit komt vooral door het feit dat veel software ontwikkelaars die zich bezig houden met unikernels vanuit een achtergrond met besturingssystemen komen.
+De meest gebruikte programmeertaal binnen besturingssystemen is C/C++.
+
+\item [Hypervisors] 
+Hypervisors zijn een groot deel van de keuze van een implementatie. De meest gebruikte unikernels zijn beschikbaar op een aantal hypervisors. Als er veel omgevingen zijn, waarop de unikernels kunnen werken, dan is het gemakkelijk om van omgeving te veranderen als bedrijf. Wendbaarheid en inspelen op veranderingen zal gemakkelijker gebeuren, wanneer er een uitgebreid aantal mogelijkheden zijn.
+
+\item [Ondersteunde programmeertalen]
+Sommige unikernels ondersteunen een aantal programmeertalen. Programmeertalen hebben sterke en zwakke kanten en keuze hebben uit een aantal programmeertalen helpt voor een keuze te maken.
+
+\item [GitHub stars] 
+GitHub bepaalt de status van een open source project. Open source software wordt meer en meer gebruikt door bedrijven. De keuze is gemakkelijker te maken tussen een project met een hoge populariteit(sterren) en een project met lage populariteit. Hierbij wordt er wel gesproken over projecten met dezelfde functionaliteit. Door GitHub kan gekeken worden of er actief aan het project gewerkt wordt en/of het onderhouden wordt. De community achter een project is ook belangrijk voor de keuze te maken tussen verschillende projecten.
+
+\end{description}
+
+\begin{table}[ht]
+\caption{Implementaties unikernels}
+\begin{center}
+    \begin{tabular}{| l | l | l | l | l |}
+    \hline
+    Naam & Taal implementatie & Hypervisor & Ondersteunde talen & GitHub sterren \\ \hline
+    ClickOS & C/C++ & Xen & bindings & 243 \\ \hline
+    HaLVM & Haskell & Xen & Haskell & 665 \\ \hline
+    LING & C/Erlang & Xen & Erlang & 523 \\ \hline
+    Rumprun & C & hw, Xen, POSIX & C, C++, Erlang, Go, ... & 469 \\ \hline
+    MirageOS & OCaml & Xen & OCaml & 657 \\ \hline
+    IncludeOS & C++ & KVM, VirtualBox & C++ & 1341 \\ \hline
+    OSv & C/C++ & KVM, Xen, ... & JVM & 2121 \\ \hline
+    \end{tabular}
+\end{center}
+\label{tab:impl_unikernels}
+\end{table}
+
+De inhoud van de bovenstaande tabel wordt per implementatie uitgelegd.
+
+\newpage
+
+\section{Implementaties van moderne unikernels}
+
+\subsection{ClickOS}
+\begin{description}
+  \item [Implementatie programmeertaal]: C/C++
+  \item [Hypervisors]: Xen
+  \item [Ondersteunde programmeertaal]: ondersteund door bindings
+  \item [GitHub stars]: 243
+\end{description}
+
+ClickOS  (\cite{martins_clickos_2014}) wordt ontwikkeld door Cloud Networking Performance Lab.
+
+De toepassingen, waarvoor ClickOS voornamelijk wordt gebruikt, zijn middlebox applicaties. Een middlebox is een netwerk applicatie dat netwerktrafiek kan omzetten, filteren, inspecteren of manipuleren. Voorbeelden hiervan zijn firewalls en load balanceres.
+Een modulaire router vormt de basis van ClickOS. Op deze router kunnen onderdelen worden toegevoegd. Deze unikernel werkt alleen op MiniOS. MiniOS is beschikbaar bij de broncode van de Xen hypervisor.
+
+Door een evolutie binnen de netwerk laag (\cite{garcia_villalba_trends_2015}) wordt veel van de functionaliteit, die vroeger bij de hardware zat, nu in software geïmplementeerd. Dit laat toe om een eigen implementatie te schrijven en zo veel functionaliteit van de hardware over te nemen.
+
+De use cases waarbinnen ClickOS kan gebruikt worden zijn beperkt. Als je geen gebruik wilt maken van ingebouwde netwerk functionaliteit van de hardware, dan is ClickOS de uitgesproken keuze.
+
+Er wordt Swig gebruikt om ondersteuning te bieden voor hogere programmeertalen. Swig maakt een bindings die C/C++ verbindt met een hogere programmeertaal.
+
+ClickOS verwijst naar zijn packages als elements. Die elements voeren een bepaalde actie uit. Dit zijn hele kleine stukken functionaliteit. Er zijn om en bij de 300 elementen beschikbaar. Het is eenvoudig om zelf een eigen element te maken en te distribueren.
+
+Meer informatie kan gevonden worden volgende website: \cite{cloud_networking_performance_lab_cloud_????}.
+
+\subsection{HaLVM}
+
+\begin{description}
+  \item [Implementatie programmeertaal]: Haskell
+  \item [Hypervisors]: Xen
+  \item [Ondersteunde programmeertaal]: Haskell
+  \item [GitHub stars]: 665
+\end{description}
+
+HaLVM (\cite{galois_inc._haskell_????}) wordt ontwikkeld door Galios. Galios is een software ontwikkelings agentschap dat unikernels al een tijd in productie gebruikt.
+Er zijn niet al te veel bedrijven die unikernels gebruiken in productie.
+
+De programmeertaal waarin de unikernel van HaLVM wordt geschreven is Haskell. Haskell is een functionele programmeertaal met een uitgebreid type system. HaLVM is een implementatie die één supervisor en één programmeertaal ondersteund.
+
+Het werd ontwikkeld met als doel om componenten voor besturingssystemen snel te maken en te testen. Het is verder geëvolueerd naar andere use cases.
+
+Bij HalVM wordt de Xen hypervisor als omgeving gebruikt. Er is een integratie met de Xen hypervisor waarvan de core library van HaLVM gebruikmaakt. Er bestaat ook een communicatie library, die bestaat uit het Haskell File System en de Haskell Network Stack. Deze library kan gebruikt worden in de meeste gevallen, als er netwerkfunctionaliteit nodig is. Als we meer mogelijkheden nodig hebben voor een programma dan kunnen er modules worden toegevoegd. Er is een ecosysteem uitgebouwd om het gemakkelijker te maken voor software ontwikkelaars om hun eigen modules te bouwen.
+
+De werkwijze is de volgende: eerst wordt er zoveel mogelijk functionaliteit als een normaal Haskell programma geschreven. Daarna moet het programma aangepast worden om het te gebruiken op HaLVM.
+Dit is niet gemakkelijk bij uitgebreide applicaties, want er zijn maar beperkte debug mogelijkheden op HalVM.
+
+Zoals in de meeste gevallen moet de compiler van Haskell worden aangepast om de unikernel te maken. Het is ook geen probleem om standaard Haskell libraries in de code te gebruiken.
+
+Het wordt gebruikt door Galios in productie en dit maakt het gemakkelijk om vragen te stellen. De GitHub repository, waar de applicatie zich op bevindt, is over het algemeen actief en is populair voor maar één programmeertaal te ondersteunen.
+
+\subsection{Ling}
+
+\begin{description}
+  \item [Implementatie programmeertaal]: C/Erlang
+  \item [Hypervisors]: Xen
+  \item [Ondersteunde programmeertaal]: Erlang
+  \item [GitHub stars]: 523
+\end{description}
+
+Ling (\cite{erlang_on_xen_cloudozer/ling_????}) is een Erlang virtuele machine die werkt op de Xen hypervisor. Het bedrijf achter Ling is Cloudozer. Ze hebben al meerdere language runtimes gemaakt die rechtstreeks op Xen werken.
+Ling is open source maar de andere tools, onder meer het beheren van unikernels, zijn niet open source. Wanneer er problemen met het ecosysteem zijn, moet de ondersteuning van Cloudozer gecontacteerd worden.
+
+Zoals bij HaLVM, moet de applicatie eerst worden geschreven in Erlang. De package manager die gebruikt word met Erlang is Rebar, dit is de standaard Erlang package manager. Na het omzetten van de applicatie naar een Xen afbeelding zou de unikernel moeten werken.
+
+Railing is een tool die meegeleverd is met Ling die je toelaat om, erlang on Xen, afbeeldingen te maken. We gebruiken ook xl utility van Xen om domeinen te beheren.
+De focus van Erlang on Xen is de Xen hypervisor. 
+
+Bij het uitbrengen van een nieuwe versie van LING is het mogelijk geworden om andere omgevingen te ondersteuenen. Dit heeft veel nieuwe omgevingen, zoals internet of things en mobiele omgevingen, mogelijk gemaakt.
+Unikernels kunnen handig zijn op deze omgevingen omwille van de kleine omvang. 
+
+Verder opent dit ook de mogelijkheid voor de unikernels van LING op bare-metal te laten werken.
+
+\subsection{Rumprun}
+
+\begin{description}
+  \item [Implementatie programmeertaal]: C
+  \item [Hypervisors]: hardware, Xen, KVM
+  \item [Ondersteunde programmeertaal]: onder meer C, C++, Erlang, Go, Javascipt, Python, Ruby
+  \item [GitHub stars]: 469
+\end{description}
+
+Rumprun  (\cite{_rumpkernel/rumprun_????}) gebruikt rump kernels voor hun implementatie. Deze rump kernels worden samengesteld uit componenten afkomstig van NetBSD. NetBSD is een traditioneel besturingssysteem maar is modulair geschreven. Men kan het dus gebruiken om een rump kernel samen te stellen.
+
+Er is een uitgebreide keuze aan hypervisors waaruit kan gekozen worden. De term hw duidt op hardware. Dit betekent dat rumprun één van de enige implementaties is die rechtstreeks kan werken op hardware. De unikernel kan ook werken op besturingssystemen die een POSIX-interface hebben. De POSIX-interface duidt op de meeste Unix systemen.
+
+Er zijn verschillende soorten implementaties van unikernels. Sommige unikernels specialiseren op basis van programmeertaal en andere op basis van omgeving. Sommige doen zelf beide. Rumprun behoort tot de laatste groep. Dit is wel niet zonder gevolg. De prestatie zal niet die van een gespecialiseerde unikernel kunnen evenaren.
+
+De rump-run packages zijn implementaties van drivers, protocollen en libraries die kunnen toegevoegd worden aan de rumprun kernels. Er zijn een groot aantal packages die kunnen gebruikt wordenen de meest bekende zijn aanwezig.
+Het spijtige is wel dat er nog geen packaging systeem aanwezig is. Dit zou er wel voor zorgen dat er gewerkt kan worden met verschillende dependencies en versies van packages.
+
+Rumprun verziet zelf geen compiler. Er wordt gebruik gemaakt van een compiler die aanwezig is op het systeem. In het geval van Mac OS X moet er een aparte compiler geïnstalleerd worden.
+
+De programmeertalen die ondersteund zijn, zijn de volgende: C, C++, Erlang, Go, Javascript(node.js), Python, Ruby en Rust.
+
+Meer informatie is te vinden in volgende thesis: \cite{kantee_flexible_2012}.
+
+\subsection{MirageOS}
+
+\begin{description}
+  \item [Implementatie programmeertaal]: OCaml
+  \item [Hypervisors]: Xen, Unix
+  \item [Ondersteunde programmeertaal]: OCaml
+  \item [GitHub stars]: 657
+\end{description}
+
+Er kan gezegd worden dat het voor een deel allemaal begon bij MirageOS (\cite{mirage/mirage_0000}). Hun paper (\cite{madhavapeddy_unikernels_2013}) over unikernels en MirageOS wakkerde veel interesse aan. Ervoor was er wel al sprake van unikernels, maar MirageOS zorgde voor veel nieuwe initiatieven.
+
+MirageOS is een cloud besturingssysteem gemaakt om veilige netwerk toepassingen, met een hoge prestatie, te maken op verschillende omgevingen.
+
+De programmeertaal dat gebruikt word om een MirageOS applicatie te maken is OCaml.
+OCaml is de algemene implementatie van de Caml programmeertaal en voegt object georiënteerd programmeren toe. Het wordt extensief gebruikt door facebook. Deze taal is niet bekend en dit kan ervoor zorgen dat het niet veel tractie krijgt.
+
+De voornaamste redenen om OCaml te gebruiken zijn static type checking en automatic memory management. De eerste reden is om tegen te gaan, dat er iets fout gaat wanneer een programma aan het werken is. De compiler gaat kijken of het geen onveilige code kan vinden. Als dit het geval is, wordt het programma niet gecompileerd.
+Memory management is belangrijk voor resource leaks tegen te gaan. Resource leaks kunnen ervoor zorgen dat het programma meer middelen gebruikt dan het nodig heeft. In het extreme geval kan het systeem waarop het programma werkt ook hinder ondervinden van dit probleem.
+
+De applicatie kan geschreven worden op een Linux of Mac OSX besturingssysteem. Deze applicatie kan dan werken op een Xen of Unix omgeving. Dit geeft veel mogelijkheden op het vlak van omgevingen. Er zijn plannen om mobiele omgevingen te ondersteunen.
+
+MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking. Het heeft een uitstekende toolchain voor het compileren van programma's en het debuggen van de resulterende unikernel. Debuggen kan soms tot problemen leiden bij unikernels, want er kan niet in de unikernel gekeken worden welke problemen zich voordoen. Dit komt omdat de unikernel geen shell heeft. De debug optie kan hierbij helpen.
+
+\subsection{IncludeOS}
+\begin{description}
+  \item [Implementatie programmeertaal]: C/C++
+  \item [Hypervisors]: KVM, VirtualBox
+  \item [Ondersteunde programmeertaal]: C++
+  \item [GitHub stars]: 1341
+\end{description}
+
+IncludeOS (\cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}) is gemotiveerd door het paper van \cite{bratterud_maximizing_2013}. Het onderscheid tussen een minimale virtuele machine tegenover een unikernel is zeer klein. Daarom worden beide termen afwisselend gebruikt. Net zoals ClickOS moeten de applicaties geschreven worden in C++.
+
+IncludeOS zorgt voor een bootloader, standaard libraries, modules voor de drivers te implementeren en een build- en deploysysteem. Het is simpel om applicaties te maken voor deze unikernel. Je moet alleen één dependency toevoegen aan het programma. Dan kan het worden omgezet naar een unikernel. Er veranderd dus niet veel voor de software ontwikkelaars. Dit zorgt voor een vlotte overgang en dit is zeker belangrijk wanneer er gekozen wordt om applicaties te bouwen voor unikernels.
+
+Meerdere processen tegelijk laten werken op een unikernel van includeOS is niet mogelijk. Dit kan sommige software ontwikkelaars afschrikken. Het gebruik van microservices (hoofdstuk \ref{ch:microservices}) is nog niet wijdverspreid en kan een factor zijn bij het selecteren van een unikernel implementatie. Enerzijds gaan bedrijven nooit bij unikernels uitkomen, wanneer hun architectuur niet gebaseerd op microservices. Er zijn ook geen race conditions mogelijk, omdat er maar één proces mogelijk is.
+
+Momenteel ligt de focus van IncludeOS voornamelijk op C++. Dit is een strategie dat kan helpen wanneer software ontwikkelaars zoeken naar een implementatie die een gemeenschap heeft. IncludeOS heeft een grote gemeenschap van C++ software ontwikkelaars. Hun doel is vooral om een soortgelijk Node.js te maken maar dan in efficiënt C++.
+
+Er zijn geen plannen om hogere programmeertalen zoals Javascript te ondersteunen. Ook is IncludeOS niet POSIX compliant en dit kan voor problemen zorgen wanneer er extra functionaliteit moet worden toegevoegd.
+
+Als omgeving focussen ze KVM en virtualbox. Het is het dus gemakkelijk om een unikernel te testen op de ontwikkelomgeving. Als je services schrijft in C++ dan is IncludeOS een zeer goede keuze. Er kan meer informatie gevonden worden op de GitHub repository: \cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}.
+
+\subsection{OSv}
+
+\begin{description}
+  \item [Implementatie programmeertaal]: C/C++
+  \item [Hypervisors]: VMWare, VirtualBox, KVM, Xen
+  \item [Ondersteunde programmeertaal]: Java
+  \item [GitHub stars]: 2121
+\end{description}
+
+OSv (\cite{cloudius-systems/osv_0000}) is een implementatie die een grote naam heeft binnen de unikernel wereld. Er wordt een hoog aantal programmeertalen ondersteund. Waaronder Java, Ruby, Javascript, Scala en vele anderen. Hierbij moeten er wel vermeld worden dat de implementaties van Ruby en Javascript in Java zijn geschreven. Rhino en JRuby zijn de namen van deze implemenaties. Het is simpel om deze programmeertalen toe te voegen, wanneer Java als programmeertaal wordt ondersteund.
+
+Verder kunnen de resulterende unikernels werken op veel omgevingen: VMware, VirtualBox, KVM en Xen.
+
+Zoals IncludeOS voorheen is OSv geschreven in C++.
+
+Voor het beheren van een OSv instance kan gebruik worden gemaakt van de GUI. Bij de meerderheid van unikernels is informatie te vinden door middel van een GUI onmogelijk. Extensies voor de hypervisor kunnen hierbij helpen, maar dan nog komt de user experience tekort. De GUI is gebouwd op een REST API die de componenten van OSv openstellen. Dit heeft overstemming met de manier, hoe de architectuur van het Docker ecosysteem in elkaar zit. Deze componenten stellen een API open waar de tools verder op gebouwd kunnen worden. Er is een API-specificatie die kan bekeken worden om te zien hoe deze componenten met elkaar werken.
+
+OSv ondersteund Amazon Web Services en Google Container Engine als cloud providers. Het is uitzonderlijk dat een unikernel zoveel informatie heeft over hoe het moet gebruikt worden. Er is documentatie over cloud providers, hypervisors, hoe het gebruikt moet worden en hoe programma's moeten omgezet worden naar de implementatie.
+
+Het is de meest populaire implemenatie van unikernels van alle implementaties die we hebben overlopen tijdens deze vergelijking. Ook de activiteit op de Github repository is het hoogste van alle bekeken unikernels.
+
+Meer informatie is te vinden in volgende paper: \cite{kivity_osvoptimizing_2014}.
+
+\section{Conclusie}
+
+Er zijn veel verschillende soorten implementaties van unikernels op dit moment. Er is MirageOS die als één van de eerste opkwam en ook de meest extreme weg opgaat met het starten van een minieme basis. HalVM bevindt zich in aan de dezelfde kant als MirageOS. Terwijl OSv en Rumprun zich bevinden aan de overkant. Ze ondersteunen een groot aantal programmeertalen en omgevingen. Dit wordt mogelijk gemaakt door een compatibiliteitslaag te gebruiken. 
+
+Hetzelfde fenomeen kunnen we vinden met de toepassingen waar de unikernels kunnen voor gebruikt worden. ClickOS heeft vooral middlebox applicaties als doel en andere unikernels kunnen voor uiteenlopende situaties kunnen gebruikt worden.

@@ -1,0 +1,36 @@
+\chapter{Inleiding}
+\label{ch:inleiding}
+
+Bij het opleveren van software worden applicaties eerst lokaal op de eigen machine ontwikkeld. Wanneer de software opgeleverd wordt dan wordt het geplaatst in een test- en/of productieomgeving. Het geschreven programma van de lokale ontwikkelomgeving naar de productieomgeving brengen kan veel moeite zich mee brengen. De productieomgeving bestaat uit infrastructuur die zich lokaal in het bedrijf bevindt of bij een cloud provider (Amazon Web Services, Google Cloud) te vinden is.
+
+De middelen van de productieomgeving moeten zo goed mogelijk benut worden en veilig zijn. In deze bachelorproef zal bekeken worden of unikernels hierbij een rol kunnen spelen.
+
+Deze bachelorproef behandelt het onderwerp unikernels (\cite{mao_performance_2012}). Hierbij wordt gekeken naar de veiligheid en efficiëntie van unikernels. Verder wordt er ook gekeken naar de gevolgen die unikernels kunnen hebben op de architectuur van applicaties. De omgeving waarin de programma-ontwikkelaar werkt kan verschillen van project tot project. Daarom is het aantonen van de specifieke situaties waarin unikernels kunnen gebruikt worden van uiterst belang.
+
+In hoofdstuk 2 wordt de methodologie van de bachelorproef aangehaald.
+
+Virtualisatie vormt de basis voor veel van de technologieën die worden aangehaald. Virtualisatie zal belicht worden in hoofdstuk 3.
+
+Op 21 maart 2013 werd op Pycon de eerste demo van Docker gegeven (\cite{hykes_future_2013}). Het gegeven van containers bestond al langer, maar is pas echt doorgebroken onder Docker. In hoofdstuk 4 worden software containers nader bekeken.
+
+Hoofdstuk vijf dat unikernels behandelt, zal zich focussen op de werking, voordelen en implementaties van unikernels.
+Hoofdstuk zes zal kijken naar de verschillende implementaties van unikernels en deze, tot zover dit mogelijk is, met elkaar vergelijken.
+Hoofdstuk zeven geeft een beeld van de architectuur van applicaties door de concepten van microservices en monolieten nader te bekijken.
+
+Hoofdstuk zeven zal het proof of concept toelichten. Hierbij wordt er een simpele web server op verschillende omgevingen uitgevoerd en gekeken wat de mogelijkheden en moeilijkheden zijn. De keuze van het soort applicatie wordt gegeven omwille van de beperkte mogelijkheden van unikernels.
+
+Het laatste hoofdstuk behandelt de conclussie. Hierbij worden de onderzoeksvragen en hun mogelijke antwoorden verder uitgelicht.
+
+\section{Probleemstelling en Onderzoeksvragen}
+\label{sec:onderzoeksvragen}
+
+Het doel van deze bachelorproef is om de use cases van unikernels aan te duiden en de verhouding tegenover software containers en virtuele machines. 
+Dit zal gebeuren door de volgende onderzoeksvragen te beantwoorden:
+
+\begin{itemize}  
+\item Wat zijn de use cases van unikernels?
+\item De verhouding van software containers tegenover unikernels?
+\item De gevolgen voor de applicatie architectuur wanneer unikernels in gebruik worden genomen?
+\item Wordt het opstellen en beheren van applicaties eenvoudiger of niet?
+\item Wat is de impact op beveiliging?
+\end{itemize}

@@ -1,0 +1,29 @@
+\section{Opstelling Unikernel}
+
+Deze opstelling wordt uitgevoerd op een virtuele machine want er worden extensieve veranderingen uitgevoerd op het besturingssysteem. Voor deze opstelling lokaal op te stellen zijn er drie vereisten nodig. Ten eerste de Virtualbox hypervisor voor een virtuele machine op te laten werken. Verder Vagrant om de ontwikkelingomgeving op te stellen. Vagrant en Virtualbox gaan hand in hand om een simpele start te hebben wanneer een bepaalde ontwikkelingomgeving nodig hebt. Vagrant werkt door middel van een bestand (VagrantFile) met alle configuratie erin beschreven. Het haalt eerst een box op waarop de configuratie wordt toegepast. Een box kan een Ubuntu besturingssysteem dat nog niet is aangepast of in deze situatie een besturingssysteem waarop allerhande configuraties zijn uitgevoerd. Packer is de laatste vereiste, het zal gebruikt worden om de box op te stellen die zal gebruikt worden. 
+
+\begin{description}
+\item [Virtualbox] - https://www.virtualbox.org/
+\item [Vagrant] - https://www.vagrantup.com/
+\item [Packer] - https://www.packer.io/ 
+\end{description}
+
+Allereest moeten alle voorgenoemde vereisten zijn geïnstalleerd op uw machine voor er verder kan worden gegaan. MirageOS heeft een repository met alle benodigdheden om deze virtuele machine op te stellen. Deze kan gevonden worden op de volgende link: https://github.com/michieldewilde/mirage-vagrant-vms. Haal deze repository lokaal op de machine en navigeer naar de locatie van deze opgehaalde folder. Er is keuze uit ubuntu 14.04, ubuntu 14.10, debian 7.8.0 en xenserver 6.5.0. Er is gekozen voor Ubuntu 14.04 omdat er het minste problemen bij dit besturingssysteem zijn vastgesteld voor deze opstelling. De Makefile bevat voor de gemakkelijkheid commando's voor de virtuele machine op te stellen zonder een lijst van commando's in te geven.
+
+\noindent Het volgende commando zal een nieuwe box aanmaken door het gebruik van Packer:
+\begin{lstlisting}[language=bash]
+  $ make ubuntu-14.04-box
+\end{lstlisting}
+
+\noindent Het volgende commando neemt de box, die is aangemaakt door het vorige commando, en past de configuratie erop toe:
+\begin{lstlisting}[language=bash]
+  $ make ubuntu-14.04-box
+\end{lstlisting}
+
+\noindent Navigeer naar de folder van het gekozen besturingssysteem en ssh in de virtuele machine: 
+\begin{lstlisting}[language=bash]
+  $ cd ubuntu-14.04 && vagrant ssh
+\end{lstlisting}
+
+\include{proof-of-concept-unikernel-mirage-os}
+\include{proof-of-concept-unikernel-rumprun}

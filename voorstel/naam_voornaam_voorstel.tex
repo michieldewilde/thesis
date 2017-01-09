@@ -1,0 +1,104 @@
+%==============================================================================
+% Sjabloon onderzoeksvoorstel bachelorproef
+%==============================================================================
+% Gebaseerd op LaTeX-sjabloon ‘Stylish Article’ (zie voorstel.cls)
+% Auteur: Jens Buysse, Bert Van Vreckem
+
+% TODO: Compileren document:
+% 1) Vervang ‘naam_voornaam’ in de bestandsnaam door je eigen naam, bv.
+%    buysse_jens_voorstel.tex
+% 2) pdflatex naam_voornaam_voorstel.tex (2 keer)
+% 3) biber naam_voornaam_voorstel
+% 4) pdflatex naam_voornaam_voorstel.tex (1 keer)
+
+\documentclass[fleqn,10pt]{voorstel}
+
+%------------------------------------------------------------------------------
+% Metadata over het artikel
+%------------------------------------------------------------------------------
+
+\JournalInfo{HoGent Bedrijf en Organisatie}
+\Archive{Onderzoekstechnieken 2016 - 2017}
+
+%---------- Titel & auteur ----------------------------------------------------
+
+% TODO: geef werktitel van je eigen voorstel op
+\PaperTitle{Unikernels: Monoliet of microservices}
+\PaperType{Bachelorproef} % Type document
+
+% TODO: vul je eigen naam in als auteur, geef ook je emailadres mee!
+% TODO: vul de naam van je co-promotor(en) in als tweede (derde, ...) auteur.
+% Dien je voorstel pas in nadat je co-promotor de kans gehad heeft na te lezen
+% en feedback te geven!
+\Authors{Michiel De Wilde} % Authors
+\affiliation{\textbf{Contact:}
+  \textsuperscript{1} \href{mailto:michiel.dewilde.u9305@student.hogent.be}{michiel.dewilde.u9305@student.hogent.be}}
+
+%---------- Abstract ----------------------------------------------------------
+
+\Abstract{
+Unikernels laten toe om veiliger en efficiënter te werken dan een software container of virtuele machine waarbij een algemeen besturingssysteem wordt gebruikt. Het opstellen van applicaties met unikernels kan moeilijkheden geven omdat er niet uitgegaan wordt van de beperkte functionaliteit van een unikernel. Veel bedrijven stappen over op software containers en unikernels wordt aangeduid als ge volgende stap. Door middel van een experiment waarbij verschillende soorten applicaties (monoliet, microservices) op verschillende omgevingen(virtuele machine, software container, unikernel) worden opgesteld. De resultaten kunnen worden vergelijkt door de mogelijkheden en moeilijkheden van elke opstelling te bekijken. Dit onderzoek zal aantonen dat verschillende omgevingen zich meer lenen tot het behuizen van een specifieke soort van applicatie. In het heden en de toekomst is efficiëntie en veiligheid van applicatie heel belangrijk deze studie zal tonen welke soorten applicaties op welke omgevingen beter en veiliger werken.
+}
+
+\Keywords{Systeembeheer, Applicatieontwikkeling} % Keywords
+\newcommand{\keywordname}{Sleutelwoorden} % Defines the keywords heading name
+
+%---------- Titel, inhoud -----------------------------------------------------
+\begin{document}
+
+\flushbottom % Makes all text pages the same height
+\maketitle % Print the title and abstract box
+\tableofcontents % Print the contents section
+\thispagestyle{empty} % Removes page numbering from the first page
+
+%------------------------------------------------------------------------------
+% Hoofdtekst
+%------------------------------------------------------------------------------
+
+%---------- Inleiding ---------------------------------------------------------
+
+\section{Introductie} % The \section*{} command stops section numbering
+\label{sec:introductie}
+
+De voorbije jaren zijn er veel opmerkingen en problemen gevonden bij de de huidige (algemene) besturingssystemen. Deze besturingssystemen zijn niet alleen te vinden op computers van gewone gebruikers, maar ook op de servers van belangrijke applicaties. Beide omgevingen vragen om een ander soort oplossing. Unikernels kunnen hierop inspelen omdat er uitgaan van een kleinere fundatie waarbij er functionaliteit kan worden toegevoegd. Het werken en samenstellen van een unikernel staat nog een vroeg stadium en moet daarom verder verkend worden. De doelstelling van dit onderzoek is om te bekijken of de applicaties die momenteel worden gemaakt kunnen werken in een unikernel. Het grootste deel van de huidige applicaties bestaan uit één grote applicatie. Een andere stroming is waarbij de applicaties worden opgesplitst in kleinere applicaties die elk een specifiek probleemdomein en -verantwoordelijkheid hebben: microservices.
+
+
+%---------- Stand van zaken ---------------------------------------------------
+
+\section{Literatuurstudie}
+\label{sec:Literatuurstudie}
+
+Deze literatuur zal eerst hypervisors en virtuele machines bekijken om een beeld te geven van de huidige oplossingen. Ook wordt er verder ingegaan waarom hierbij applicaties als monolieten of één grote applicatie wordt gebouwd. Verder wordt er gekeken naar software containers en de bekendste implementatie ervan: Docker. Het volgende hoofdstuk zal unikernels behandelen waarbij er gekeken wordt naar de soorten besturingssystemen hierbij gebruikt worden.
+Als voorlaatste hoofdstuk van de literatuurstudie zal er vergelijking tussen de huidige implementaties van unikernels en waar ze worden gebruikt. Als laatste hoofdstuk wordt er gekeken naar de manier hoe de applicaties worden gemaakt als geheel.
+
+%---------- Methodologie ------------------------------------------------------
+\section{Methodologie}
+\label{sec:methodologie}
+
+Er zal een proof-of-concept worden gemaakt waarbij er verschillende soorten applicaties(microservices en monolieten) worden opgezet op een virtuele machine, software containers en unikernels. De hoeveelheid van opzet op het vlak van scripting en benodigdheiden van tools. Unikernels staan nog in hun kinderschoenen dus we zullen bekijken hoe we van de ene opstelling naar de andere gaan en hoeveel extra werk er nodig is om deze opstelling te laten werken.
+
+%---------- Verwachte resultaten ----------------------------------------------
+\section{Verwachte resultaten}
+\label{sec:verwachte_resultaten}
+
+Microservices zullen beter werken binnen een opstelling van software containers en unikernels. Unikernels zullen dan weer meer problemen hebben met het opstellen van de omgevingen (verbinden van de verschillende gehelen). Monolieten zullen gemakkelijk kunnen worden opgesteld binnen virtuele machines en software containers.
+
+%---------- Verwachte conclusies ----------------------------------------------
+\section{Verwachte conclusies}
+\label{sec:verwachte_conclusies}
+
+Als er meer wordt gegaan van een opstelling waarbij de componenten van een applicatie niet hecht verbonden zijn dan zal de opstelling gemakkelijker te realiseren als de opstelling bestaat uit meerdere losse componenten.
+De applicatie weerspiegelt als het ware de opstelling of omgeving.
+
+%------------------------------------------------------------------------------
+% Referentielijst
+%------------------------------------------------------------------------------
+% TODO: de gerefereerde werken moeten in BibTeX-bestand ``biblio.bib''
+% voorkomen. Gebruik JabRef om je bibliografie bij te houden en vergeet niet
+% om compatibiliteit met Biber/BibLaTeX aan te zetten (File > Switch to
+% BibLaTeX mode)
+
+\phantomsection
+\printbibliography[heading=bibintoc]
+
+\end{document}

@@ -1,0 +1,98 @@
+\section{MirageOS}
+
+MirageOS is gestart vanaf nul met een schone lei. Dit betekende dat veel van de bestaande tools die nu worden gebruikt worden, zoals webservers (Apache, Nginx) en Databases (MySQL), herschreven zouden moeten worden. Het duurt een tijd voordat deze tervoorschijn komen en dit is één van de grootste redenen dat er gekozen is voor een statische applicatie.
+
+De opstelling die gemaakt is in de vorige sectie heeft de toolset van MirageOS ook geïnstalleerd. Verder moet er worden gekeken of de juiste versie van Ocaml en OPAM (package manager) is geïnstalleerd:
+
+\noindent OPAM versie:
+\begin{lstlisting}[language=bash]
+  $ opam --version
+  # De versie moet minstens 1.2.2 zijn.
+  1.2.2
+\end{lstlisting}
+
+\noindent Ocaml versie:
+\begin{lstlisting}[language=bash]
+  $ ocaml -version
+  # Deze moet 4.02.3 of hoger zijn.
+  $ opam switch 4.02.3
+\end{lstlisting}
+
+In de login shell moet de omgeving van opam geëvalueerd wanneer er ingelogd wordt. Dit kan gedaan worden door de volgenden lijn toe te voegen aan het ~/.bashrc bestand:
+
+\begin{lstlisting}[language=bash]
+  $ eval `opam config env`
+\end{lstlisting}
+
+\noindent Verder moeten er ook gekeken of de versie van mirage niet moet upgedate moet worden:
+\begin{lstlisting}[language=bash]
+  $ opam install mirage
+  $ mirage --help
+  # Versienummer moet hoger zijn 2.9.0
+\end{lstlisting}
+
+Het mirage commando kan gebruikt worden voor applicaties te maken en te deployeren.
+
+Als statische website zullen we de website van MirageOS zelf gebruiken. De repository van de website bevindt zich op de volgende link: https://github.com/mirage/mirage-www/. Eerst moet de repository in de virtuele machine worden gehaald. 
+
+\noindent Dit doen we door het git commando te gebruiken:
+\begin{lstlisting}[language=bash]
+  $ git clone https://github.com/mirage/mirage-www/
+\end{lstlisting}
+
+Vooraleer we de omgeving van de applicatie gaan configureren moet het mogelijk worden gemaakt om de Xen hypervisor te laten communiceren met de virtuele machine. Deze twee zijn afgeschermd van elkaar en daarom moet er een TUN/TAP constructie worden gemaakt. 
+
+sudo modprobe tun
+\noindent Dit doen we als volgt:
+\begin{lstlisting}[language=bash]
+  $ sudo apt-get install tunctl
+  $ sudo modprobe tun # laden van de tuntap kernel module
+  $ sudo tunctl # maak een tap0 interface
+  $ sudo ifconfig tap0 10.0.0.1 up # start tap0 op en wijs tap0 naar IP
+\end{lstlisting}
+
+Navigeer naar de gehaalde folder van de MirageOS website. 
+\noindent Daarna moet de omgeving voor de applicatie worden ingesteld:
+\begin{lstlisting}[language=bash]
+  $ cd mirage-www
+  $ make prepare
+  $ cd src
+  $ mirage configure --xen \ # configureren voor de Xen hypervisor
+      -vv --net direct \ #  direct MirageOS network stack
+      --dhcp true \ maak gebruik van DHCP
+      --tls false --network=0
+\end{lstlisting}
+
+Hierdoor is de omgeving van de applicatie goed ingesteld.
+\noindent Het compilen van de unikernel:
+\begin{lstlisting}[language=bash]
+  $ make
+\end{lstlisting}
+
+Eerst moeten nog file blocks worden aanmaken om de afbeeldingen en de stylesheets te kunnen gebruiken:
+\noindent Aanmaken file blocks
+\begin{lstlisting}[language=bash]
+  $ ./make-fat_block1-image.sh
+\end{lstlisting}
+
+Verder moet er nog een paar wijzigingen worden aangebracht in het www.xl bestand. Dit bestand wordt doorgegeven naar de Xen launcher om de unikernel te starten.
+\noindent Het disk gedeelte moeten worden aangepast naar het volgende:
+\begin{lstlisting}
+disk = ['format=raw,
+         vdev=xvde,
+         access=rw,
+         target=/home/vagrant/mirage-www/src/fat_block2.img',
+        'format=raw,
+         vdev=xvdc,
+         access=rw,
+         target=/home/vagrant/mirage-www/src/fat_block1.img
+      ']
+\end{lstlisting}
+
+
+\noindent Uiteindelijk kunnen we de unikernel starten:
+\begin{lstlisting}[language=bash]
+  $ sudo xl -v create -c www.xl
+\end{lstlisting}
+
+Doorheen de output kan gezien worden op welk IP de statische website staat te luisteren. Als er gegaan wordt naar dat IP om de lokale machine dan kan de MirageOS website worden gezien.

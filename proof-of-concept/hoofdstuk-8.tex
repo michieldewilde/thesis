@@ -1,0 +1,325 @@
+\chapter{Proof of concept: unikernels in de praktijk}
+\section{Inleiding}
+
+Dit hoofdstuk zal de toepassingen voor unikernels toelichten. De huidige implementaties van unikernels geven een zekere vrijheid wat voor soort applicaties er kunnen opgezet worden.  
+
+Er kan gesproken worden over twee types van applicaties: dynamische en statische. Hiernaar wordt ook verwezen in het Engels als stateless en statefull. Blogs en websites zonder al te veel functionaliteit zijn stateless. Het resultaat van de applicatie qua functionaliteit zal hetzelfde zijn voor elke gebruiker. Statefull applicaties zijn web applicaties zoals Wordpress en de meeste applicaties waar er informatie wordt bijgehouden en kan worden aangepast. Het overgrote deel van de applicaties die werken met unikernels zijn stateless.
+
+De verklaring hiervan is te vinden bij de eigenschappen van unikernels. Unikernels worden geoptimaliseerd voor de applicaties waarvoor ze gecompileerd worden. Het theoretische hoofdstuk over unikernels heeft hiervoor al de redenen gegeven. Wanneer de applicatie en een database zich op een unikernel bevinden dan zou de optimalisatie bijna geen voordelen geven. Daarbij komt er nog het extra gegeven van het opsplitsen van de verantwoordelijkheden van de componenten van een omgeving. Databanken vragen om een ander soort machine en/of besturingssysteem dan een webapplicatie. Hierbij is er nog het gegeven dat het bestaan van een relationele database nog niet bestaat voor unikernels onder een stabiele vorm. Irmin (verwijzing) kan wel een oplossing zijn, maar dit is moeilijk een relationele database te noemen. Ook kan Xenstore van de Xen hypervisor worden aangehaald. Dit levert dan weer het probleem op dat het niet op de verschillende soorten hypervisors kan gebruikt worden. Daarom kunnen databases zich beter bevinden op een virtuele machine met een algemeen besturingssysteem. Het probleem van databases en de correcte omgeving van databases kan ook teruggevonden worden bij software containers. Tot op het moment wordt aangeraden om databases te laten werken op virtuele machines omwille van de problemen met de levenstijd van software containers.
+
+Veel van toepassingen die werken met unikernels bevinden zich meestal in een bepaald segment. Dit is het geval met technologiëen die nog moeten toegroeien naar algemene of meerdere use cases. Toepassingen die moeten gebruik maken van unikernels zullen zich grotendeels bevinden binnen de netwerklaag. Rumprun heeft al pogingen gedaan om een soort van RAMP (RumpRun, Apache, MySQL, PHP) opstellingen te maken, maar dit staat nog in vroeg stadium. De functionaliteit laat hierbij te wensen over. Het maken van unikernels voor statische applicaties is dus een betere keuze voor de verschillende soorten unikernels te vergelijken.
+
+\subsection{Keuze Programmeertaal}
+
+Er worden een aantal programmeertalen ondersteund door unikernels. PHP, java, Node.JS, python, C++ en Go. Deze programmeertalen kunnen worden opgesplitst in twee groepen. Enerzijds zijn er de gecompileerde programmeertalen, zoals Go en C++, waarbij de broncode wordt omgezet in een uitvoerbaar bestand. Anderzijds kan er gesproken worden over geïnterpreteerde programmeertalen zoals PHP, java, Node.JS en python. Hierbij wordt de broncode door een interpreter vertaalt naar instructies die de processor kan begrijpen en de interpreter voert de instructies meteen uit. Het verschil is dus dat de compiler de instructies opslaat tegenover de interpreter die deze onmiddellijk uitvoert. Dit heeft een gevolg op de omgeving waarin de opstelling zich bevindt. Omwille van de aard van unikernels (beperkte levenstijd) kan een interpreter extra tijd innemen om de unikernel te starten. Enerzijds zou er gedacht kunnen worden dat dit een voordeel geeft aan de unikernels tegenover de software containers en virtuele machines. Maar de use cases waarbinnen unikernels kunnen worden gebruikt bevinden zich eerder in andere situaties. Voorbeelden hiervan zijn wanneer er uitzonderlijk geschaald moet worden of wanneer de unikernel de rol van een load balancer moet vervullen. 
+
+Go zal gebruikt worden als programmeertaal om de applicaties te realiseren. Hieronder vind je een link naar deze programmeertaal.
+
+\begin{description}
+\item [Go] - https://golang.org
+\end{description}
+
+\section{Opstelling Virtuele Machine}
+
+Deze opstelling maakt gebruik van virtualbox als hypervisor met Vagrant, als configuratie tool, om de ontwikkelomgeving gemakkelijk op te stellen. 
+De vereisten voor deze opstelling zijn:
+\begin{description}
+\item [Virtualbox] - https://www.virtualbox.org/
+\item [Vagrant] - https://www.vagrantup.com/
+\item [Repository Go Virtuele machine omgeving] - https://github.com/michieldewilde/vagrant-golang-bp
+\item [Git] - https://git-scm.com/
+\end{description}
+
+Het besturingssysteem dat wordt gebruikt is Debian. De opstelling is simpel te noemen, omdat er enkel wordt uitgegaan van een applicatie die zich bevindt op de virtuele machine zonder andere componenten. In een productie omgeving zullen deze twee componenten zich uiteraard niet op dezelfde virtuele machine bevinden. Go wordt gebruikt als programmeertaal om de applicatie op de virtuele machine te demonstreren.
+
+Allereerst is git nodig om de repository lokaal te downloaden. Git is een versie controle systeem om gemakkelijk grote en kleine projecten te beheren en te ontwikkelen wanneer er in team gewerkt wordt.
+
+\noindent Het volgende commando zal de repository met de configuratie van de virtuele machine ophalen:
+\begin{lstlisting}[language=bash]
+  $ git clone https://github.com/michieldewilde/vagrant-golang-bp
+\end{lstlisting}
+
+De Vagrantfile in deze directory bevat de configuratie voor deze machine en zal ook zorgen dat de huidige directory van de host synchroniseert met de toegewezen directory in de virtuele machine.
+
+\noindent Het volgende commando stelt de virtuele machine op en configureert deze:
+\begin{lstlisting}[language=bash]
+  $ vagrant up
+\end{lstlisting}
+
+\noindent Om deze virtuele machine te betreden wordt het volgende commando uitgevoerd:
+\begin{lstlisting}[language=bash]
+  $ vagrant ssh
+\end{lstlisting}
+
+Alle inhoud van de directory die we binnen hebben gehaald, bevindt zich op het /vagrant path. De programmeertaal Go heeft een structuur voor de projecten waarmee er wordt gewerkt. Er kan worden vastgesteld dat er in de directory die binnen is gehaald dat er een src directory aanwezig is. Binnen de src directory bevindt zich een main.go bestand. 
+
+\noindent Om dit bestand uit te voeren:
+\begin{lstlisting}[language=bash]
+  $ go run main.go
+\end{lstlisting}
+
+Nu staat er een web server op en deze kan bereikt worden door in uw browser het IP van de virtuele machine in te geven, 192.168.10.10, en de poort 8080 met als prefix : er aan toe te voegen.
+
+Bij deze is er een ontwikkelomgeving voor de programmeertaal Go opgesteld, met daarbij een web server. Het opstellen van een hele virtuele machine voor één applicatie kan overdreven lijken, maar daarbij zijn de vereisten voor de Go ontwikkelomgeving gescheiden van de host machine. Het toevoegen van extra onderdelen kan met gemak gebeuren door andere paketten te installeren en te configureren. De functie van de virtuele machine die momenteel is opgezet is algemeen en kan gemakkelijk veranderen door onderdelen toe te voegen. Daarbij kan de virtuele machine met een algemeen besturingssysteem, Debian, beschouwd worden als niet gespecialiseerd. Dit is een uiteindelijk doel van elke component in de ontwikkelomgeving. 
+
+\section{Opstelling Software Containers}
+
+Deze opstelling maakt gebruik van virtualbox als hypervisor met daarop Docker om de software containers te beheren en configureren.
+De vereisten voor deze opstelling zijn:
+\begin{description}
+\item [Docker Toolbox] - https://www.docker.com/products/docker-toolbox
+\item [Repository Go Software Container Omgeving] - https://github.com/michieldewilde/docker-golang-bp
+\item [Simpele web server] - https://github.com/michieldewilde/go-web-example
+\item [Git] - https://git-scm.com/
+\end{description}
+
+Er zijn al nieuwere versies van Docker uitgebracht voor specifieke besturingssystemen zoals Docker for Mac and Windows. Deze vertonen echter problemen bij het opstellen van unikerneles in het volgende hoofdstuk. Docker Toolbox laat toe om beide omgevingen te ondersteunen. Docker maakt het gemakkelijk om applicaties te deployen in software containers.
+
+\noindent Het volgende commando zal de repository met de configuratie van de software containers ophalen:
+\begin{lstlisting}[language=bash]
+  $ git clone https://github.com/michieldewilde/docker-golang-bp
+\end{lstlisting}
+
+Ga naar de opgehaalde directory en daarbinnen vindt uw een bestand genaamd Dockerfile, met alle configuratie die nodig is om een web server op te stellen binnen een software container.
+
+\begin{lstlisting}[language=docker,caption={Dockerfile},breaklines=true,label={code:docker}]
+FROM golang:1.6
+
+# Haal de repository met het voorbeeld op
+RUN go get github.com/michieldewilde/go-web-example
+
+# Compileer het project
+RUN go install github.com/michieldewilde/go-web-example
+
+# Wanneer de software container wordt gestart, voer het gecompileerde project uit
+ENTRYPOINT /go/bin/go-web-example
+
+# Open poort 8080 om de web server te kunnen bereiken van op de host
+EXPOSE 8080
+\end{lstlisting}
+
+Als Docker geïnstalleerd wordt dan wordt nog een extra tool mee geïnstalleerd: docker-machine. Deze tool laat toe om Docker hosts te creëren. Deze laat dan toe om met de Docker client die zich bevindt op de host te communiceren. 
+
+Er zijn nog manieren om een meer uitgebreide en/of geavanceerde opstelling te bereiken dit kan bereikt worden door gebruik te maken van het docker-compose commando.
+
+\begin{lstlisting}[language=docker-compose,caption={docker-compose.yaml},breaklines=true,label={code:docker-compose}]
+# gebruik versie twee van de docker-compose syntax
+version: '2'
+# de verschillende componenten die moeten nodig zijn voor de opstelling
+services:
+  # onze simpele web server van de vorige voorbeelden
+  go-web-example:
+    # wanneer de service gecompileerd moet worden, gebruik de Dockerfile in de huidige directory (Dockerfile van het vorige voorbeeld)
+    build: .
+    # stel de pport 8080 open
+    ports:
+     - "8080:8080"
+  # extra component voor database functionaliteit
+  redis:
+    image: "redis:alpine"
+\end{lstlisting}
+
+Door gebruik te maken van een docker-compose bestand wordt de opstelling van de verschillende componenten simpeler gemaakt. Ook het schalen van de componenten, wanneer er extra last wordt ondervonden, is ook gemakkelijker. Dit komt omdat de componenten gescheiden zijn van elkaar. Het toevoegen van extra componenten aan een opstelling kan dus gebeuren door een service toe te voegen aan het docker-compose bestand. Op de virtuele machine zou deze helemaal moeten worden geïnstalleerd en geconfigureerd worden. 
+
+\section{Opstelling Unikernel}
+
+Deze opstelling wordt uitgevoerd op een virtuele machine omdat er extensieve veranderingen worden uitgevoerd. Om deze opstelling lokaal te gebruiken zijn er drie vereisten nodig. Ten eerste de Virtualbox hypervisor. Verder Vagrant om de ontwikkelingomgeving op te stellen. Vagrant en Virtualbox gaan hand in hand om een start te maken wanneer er een bepaalde ontwikkelingomgeving nodig is. Vagrant werkt door middel van een bestand (VagrantFile). In dit bestand is alle configuratie van opstelling beschreven. Het haalt eerst een afbeelding op waarop de configuratie wordt toegepast. Packer is de laatste vereiste. Het zal gebruikt worden om op de virtuele machine de configuratie toe te passen. Dit resultaat wordt dan opgeslagen als een afbeelding.
+
+\begin{description}
+\item [Virtualbox] - https://www.virtualbox.org/
+\item [Vagrant] - https://www.vagrantup.com/
+\item [Packer] - https://www.packer.io/ 
+\end{description}
+
+Allereest moeten alle voorgenoemde vereisten zijn geïnstalleerd op uw machine voor er verder kan worden gegaan. MirageOS heeft een repository met alle benodigdheden om deze virtuele machine op te stellen. Deze kan gevonden worden op de volgende link: https://github.com/michieldewilde/mirage-vagrant-vms. Haal deze repository lokaal op de machine en navigeer naar de locatie van deze opgehaalde folder. Er is keuze uit ubuntu 14.04, ubuntu 14.10, debian 7.8.0 en xenserver 6.5.0. Er is gekozen voor Ubuntu 14.04 omdat er het minste problemen bij dit besturingssysteem zijn vastgesteld voor deze opstelling. De Makefile bevat gemakkelijkheidshalve commando's om de virtuele machine op te stellen zonder een lijst van commando's in te geven.
+
+\noindent Het volgende commando zal een nieuwe box aanmaken door het gebruik van Packer:
+\begin{lstlisting}[language=bash]
+  $ make ubuntu-14.04-box
+\end{lstlisting}
+
+\noindent Het volgende commando neemt de box, die is aangemaakt door het vorige commando, en past de configuratie erop toe:
+\begin{lstlisting}[language=bash]
+  $ make ubuntu-14.04-box
+\end{lstlisting}
+
+\noindent Navigeer naar de folder van het gekozen besturingssysteem en ssh in de virtuele machine: 
+\begin{lstlisting}[language=bash]
+  $ cd ubuntu-14.04 && vagrant ssh
+\end{lstlisting}
+
+\subsection{MirageOS}
+
+MirageOS is gestart vanaf nul met een schone lei. Dit betekende dat veel van de bestaande tools die nu worden gebruikt worden, zoals webservers (Apache, Nginx) en Databases (MySQL), herschreven zouden moeten worden. Het duurt een tijd voordat deze tervoorschijn komen en dit is één van de grootste redenen dat er gekozen is voor een statische applicatie.
+
+De opstelling die gemaakt is in de vorige sectie heeft de toolset van MirageOS ook geïnstalleerd. Verder moet er worden gekeken of de juiste versie van Ocaml en OPAM (package manager) is geïnstalleerd:
+
+\noindent OPAM versie:
+\begin{lstlisting}[language=bash]
+  $ opam --version
+  # De versie moet minstens 1.2.2 zijn.
+  1.2.2
+\end{lstlisting}
+
+\noindent Ocaml versie:
+\begin{lstlisting}[language=bash]
+  $ ocaml -version
+  # Deze moet 4.02.3 of hoger zijn.
+  $ opam switch 4.02.3
+\end{lstlisting}
+
+In de login shell moet de omgeving van opam ingeladen wanneer er ingelogd wordt. Dit kan gedaan worden door de volgende lijn toe te voegen aan het ~/.bashrc bestand:
+
+\begin{lstlisting}[language=bash]
+  $ eval `opam config env`
+\end{lstlisting}
+
+\noindent Verder moeten er ook gekeken of de versie van mirage niet moet aangepast moet worden:
+\begin{lstlisting}[language=bash]
+  $ opam install mirage
+  $ mirage --help
+  # Versienummer moet hoger zijn 2.9.0
+\end{lstlisting}
+
+Het mirage commando kan gebruikt worden om applicaties te maken en uit te rollen.
+
+Als statische website zullen we de website van MirageOS zelf gebruiken. De repository van de website bevindt zich op de volgende link: https://github.com/mirage/mirage-www/. Eerst moet de repository worden opgehaald. 
+
+\noindent Dit doen we door het git commando te gebruiken:
+\begin{lstlisting}[language=bash]
+  $ git clone https://github.com/mirage/mirage-www/
+\end{lstlisting}
+
+Vooraleer we de omgeving van de applicatie gaan configureren moet het mogelijk worden gemaakt om de Xen hypervisor te laten communiceren met de virtuele machine. Deze twee zijn afgeschermd van elkaar en daarom moet er een TUN/TAP constructie worden gemaakt. 
+
+sudo modprobe tun
+\noindent Dit doen we als volgt:
+\begin{lstlisting}[language=bash]
+  $ sudo apt-get install tunctl
+  # laden van de tuntap kernel module
+  $ sudo modprobe tun 
+  # maak een tap0 interface
+  $ sudo tunctl 
+
+  $ sudo ifconfig tap0 10.0.0.1 up 
+\end{lstlisting}
+
+Navigeer naar de opgehaalde folder van de MirageOS website. 
+\noindent Daarna moet de omgeving voor de applicatie worden ingesteld:
+\begin{lstlisting}[language=bash]
+  $ cd mirage-www
+  $ make prepare
+  $ cd src
+  # configureren voor de Xen hypervisor
+  # direct MirageOS network stack
+  # maak gebruik DHCP
+  $ mirage configure --xen \
+      -vv --net direct \ 
+      --dhcp true  \
+      --tls false --network=0
+\end{lstlisting}
+
+Hierdoor is de omgeving van de applicatie goed ingesteld.
+\noindent Het compileren van de unikernel gebeurd door middel van het volgende commando:
+\begin{lstlisting}[language=bash]
+  $ make
+\end{lstlisting}
+
+Eerst dienen er nog file blocks aangemaakt te worden om de afbeeldingen en de stylesheets te kunnen gebruiken:
+\noindent Aanmaken file blocks
+\begin{lstlisting}[language=bash]
+  $ ./make-fat_block1-image.sh
+\end{lstlisting}
+
+Verder moeten er nog een paar wijzigingen worden aangebracht in het www.xl bestand. Dit bestand wordt doorgegeven naar de Xen launcher om de unikernel te starten.
+\noindent Het disk gedeelte moeten worden aangepast naar het volgende:
+\begin{lstlisting}
+disk = ['format=raw,
+         vdev=xvde,
+         access=rw,
+         target=/home/vagrant/mirage-www/src/fat_block2.img',
+        'format=raw,
+         vdev=xvdc,
+         access=rw,
+         target=/home/vagrant/mirage-www/src/fat_block1.img
+      ']
+\end{lstlisting}
+
+
+\noindent Uiteindelijk kunnen we de unikernel starten:
+\begin{lstlisting}[language=bash]
+  $ sudo xl -v create -c www.xl
+\end{lstlisting}
+
+Doorheen de output kan gezien worden op welk IP de statische website staat te luisteren. Als er genavigeerd wordt naar dat adres dan kan de MirageOS website worden bekeken.
+
+\subsection{Rumprun}
+
+Bij de rumprun unikernel zal er gebruik gemaakt worden van Nginx webserver om een statische website weer te geven. 
+Allereerst moeten de build tools van Rumprun worden geïnstallereerd.
+Dit wordt bereikt als volgt:
+
+\noindent We halen de Rumprun repository op en alle dependencies
+\begin{lstlisting}[language=bash]
+  $ git clone http://repo.rumpkernel.org/rumprun
+  $ cd rumprun
+  $ git submodule update --init
+\end{lstlisting}
+
+Verder moeten er een toolchain gemaakt worden voor de unikernels te compileren. In dit geval worden de unikernels gecompileerd voor ze te uit te voeren op de Xen hypervisor.
+\begin{lstlisting}[language=bash]
+  $ ./build-rr.sh xen
+\end{lstlisting}
+
+Dit maakt een folder aan genaamd rumprun met daarin een bin directory die toegevoegt zal worden aan het PATH. Dit wordt gedaan zodat de rumprun toolchain overal in het systeem kan gebruikt worden.
+\noindent Toevoegen Rumprun toolchain aan PATH:
+\begin{lstlisting}[language=bash]
+  $ export PATH=${PATH}:$(pwd)/rumprun/bin
+\end{lstlisting}
+
+De toolchain voor Rumprun unikernels te maken is geïnstalleerd. Nu moet er een nginx Rumprun unikernel worden opgehaald.
+\noindent Ophalen Nginx unikernel:
+\begin{lstlisting}[language=bash]
+  $ git clone http://repo.rumpkernel.org/rumprun-packages
+  $ cd rumprun-packages/
+  $ cd nginx/
+\end{lstlisting}
+
+Er moet ook een package worden geïnstalleerd om een ISO bestand te maken. Dit zal gebruikt worden voor bestanden te laden in de unikernel.
+\noindent Installeren genisoimage:
+\begin{lstlisting}[language=bash]
+  $ sudo apt-get install genisoimage
+\end{lstlisting}
+
+De volgende stap is om Nginx te compileren.
+\noindent Compileren Nginx:
+\begin{lstlisting}[language=bash]
+  $ make
+\end{lstlisting}
+
+De unikernel werkt nu al maar moet omgezet worden naar een unikernel die werkt op de Xen hypervisor.
+\noindent unikernel voor Xen maken:
+\begin{lstlisting}[language=bash]
+  $ rumprun-bake xen_pv ./nginx.bin bin/nginx
+\end{lstlisting}
+
+Hierbij is nginx.bin de unikernel die moet worden gestart.
+
+\noindent Uitvoeren van de Nginx unikernel:
+\begin{lstlisting}[language=bash]
+  # data van www folder laden (inhoud van statische website)
+  # dhcp instellen
+  # laden van unikernel en configuratie
+  $ rumprun -T tmp xen -M 64 -i \
+  -b images/data.iso,/data \ 
+  -I mynet,xenif,bridge=br0 -W mynet,inet,dhcp \
+  -- nginx.bin -c /data/conf/nginx.conf 
+\end{lstlisting}
+
+Het adres van de nginx webserver is te vinden in de output in het gedeelte van met de DHCP informatie.
+
+De bridge br0 ,die in MirageOS en Rumprun unikernel wordt gebruikt, is een host-only bridge tussen de host en de virtuele machine om netwerkverkeer tussen beide te laten werken.
+
+\section{Conclussie}
+
+Tijdens dit hoofdstuk is er gekeken naar de mogelijkheden en limitaties die er zijn wanneer er gebruik wordt gemaakt van unikernels. De verschillende opstellingen (virtuele machine, software container en unikernel) tonen duidelijk aan dat er een gebrek is aan maturiteit bij unikernels. Het ecosysteem is gefragmenteerd door de verschillende implementaties. Verder zijn er moeilijkheden om de unikernels te debuggen in een productieomgeving. Dit kan leiden tot frustaties als er naar een andere omgeving wordt veranderd. Er zijn verschillende pogingen om al deze build tools achter één interface te brengen en ze zo simpel te kunnen gebruiken. Spijtig genoeg staat dit alles nog in een vroeg stadium. Statische applicaties en specifieke netwerktoepassingen zijn één van de enige mogelijkheden momenteel om unikernels in productie te gebruiken. Er werd ook geprobeerd om een Wordpress blog op te stellen met behulp van Rumprun maar er werd op veel moeilijkheden gestoten. Ten eerste het compileren van de gehele applicatie met de omgeving zorgde voor problemen wanneer bepaalde dependencies de juiste versie niet hadden. Deze versies waren dan weer niet te vinden in de Rumprun package directory. Verder was het debuggen van een unikernel uiterst moeilijk omwille van de afwezigheid van tools hiervoor. Dit zorgde voor veel aanpassingen. Daarbij kwam nog dat het hele gegeven zeer traag is om veranderingen te kunnen maken.

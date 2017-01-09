@@ -142,8 +142,8 @@
 	file = {Cloud Computing Architecture - preview & related info | Mendeley:/Users/Coding/Library/Application Support/Zotero/Profiles/0naxjkjs.default/zotero/storage/7KUMJZN5/cloud-computing-architecture-21.html:text/html}
 }
 
-@Misc{cloudius-systems/osv_0000,
-  author       = {Cloudius System},
+@Misc{_cloudius-systems/osv_????,
+  author       = {Cloudius Systems},
   title        = {cloudius-systems/osv},
   note         = {bibtex: cloudius-systems/osv\_0000},
   abstract     = {osv - OSv, a new operating system for the cloud.},
@@ -443,7 +443,7 @@ We propose a flexible anykernel architecture which enables running kernel driver
 	file = {Snapshot:/Users/Coding/Library/Application Support/Zotero/Profiles/0naxjkjs.default/zotero/storage/HITZPQ9Q/microservices.html:text/html}
 }
 
-@Misc{mirage/mirage_0000,
+@Misc{_mirage/mirage_????,
   author   = {Mirage},
   title    = {mirage/mirage source code},
   note     = {bibtex: mirage/mirage\_0000},
@@ -823,7 +823,7 @@ Android has the largest installed base of all operating systems of any kind (on 
 	file = {Snapshot:/Users/Coding/Library/Application Support/Zotero/Profiles/0naxjkjs.default/zotero/storage/8FBP22GM/index.html:text/html}
 }
 
-@misc{vmware_vmware_2016-1,
+@misc{vmware_vmware_2016,
 	title = {{VMware} {ESXi}},
 	url = {http://www.vmware.com/products/esxi-and-esx/},
 	urldate = {2016-05-17},
@@ -832,7 +832,7 @@ Android has the largest installed base of all operating systems of any kind (on 
 	note = {Opgehaald op 17/05/2016 van http://www.vmware.com/products/esxi-and-esx/}
 }
 
-@misc{vmware_vmware_2016,
+@misc{vmware_vmware_2016-1,
 	title = {{VMware} {Workstation}},
 	url = {http://www.vmware.com/products/workstation/},
 	urldate = {2016-05-17},
@@ -850,11 +850,12 @@ Android has the largest installed base of all operating systems of any kind (on 
 }
 
 @misc{xen_project_xen_2016,
-	title = {{Xen {Project}},
+	title = {Xen {Project}},
 	url = {http://xenproject.org/},
 	urldate = {2016-05-17},
 	author = {{Xen Project}},
 	year = {2016},
 	note = {Opgehaald op 17/05/2016 van http://xenproject.org/}
 }
+
 @Comment{jabref-meta: databaseType:bibtex;}
