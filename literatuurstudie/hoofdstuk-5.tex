@@ -5,17 +5,17 @@
 
 Dit hoofdstuk zal uitleggen uit welke delen een unikernel bestaat. Tevens wordt er ook beeld gegeven over de voordelen en eigenschappen van unikernels. In het volgende hoofdstuk wordt bekeken welke implementaties van unikernels er al bestaan en wat de verschillen tussen deze implementaties zijn.
 
-Virtuele machines (hoofdstuk \ref{ch:virtualisatie}) zijn er gekomen wanneer men de middelen van computers beter wou gebruiken. Toch werden de middelen niet optimaal benut door de besturingssystemen die werden gebruikt. Bij containers (hoofdstuk \ref{ch:Containers}) wordt het besturingssysteeem van de host machine gedeeld tussen de verschillende software containers. De middelen worden efficiënter gebruikt, doordat er maar één besturingssysteem is.
+Virtuele machines (hoofdstuk \ref{ch:virtualisatie}) zijn er gekomen wanneer men de middelen van computers beter wou gebruiken. Toch werden de middelen niet optimaal benut door de besturingssystemen die werden gebruikt. Bij containers (hoofdstuk \ref{ch:containers}) wordt het besturingssysteem van de host machine gedeeld tussen de verschillende software containers. De middelen worden efficiënter gebruikt, doordat er maar één besturingssysteem is.
 
 Unikernels (\cite{madhavapeddy_unikernels_2013}) gaat een andere weg op. Bij unikernels wordt er gekeken naar het besturingssysteem. Traditionele besturingssystemen zoals Ubuntu worden onder de loep genomen. De meeste besturingssystemen die worden gebruikt binnen een productieomgeving, kunnen ook gebruikt worden voor algemene doeleinden.
 
 De eerste implementaties van unikernels worden tegengekomen op het einde van de jaren 90. Exokernel (\cite{mit_mit_1998}) werd ontwikkeld door MIT. De software ontwikkelaars kunnen zelf dus keuzes maken op vlak van abstractie. Nemesis (\cite{university_of_cambridge_nemesis_2000}) werd vanuit de universiteit van Cambridge ontwikkeld. Deze onderzoekers wilden unikernels gebruiken voor doeleinden binnen de multimedia.
 
-Unikernels vragen inzicht in een aantal verschillende technologiëen. De kernel ligt aan de basis van een besturingssysteem en zal in de volgende sectie worden uitgelegd.
+Unikernels vragen inzicht in een aantal verschillende technologieën. De kernel ligt aan de basis van een besturingssysteem en zal in de volgende sectie worden uitgelegd.
 
 \section{Kernel}
 
-De kernel is het programma dat zich centraal bevindt in het besturingssysteem. Het werkt rechtstreeks met de hardware van de computer. De kernel kan gezien worden als het fundament waar het hele besturingssysteem op steunt. Omdat het een belangrijke rol vervult, in het besturingssysteem, is veel van het geheugen van de kernel beveiligd. Dit is bedoeld zodat bepaalde applicaties geen veranderingen kunnen aanbrengen in de kernel. Als er iets fout zou gaan met de kernel, dan heeft dit rechtstreekse gevolgen op het besturingssysteem. Al de handelingen die de kernel uitvoert bevinden zich in de kernel space. Daartegenover gebeurd allles wat de gebruiker uitvoert zich in de user space. Het is van uiterst belang dat de kernel space en user space strikt van elkaar gescheiden zijn. Als dit niet zo zou zijn, dan zou een besturingssysteem niet veilig zijn. De kernel voert nog andere taken uit zoals geheugenbeheer en system calls. Figuur \ref{fig:kernel} toont de positie van de kernel binnen het systeem.
+De kernel is het programma dat zich centraal bevindt in het besturingssysteem. Het werkt rechtstreeks met de hardware van de computer. De kernel kan gezien worden als het fundament waar het hele besturingssysteem op steunt. Omdat het een belangrijke rol vervult, in het besturingssysteem, is veel van het geheugen van de kernel beveiligd. Dit is bedoeld zodat bepaalde applicaties geen veranderingen kunnen aanbrengen in de kernel. Als er iets fout zou gaan met de kernel, dan heeft dit rechtstreekse gevolgen op het besturingssysteem. Al de handelingen die de kernel uitvoert bevinden zich in de kernel space. Daartegenover gebeurd alles wat de gebruiker uitvoert zich in de user space. Het is van uiterst belang dat de kernel space en user space strikt van elkaar gescheiden zijn. Als dit niet zo zou zijn, dan zou een besturingssysteem niet veilig zijn. De kernel voert nog andere taken uit zoals geheugenbeheer en system calls. Figuur \ref{fig:kernel} toont de positie van de kernel binnen het systeem.
 
 \begin{wrapfigure}{r}{0.3\textwidth}
     \centering
@@ -45,13 +45,13 @@ Traditionele besturingssystemen zijn niet de basis die men nodig heeft in een ar
 \begin{wrapfigure}{r}{0.4\textwidth}
     \centering
     \includegraphics[width=6cm]{img/unikernel}
-    \caption{algemeen besturingssysteem tegenover een unikernel implementatie \cite{madhavapeddy_unikernels_2013}}
+    \caption[samenstelling algemeen besturingssysteem en unikernel]{Samenstelling algemeen besturingssysteem tegenover unikernel \cite{madhavapeddy_unikernels_2013}}
     \label{fig:unikernel}
 \end{wrapfigure}
 
 Sommige onderdelen van het besturingssysteem hebben geen nut meer. Dit kan voor slechtere prestaties en lagere veiligheid zorgen.
 
-Het concept van library besturingssystemen (\cite{madhavapeddy_unikernels_2013}) neemt dit nog een stap verder. Er wordt met een absoluut minimale basis gestart. Daarna worden alleen de componenten toegevoegd, die nodig zijn voor de functionaliteit die de eenheid uitvoert. Library duidt op de verschillende onderdelen of componenten die kunnen worden toegevoegd.
+Het concept van library besturingssystemen (\cite{madhavapeddy_unikernels_2013}) neemt dit nog een stap verder. Er wordt met een minimale basis gestart. Daarna worden alleen de componenten toegevoegd, die nodig zijn voor de functionaliteit die de eenheid uitvoert. Library duidt op de verschillende onderdelen of componenten die kunnen worden toegevoegd.
 
 Web applicaties hebben verschillende functies nodig om te kunnen communiceren. Hiervoor bestaan netwerkprotocollen. TCP is een kritiek protocol om te communiceren met het internet en andere apparaten. Bij algemene besturingssystemen, zoals Ubuntu, is dit al aanwezig. Omdat er gestart wordt met een minimale basis, moeten deze protocollen geïmplementeerd worden. Gelukkig zijn er libraries die hiervoor kunnen gebruikt worden. De libraries, broncode en configuratie worden dan gecompileerd. Als resultaat heb je dan een image. Wanneer deze image wordt uitgevoerd dan hebben we een werkende unikernel. De unikernel wordt gecompileerd voor één omgeving en kan alleen gebruikt worden op deze omgeving. Dit is een verschil met software containers en virtuele machines die meer los staan van de omgeving waarin ze zich bevinden.
 
@@ -65,7 +65,7 @@ Eén globale address space zorgt voor problemen met de isolatie van processen. M
 
 \section{Veiligheid}
 
-De hoge mate van veiligheid van unikernels is een gevolg van de specialisatie van de eenheid. Bij virtuele machines en software containers zijn traditionele besturingssystemen de basis. Deze besturingssystemen hebben zeer veel functionaliteit die niet nodig is voor de specifieke taak dat ze uitvoeren. De overbodige functionaliteit kan zorgen voor een lagere prestatie, maar ook voor meer veiligheidsrisico's. Het is dus gemakkelijker om de veiligheid te garanderen van een kleinere broncode tegenover een grote. Daar komt nog bij dat er unikernel implementaties worden gebruikt die specifiek zijn voor de omgeving. Het vraagt veel meer moeite om een gespecialiseerde implementatie te schrijven tegenover een algemene implementatie. Het marktaandeel van de algmene implementatie zal ook veel groter zijn tegenover de specifieke implementatie.
+De hoge mate van veiligheid van unikernels is een gevolg van de specialisatie van de eenheid. Bij virtuele machines en software containers zijn traditionele besturingssystemen de basis. Deze besturingssystemen hebben zeer veel functionaliteit die niet nodig is voor de specifieke taak dat ze uitvoeren. De overbodige functionaliteit kan zorgen voor een lagere prestatie, maar ook voor meer veiligheidsrisico's. Het is dus gemakkelijker om de veiligheid te garanderen van een kleinere broncode tegenover een grote. Daar komt nog bij dat er unikernel implementaties worden gebruikt die specifiek zijn voor de omgeving. Het vraagt veel meer moeite om een gespecialiseerde implementatie te schrijven tegenover een algemene implementatie. Het marktaandeel van de algemene implementatie zal ook veel groter zijn tegenover de specifieke implementatie.
 
 Verder heeft een unikernel geen shell of een andere mogelijkheid om een unikernel aan te passen terwijl deze aan het werken is. Eén unikernel overnemen heeft geen gevolg op de andere unikernels. Daarbij komt nog dat de hypervisors zelf meer veiligheid garanderen (\cite{colp_breaking_2011}).
 

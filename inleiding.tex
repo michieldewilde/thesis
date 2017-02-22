@@ -1,0 +1,52 @@
+%%=============================================================================
+%% Inleiding
+%%=============================================================================
+
+\chapter{Inleiding}
+\label{ch:inleiding}
+
+Bij het opleveren van software worden applicaties eerst lokaal op de eigen machine ontwikkeld. Wanneer de software opgeleverd wordt dan wordt het geplaatst in een test- en/of productieomgeving. Het geschreven programma van de lokale ontwikkelomgeving naar de productieomgeving brengen kan veel moeite met zich mee brengen. De productieomgeving bestaat uit infrastructuur die zich lokaal in het bedrijf bevindt of bij een cloud provider (Amazon Web Services, Google Cloud) te vinden is.
+
+De middelen van de productieomgeving moeten zo goed mogelijk benut worden. In deze bachelorproef zal bekeken worden of unikernels hierbij een rol kunnen spelen. En voor welke use cases unikernels gebruikt kunnen worden.
+
+\section{Stand van zaken}
+\label{sec:stand-van-zaken}
+
+De voorbije jaren zijn er veel problemen gevonden bij algemene besturingssystemen. Deze besturingssystemen zijn niet alleen te vinden op computers van gebruikers, maar ook op de servers van applicaties. Beide omgevingen vragen om een andere oplossing. Unikernels (hoofdstuk \ref{ch:unikernels}) kunnen hierop inspelen omdat er uitgegaan wordt van een minimale basis waarbij er functionaliteit kan worden toegevoegd. Naast unikernels zijn er nog de klassieke oplossingen zoals virtuele machines (hoofdstuk~\ref{ch:virtualisatie}) en software containers (hoofdstuk~\ref{ch:containers}). Verder wordt ook de architectuur van applicaties bekeken (hoofdstuk~\ref{ch:microservices}) om de veranderingen op het valk van de applicatie en de omgeving aan te duiden.
+
+\section{Probleemstelling en Onderzoeksvragen}
+\label{sec:onderzoeksvragen}
+
+Het doel van deze bachelorproef is om de use cases voor unikernels aan te duiden en de verhouding tegenover software containers en virtuele machines. 
+Dit zal gebeuren door de volgende onderzoeksvragen te beantwoorden:
+
+\begin{itemize}  
+\item Wat zijn de use cases voor unikernels?
+\item De verhouding van software containers tegenover unikernels?
+\item De gevolgen voor de applicatie architectuur wanneer unikernels in gebruik worden genomen?
+\item Wordt het opstellen en beheren van applicaties eenvoudiger of niet?
+\item Wat is de impact op beveiliging?
+\end{itemize}
+
+\section{Opzet van deze bachelorproef}
+\label{sec:opzet-bachelorproef}
+
+Deze bachelorproef behandelt het onderwerp unikernels (\cite{mao_performance_2012}). Hierbij wordt gekeken naar de veiligheid en efficiëntie van unikernels. Verder wordt er ook gekeken naar de gevolgen die unikernels kunnen hebben op de architectuur van applicaties. De omgeving waarin de ontwikkelaar werkt kan verschillen van project tot project. Daarom is het aantonen van de specifieke situaties waarin unikernels kunnen gebruikt worden van uiterst belang.
+
+De bachelorproef is als volgt opgebouwd:
+
+In Hoofdstuk~\ref{ch:methodologie} wordt de methodologie toegelicht en worden de gebruikte onderzoekstechnieken besproken om een antwoord te kunnen formuleren op de onderzoeksvragen.
+
+Virtualisatie vormt de basis voor veel van de technologieën die worden aangehaald. Virtualisatie zal belicht worden in hoofdstuk~\ref{ch:virtualisatie}.
+
+Op 21 maart 2013 werd op Pycon de eerste demo van Docker gegeven (\cite{hykes_future_2013}). Het gegeven software containers bestond al langer, maar is pas echt doorgebroken door Docker. In hoofdstuk~\ref{ch:containers} worden software containers nader bekeken.
+
+Hoofdstuk~\ref{ch:unikernels} dat unikernels behandelt, zal zich focussen op de werking, voordelen en implementaties van unikernels.
+
+In hoofdstuk~\ref{ch:vergelijking-unikernels} zal gekeken worden naar de verschillende implementaties van unikernels en deze, tot zover dit mogelijk is, met elkaar vergelijken.
+
+Hoofdstuk~\ref{ch:microservices} geeft een beeld van de architectuur van applicaties door de concepten van microservices en monolieten nader te bekijken.
+
+Hoofdstuk~\ref{ch:proof-of-concept} zal het proof of concept toelichten. Hierbij wordt er een simpele web server op verschillende omgevingen uitgevoerd en gekeken wat de mogelijkheden en moeilijkheden zijn. De keuze van het soort applicatie wordt gegeven omwille van de beperkte mogelijkheden van unikernels.
+
+In Hoofdstuk~\ref{ch:conclusie}, tenslotte, wordt de conclusie gegeven en een antwoord geformuleerd op de onderzoeksvragen. Daarbij wordt ook een aanzet gegeven voor toekomstig onderzoek binnen dit domein.

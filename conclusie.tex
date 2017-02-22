@@ -1,0 +1,24 @@
+\chapter{Conclusie}
+\label{ch:conclusie}
+
+Het efficiënt gebruiken van de middelen van de productieomgeving is een belangrijk gegeven. Innoveren om deze omgeving beter te gebruiken is broodnodig. Virtuele machines, containers en unikernels zijn maar enkele innovaties die dit proberen te bereiken. Software containers hebben al gezorgd voor grotere veranderingen binnen de meeste bedrijven. Doorheen de bachelorproef werd gekeken naar nieuwe innovaties, vooral unikernels, en hun mogelijkheden tegenover andere oplossingen.
+
+Op de volgende onderzoekvragen werd een antwoord gezocht:
+
+\begin{itemize}  
+\item Wat zijn de use cases voor unikernels?
+\item De verhouding van software containers tegenover unikernels?
+\item De gevolgen voor de applicatie architectuur wanneer unikernels in gebruik worden genomen?
+\item Wordt het opstellen en beheren van applicaties eenvoudiger of niet?
+\item Wat is de impact op beveiliging?
+\end{itemize}
+
+De eerste onderzoeksvraag heeft betrekking tot de use cases waarvoor unikernels kunnen gebruikt worden. De use cases voor unikernels liggen niet bij dynamische web applicaties, dit probleem ligt bij het gebrek aan ondersteuning voor databases. Statische web applicaties en netwerk applicaties dienen zich meer als use cases. Verder kan er naar de toekomst gekeken worden en kan er gezegd worden dat Internet of Things toepassingen ook mogelijk zijn. De veiligheid die deze toepassing vraagt is te vinden bij unikernels.
+
+Het antwoord op de tweede onderzoeksvraag, De verhouding van software containers tegenover unikernels, is het volgenden: software containers hebben al een heel ecosysteem beschikbaar met Docker. Het opzetten van de software container in het proof of concept toont ook aan dat het gemakkelijker is om de omgeving op te stellen. Eenvoud zorgt ervoor dat de gebruikers meer vertrouwen zullen hebben om te starten. Unikernels hinken achterop op het vlak van ecosysteem en tools omwille van de verschillende implementaties met elk hun eigen focus en het gebrek aan maturiteit. Op dit moment zijn software containers de keuze.
+
+De derde onderzoeksvraag kijkt naar de architectuur van de applicatie. Hierbij werd ondervonden dat monolieten problemen krijgen met de hoeveelheid van dependencies wanneer deze gecompileerd moeten worden. Daarom zullen applicaties die in een unikernel compileerd worden, eerder bestaan uit microservices. De mogelijkheid om elk onderdeel van een applicatie de optimale middelen ter beschikking te stellen is een niet te onderschatten voordeel. Verder kan de logica van de applicatie gedeeltelijk verhuizen van de gehele applicatie naar hoe de verschillende onderdelen van de applicatie.
+
+De vierde onderzoeksvraag valt terug op de tweede onderzoeksvraag. Voor het opstellen en beheren van applicaties moet er gekeken worden naar het ecosysteem rond de technologie. Momenteel levert dit gedeelte de meeste moeilijkheden op. Ook de verschillen van implementaties op het vlak van unikernels, daarbij in acht genomen: de ondersteunde hypervisor en programmeertalen, kunnen zorgen voor moeilijkheden. Een omgeving opstellen en een applicatie compileren en uitvoeren is geen gemakkelijke opgave zoals kan afgeleid worden uit het proof of concept.
+
+Als laatste vraag wordt er gekeken naar de veiligheid. Veiligheid is één van de grote voordelen van unikernels tegenover de andere opstellingen. Kwetsbaarheden zijn minder aanwezig door de kleinere aanvalsruimte en de specialisatie van de unikernel. Absolute veiligheid is niet mogelijk, maar unikernels zorgen toch voor verbetering. Het schrijven of vinden van een zwakheid van een applicatie en/of omgeving is niet uiterst zinvol, als het bekeken wordt vanuit een groter geheel wanneer deze enkel werkt bij een gelimiteerd aantal omgevingen/applicaties. Hierbij zorgt unikernels dus voor veel vooruitgang. Verder als er gekeken wordt naar de efficiëntie, kan er verwezen worden naar de architectuur van de applicatie waarbij elk onderdeel in een optimale afzonderlijke omgeving terecht komt.

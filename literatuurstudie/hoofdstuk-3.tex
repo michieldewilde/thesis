@@ -5,7 +5,7 @@ In dit hoofdstuk zal bekeken worden waarom en hoe virtualisatie ontstaan is. Ver
 
 In de jaren 60 was de tijd dat een computer kon gebruikt worden beperkt (\cite{conferences_modern_1968}). Bij de eerste computers, had men problemen om programma's uit te werken. Dit lag vooral aan de tijd dat er kon gewerkt worden aan de computer en de weinige computers die beschikbaar waren. Een voorbeeld van het ontwikkelen van een programma in die tijd was het volgende: "De broncode van het programma werd ingegeven en in een wachtrij geplaatst. Pas een bepaalde tijd later konden de resultaten van het programma bekeken worden. Fouten in het geschreven programma zorgden voor veel tijdsverlies." (\cite{conferences_modern_1968})
 
-Eén van de grootste bijdrages, tot de ontwikkelsnelheid van programma's, is de lengte van de feedbackcyclus: hoe snel kan een programma getest worden wanneer er een verandering in de broncode plaatsvindt. Als er lang moet worden gewacht op de feedback, dan kan dit tijdsverlies tot gevolg hebben.
+Eén van de grootste bijdrages, tot de ontwikkelingssnelheid van programma's, is de lengte van de feedbackcyclus: hoe snel kan een programma getest worden wanneer er een verandering in de broncode plaatsvindt. Als er lang moet worden gewacht op de feedback, dan kan dit tijdsverlies tot gevolg hebben.
 
 Timesharing (\cite{pyke_jr._time-shared_1967}) werd uitgevonden om het verlies van tijd, tijdens het ontwikkelen van programma's, te beperken. Bij timesharing kunnen gebruikers inloggen op een console en zo met meerdere tegelijk van de computer gebruik maken. Dit was een technische uitdaging. Elke gebruiker en zijn programma's bevinden zich binnen een afzonderlijke context bij timesharing. De computer moet van de ene context naar de andere kunnen veranderen. Timesharing zou de basis vormen voor het moderne besturingssysteem. Eén van de moeilijkheden van timesharing is de isolatie van de verschillende processen en gebruikers. De processen moeten zich bevinden binnen een verschillende context om geen invloed op elkaar te hebben.
 
@@ -22,7 +22,7 @@ Het concept van virtualisatie deelt een aantal gelijkenissen met timesharing. De
 
 Een aantal voordelen van virtualisatie zijn de volgende: financieel voordeel (men kan van één taak naar meerdere taken gaan op één computer), het besparen van energie (\cite{beloglazov_energy_2010}) en veiligheid(\cite{mortleman_security_2009}).
 
-Een virtuele machine (\cite{smith_architecture_2005}) bootst een computer na. Een virtuele machine kan de middelen van de fysieke computer, waar het zich op bevindt, gebruiken. Dit zorgt ervoor dat de middelen van de fysieke computer kunnen gebruikt worden als virtuele middelen enzo kunnen verdeelt worden. Doorheen deze bachelorproef zal naar de fysieke computer verwezen worden als de host machine. Guest is de naam dat wordt gegeven aan virtuele machines die zich bevinden op de host. In het volgende deel zullen we de laag tussen de host machine en virtuele machine bekijken: de hypervisor. Figuur \ref{fig:virtualmachine} toont de structuur van een virtuele machine. 
+Een virtuele machine (\cite{smith_architecture_2005}) bootst een computer na. Een virtuele machine kan de middelen van de fysieke computer, waar het zich op bevindt, gebruiken. Dit zorgt ervoor dat de middelen van de fysieke computer kunnen gebruikt worden als virtuele middelen. Doorheen deze bachelorproef zal naar de fysieke computer verwezen worden als de host machine. Guest is de naam dat wordt gegeven aan virtuele machines die zich bevinden op de host. In het volgende deel zullen we de laag tussen de host machine en virtuele machine bekijken: de hypervisor. Figuur \ref{fig:virtualmachine} toont de structuur van een virtuele machine. 
 
 \section{Hypervisor}
 
@@ -58,7 +58,7 @@ Er is een laag minder in de structuur dus dit betekent dat er minder instructies
 
 Een paar voorbeelden van bare-metal hypervisors zijn VMware ESXi en Xen.
 
-\section{Operating System-level Virtualization}
+\section{Operating System-level Virtualisation}
 
 Naast hardware virtualisatie kan ook een besturingssysteem gevirtualiseerd worden. Bij deze toepassing van virtualisatie worden de mogelijkheden van de kernel gebruikt. De kernel van bepaalde besturingssystemen laat toe om meerdere geïsoleerde namespaces tegelijkertijd te laten werken. Dit zorgt ervoor dat er maar één besturingssysteem moet zijn om verschillende programma's naast elkaar en geïsoleerd te laten werken.
 
@@ -68,4 +68,4 @@ Tegenover hardware virtualisatie zal besturingssysteem virtualisatie minder gebr
 
 Voorbeelden van besturingssysteem virtualisatie zijn: chroot (\cite{linux_chroot2_????}), Solaris Containers (\cite{oracle_solaris_2016}) en Docker (\cite{docker_docker_2016}).
 
-Besturingssysteem virtualisatie is vooral bekend geworden door Docker vanaf 2013 (\cite{hykes_future_2013}). In het volgende hoofdstuk wordt verder ingegaan op besturingsssysteem virtualisatie onder de vorm van software containers.
+Besturingssysteem virtualisatie is vooral bekend geworden door Docker vanaf 2013 (\cite{hykes_future_2013}). In het volgende hoofdstuk wordt verder ingegaan op besturingssysteem virtualisatie onder de vorm van software containers.

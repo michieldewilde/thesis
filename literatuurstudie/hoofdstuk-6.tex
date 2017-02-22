@@ -3,7 +3,7 @@
 
 \section{Inleiding}
 
-In het hoofdstuk over unikernels zijn er een aantal voorbeelden van moderne implemenaties van unikernels aangehaald. In dit hoofdstuk zullen er een aantal implementaties van unikernels worden vergeleken met elkaar. Het volgende deel zal aanhalen welke criteria, er zullen gebruikt worden om deze vergelijking te realiseren.
+In het hoofdstuk over unikernels zijn er een aantal voorbeelden van moderne implementaties van unikernels aangehaald. In dit hoofdstuk zullen er een aantal implementaties van unikernels worden vergeleken met elkaar. Het volgende deel zal aanhalen welke criteria, er zullen gebruikt worden om deze vergelijking te realiseren.
 
 \section{Criteria}
 
@@ -25,7 +25,7 @@ GitHub bepaalt de status van een open source project. Open source software wordt
 
 \end{description}
 
-\begin{table}[ht]
+\begin{sidewaystable}[ht]
 \caption{Implementaties unikernels}
 \begin{center}
     \begin{tabular}{| l | l | l | l | l |}
@@ -41,9 +41,9 @@ GitHub bepaalt de status van een open source project. Open source software wordt
     \end{tabular}
 \end{center}
 \label{tab:impl_unikernels}
-\end{table}
+\end{sidewaystable}
 
-De inhoud van de bovenstaande tabel wordt per implementatie uitgelegd.
+De inhoud van de bovenstaande tabel wordt per implementatie uitgelegd en is te vinden op het einde van dit hoofdstuk.
 
 \newpage
 
@@ -81,10 +81,10 @@ Meer informatie kan gevonden worden volgende website: \cite{cloud_networking_per
   \item [GitHub stars]: 665
 \end{description}
 
-HaLVM (\cite{galois_inc._haskell_????}) wordt ontwikkeld door Galios. Galios is een software ontwikkelings agentschap dat unikernels al een tijd in productie gebruikt.
+HaLVM (\cite{galois_inc._haskell_????}) wordt ontwikkeld door Galios. Galios is een software ontwikkelingsagentschap dat unikernels al een tijd in productie gebruikt.
 Er zijn niet al te veel bedrijven die unikernels gebruiken in productie.
 
-De programmeertaal waarin de unikernel van HaLVM wordt geschreven is Haskell. Haskell is een functionele programmeertaal met een uitgebreid type system. HaLVM is een implementatie die één supervisor en één programmeertaal ondersteund.
+De programmeertaal waarin de unikernel van HaLVM wordt geschreven is Haskell. Haskell is een functionele programmeertaal met een uitgebreid type system. HaLVM is een implementatie die één supervisor en één programmeertaal ondersteunt.
 
 Het werd ontwikkeld met als doel om componenten voor besturingssystemen snel te maken en te testen. Het is verder geëvolueerd naar andere use cases.
 
@@ -114,7 +114,7 @@ Zoals bij HaLVM, moet de applicatie eerst worden geschreven in Erlang. De packag
 Railing is een tool die meegeleverd is met Ling die je toelaat om, erlang on Xen, afbeeldingen te maken. We gebruiken ook xl utility van Xen om domeinen te beheren.
 De focus van Erlang on Xen is de Xen hypervisor. 
 
-Bij het uitbrengen van een nieuwe versie van LING is het mogelijk geworden om andere omgevingen te ondersteuenen. Dit heeft veel nieuwe omgevingen, zoals internet of things en mobiele omgevingen, mogelijk gemaakt.
+Bij het uitbrengen van een nieuwe versie van LING is het mogelijk geworden om andere omgevingen te ondersteunen. Dit heeft veel nieuwe omgevingen, zoals internet of things en mobiele omgevingen, mogelijk gemaakt.
 Unikernels kunnen handig zijn op deze omgevingen omwille van de kleine omvang. 
 
 Verder opent dit ook de mogelijkheid voor de unikernels van LING op bare-metal te laten werken.
@@ -157,7 +157,7 @@ Er kan gezegd worden dat het voor een deel allemaal begon bij MirageOS (\cite{mi
 MirageOS is een cloud besturingssysteem gemaakt om veilige netwerk toepassingen, met een hoge prestatie, te maken op verschillende omgevingen.
 
 De programmeertaal dat gebruikt word om een MirageOS applicatie te maken is OCaml.
-OCaml is de algemene implementatie van de Caml programmeertaal en voegt object georiënteerd programmeren toe. Het wordt extensief gebruikt door facebook. Deze taal is niet bekend en dit kan ervoor zorgen dat het niet veel tractie krijgt.
+OCaml is de algemene implementatie van de Caml programmeertaal en voegt object georiënteerd programmeren toe. Het wordt extensief gebruikt door Facebook. Deze taal is niet bekend en dit kan ervoor zorgen dat het niet veel tractie krijgt.
 
 De voornaamste redenen om OCaml te gebruiken zijn static type checking en automatic memory management. De eerste reden is om tegen te gaan, dat er iets fout gaat wanneer een programma aan het werken is. De compiler gaat kijken of het geen onveilige code kan vinden. Als dit het geval is, wordt het programma niet gecompileerd.
 Memory management is belangrijk voor resource leaks tegen te gaan. Resource leaks kunnen ervoor zorgen dat het programma meer middelen gebruikt dan het nodig heeft. In het extreme geval kan het systeem waarop het programma werkt ook hinder ondervinden van dit probleem.
@@ -176,7 +176,7 @@ MirageOS bestaat al een tijd en heeft een groot aantal libraries ter beschikking
 
 IncludeOS (\cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}) is gemotiveerd door het paper van \cite{bratterud_maximizing_2013}. Het onderscheid tussen een minimale virtuele machine tegenover een unikernel is zeer klein. Daarom worden beide termen afwisselend gebruikt. Net zoals ClickOS moeten de applicaties geschreven worden in C++.
 
-IncludeOS zorgt voor een bootloader, standaard libraries, modules voor de drivers te implementeren en een build- en deploysysteem. Het is simpel om applicaties te maken voor deze unikernel. Je moet alleen één dependency toevoegen aan het programma. Dan kan het worden omgezet naar een unikernel. Er veranderd dus niet veel voor de software ontwikkelaars. Dit zorgt voor een vlotte overgang en dit is zeker belangrijk wanneer er gekozen wordt om applicaties te bouwen voor unikernels.
+IncludeOS zorgt voor een bootloader, standaard libraries, modules voor de drivers te implementeren en een build- en uitrolsysteem. Het is simpel om applicaties te maken voor deze unikernel. Je moet alleen één dependency toevoegen aan het programma. Dan kan het worden omgezet naar een unikernel. Er veranderd dus niet veel voor de software ontwikkelaars. Dit zorgt voor een vlotte overgang en dit is zeker belangrijk wanneer er gekozen wordt om applicaties te bouwen voor unikernels.
 
 Meerdere processen tegelijk laten werken op een unikernel van includeOS is niet mogelijk. Dit kan sommige software ontwikkelaars afschrikken. Het gebruik van microservices (hoofdstuk \ref{ch:microservices}) is nog niet wijdverspreid en kan een factor zijn bij het selecteren van een unikernel implementatie. Enerzijds gaan bedrijven nooit bij unikernels uitkomen, wanneer hun architectuur niet gebaseerd op microservices. Er zijn ook geen race conditions mogelijk, omdat er maar één proces mogelijk is.
 
@@ -184,7 +184,7 @@ Momenteel ligt de focus van IncludeOS voornamelijk op C++. Dit is een strategie 
 
 Er zijn geen plannen om hogere programmeertalen zoals Javascript te ondersteunen. Ook is IncludeOS niet POSIX compliant en dit kan voor problemen zorgen wanneer er extra functionaliteit moet worden toegevoegd.
 
-Als omgeving focussen ze KVM en virtualbox. Het is het dus gemakkelijk om een unikernel te testen op de ontwikkelomgeving. Als je services schrijft in C++ dan is IncludeOS een zeer goede keuze. Er kan meer informatie gevonden worden op de GitHub repository: \cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}.
+Als omgeving focussen ze KVM en Virtualbox. Het is het dus gemakkelijk om een unikernel te testen op de ontwikkelomgeving. Als je services schrijft in C++ dan is IncludeOS een zeer goede keuze. Er kan meer informatie gevonden worden op de GitHub repository: \cite{oslo_and_akershus_university_college_hioa-cs/includeos_????}.
 
 \subsection{OSv}
 
@@ -211,6 +211,6 @@ Meer informatie is te vinden in volgende paper: \cite{kivity_osvoptimizing_2014}
 
 \section{Conclusie}
 
-Er zijn veel verschillende soorten implementaties van unikernels op dit moment. Er is MirageOS die als één van de eerste opkwam en ook de meest extreme weg opgaat met het starten van een minieme basis. HalVM bevindt zich in aan de dezelfde kant als MirageOS. Terwijl OSv en Rumprun zich bevinden aan de overkant. Ze ondersteunen een groot aantal programmeertalen en omgevingen. Dit wordt mogelijk gemaakt door een compatibiliteitslaag te gebruiken. 
+Er zijn veel verschillende soorten implementaties van unikernels op dit moment. Er is MirageOS die als één van de eerste opkwam en ook de meest extreme weg opgaat met het starten van een minieme basis. HalVM bevindt zich in aan de dezelfde kant als MirageOS. Terwijl OSv en Rumprun zich bevinden aan de overkant. Ze ondersteunen een groot aantal programmeertalen en omgevingen. Dit wordt mogelijk gemaakt door een tussenlaag te gebruiken die zorgt voor compatibiliteit. 
 
 Hetzelfde fenomeen kunnen we vinden met de toepassingen waar de unikernels kunnen voor gebruikt worden. ClickOS heeft vooral middlebox applicaties als doel en andere unikernels kunnen voor uiteenlopende situaties kunnen gebruikt worden.

@@ -1,5 +1,5 @@
 \chapter{Software Containers}
-\label{ch:Containers}
+\label{ch:containers}
 
 \section{Software Containers}
 
@@ -10,9 +10,9 @@
     \label{fig:containers}
 \end{wrapfigure}
 
-Software containers bestaan al een ruime tijd. In \cite{soltesz_container-based_2007} werd al gekeken naar de voordelen van software containers ten opzichte van hypervisors. Chroot (\cite{_linux_????}) is een concept dat veel deelt met sofware containers. Chroot zal de root directory van het huidige proces en zijn children veranderen. Er wordt een virtuele kopie gemaakt van het systeem waarin het proces kan werken. Het proces is dus afgesloten van het systeem en dit zorgt voor meer veiligheid bij het uitvoeren van processen.
+Software containers bestaan al een ruime tijd. In \cite{soltesz_container-based_2007} werd al gekeken naar de voordelen van software containers ten opzichte van hypervisors. Chroot (\cite{_linux_????}) is een concept dat veel deelt met software containers. Chroot zal de root directory van het huidige proces en zijn children veranderen. Er wordt een virtuele kopie gemaakt van het systeem waarin het proces kan werken. Het proces is dus afgesloten van het systeem en dit zorgt voor meer veiligheid bij het uitvoeren van processen.
 
-Linux Containers of LXC (\cite{containers_linux_????}) is een implementatie van besturingssysteem virtualisatie. LXC kan meerdere geïsoleerde Linux systemen laten werken op één host. Deze geïsoleerde Linux systemen worden sofware containers genoemd. Deze containers worden ook getoond in figuur \ref{fig:containers} waarbij de apps en databases containers zijn.
+Linux Containers of LXC (\cite{containers_linux_????}) is een implementatie van besturingssysteem virtualisatie. LXC kan meerdere geïsoleerde Linux systemen laten werken op één host. Deze geïsoleerde Linux systemen worden software containers genoemd. Deze containers worden ook getoond in figuur \ref{fig:containers} waarbij de apps en databases containers zijn.
 
 Zoals al gezien is, is de rol van de hypervisor het delen en beheren van de middelen. Om containers te gebruiken, moet een ander deel de rol van de hypervisor overnemen. Cgroups is een Linux kernel extension die deze rol overneemt. Door middel van cgroups kunnen middelen worden beheerd voor processen. Het toont ook de mogelijkheden om backups te creëren van processen.
 

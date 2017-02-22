@@ -44,10 +44,10 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>tin-bachproef.bcf</file>
+      <file>tabel.bcf</file>
     </provides>
     <requires type="dynamic">
-      <file>tin-bachproef.bbl</file>
+      <file>tabel.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -67,19 +67,19 @@
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
-      <infile>tin-bachproef</infile>
+      <infile>tabel</infile>
     </cmdline>
     <input>
-      <file>tin-bachproef.bcf</file>
+      <file>tabel.bcf</file>
     </input>
     <output>
-      <file>tin-bachproef.bbl</file>
+      <file>tabel.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>tin-bachproef.bbl</file>
+      <file>tabel.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>tin-bachproef.bcf</file>
+      <file>tabel.bcf</file>
     </requires>
     <requires type="editable">
       <file>tin-bachproef.bib</file>

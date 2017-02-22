@@ -3,152 +3,12 @@
 %%  HoGent Bedrijf en Organisatie
 %%========================================================================
 
-%%========================================================================
-%% Preamble
-%%========================================================================
+\documentclass[12pt, fleqn, a4paper]{book}
 
-\documentclass[pdftex,a4paper,12pt,twoside]{report}
+\input{properties}
 
-% XXX: Let op: dit sjabloon is gemaakt om dubbelzijdig af te drukken
-% Voor enkelzijdig, verwijder ``twoside'' hierboven.
-
-%%---------- Extra functionaliteit ---------------------------------------
-
-\usepackage[utf8]{inputenc}  % Accenten gebruiken in tekst (vb. é ipv \'e)
-\usepackage{amsfonts}        % AMS math packages: extra wiskundige
-\usepackage{amsmath}         %   symbolen (o.a. getallen-
-\usepackage{amssymb}         %   verzamelingen N, R, Z, Q, etc.)
-\usepackage[dutch,english]{babel}    % Taalinstellingen: woordsplitsingen,
-                             %  commando's voor speciale karakters
-                             %  ("dutch" voor NL)
-\usepackage{eurosym}         % Euro-symbool €
-\usepackage{geometry}
-\usepackage{graphicx}        % Invoegen van tekeningen
-\usepackage{wrapfig}         % Positioneren van tekeningen
-\usepackage[pdftex,bookmarks=true]{hyperref}
-                             % PDF krijgt klikbare links & verwijzingen,
-                             %  inhoudstafel
-\usepackage{listings}        % Broncode mooi opmaken
-\usepackage{multirow}        % Tekst over verschillende cellen in tabellen
-\usepackage{rotating}        % Tabellen en figuren roteren
-\usepackage{fancyhdr}        % Pagina-opmaak met hoofd- en voettekst
-
-\usepackage[T1]{fontenc}     % Ivm lettertypes
-\usepackage{lmodern}
-\usepackage{textcomp}
-\usepackage{listingsutf8}
-\usepackage{xcolor}
-
-%----------------------------------------------------------------------------------------
-% BIBLIOGRAPHY AND INDEX
-%----------------------------------------------------------------------------------------
-
-\usepackage[style=apa,backend=biber,url=false]{biblatex}
-\usepackage{csquotes}
-\DeclareLanguageMapping{dutch}{dutch-apa}
-\addbibresource{tin-bachproef.bib} % BibTeX bibliography file
-\defbibheading{bibempty}{}
-
-\usepackage{calc} % For simpler calculation - used for spacing the index letter headings correctly
-\usepackage{makeidx} % Required to make an index
-\makeindex % Tells LaTeX to create the files required for indexing
-
-%%---------- Layout ------------------------------------------------------
-
-% hoofdingen, enz.
-\pagestyle{fancy}
-% enkel hoofdstuktitel in hoofding, geen sectietitel (vermijd overlap)
-\renewcommand{\sectionmark}[1]{}
-
-% lijn, wordt gebruikt in titelpagina
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-
-% Leeg blad
-\newcommand{\emptypage}{
-\newpage
-\thispagestyle{empty}
-\mbox{}
-\newpage
-}
-
-% Gebruik een schreefloos lettertype ipv het "oubollig" uitziende
-% Computer Modern
-\renewcommand{\familydefault}{\sfdefault}
-
-%%---------- Documenteigenschappen ---------------------------------------
-%% Vul dit aan met je eigen info:
-
-% Je eigen naam
-\newcommand{\student}{Michiel De Wilde}
-
-% De naam van je lector, begeleider, promotor
-\newcommand{\promotor}{Antonia Pierreux}
-
-% De naam van je co-promotor
-\newcommand{\copromotor}{Philippe De Wilde}
-
-% Indien je bachelorproef in opdracht van een bedrijf of organisatie
-% geschreven is, geef je hier de naam.
-\newcommand{\instelling}{Hogeschool Gent}
-
-% De titel van het rapport/bachelorproef
-\newcommand{\titel}{Use Cases voor Unikernels}
-
-% Datum van indienen
-\newcommand{\datum}{9 januari 2017}
-
-% Faculteit
-\newcommand{\faculteit}{Faculteit Bedrijf en Organisatie}
-
-% Soort rapport
-\newcommand{\rapporttype}{Scriptie voorgedragen tot het bekomen van de graad van\\Bachelor in de toegepaste informatica}
-
-% Academiejaar
-\newcommand{\academiejaar}{2016-2017}
-
-% Examenperiode
-%  - 1e semester = 1e examenperiode
-%  - 2e semester = 2e examenperiode
-%  - tweede zit = 3e examenperiode
-\newcommand{\examenperiode}{1e examenperiode}
-
-%%========================================================================
-%% Docker code listing opmaak
-%%========================================================================
-
-\lstdefinelanguage{docker}{
-  keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
-  keywordstyle=\color{blue}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{\#},
-  commentstyle=\color{purple}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]"
-}
-
-\lstdefinelanguage{docker-compose}{
-  keywords={version, volumes, services},
-  keywordstyle=\color{blue}\bfseries,
-  keywords=[2]{image, environment, ports, container_name, ports, links, build},
-  keywordstyle=[2]\color{olive}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{\#},
-  commentstyle=\color{purple}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]"
-}
-
-\lstset{basicstyle=\ttfamily,
-  showstringspaces=false,
-  commentstyle=\color{red},
-  keywordstyle=\color{blue},
-  inputencoding=utf8,
-  extendedchars=true
-}
+\input{structure}
+\input{codelisting}
 
 %%========================================================================
 %% Inhoud document
@@ -156,127 +16,49 @@
 
 \begin{document}
 
-%%---------- Front matter ------------------------------------------------
-%% Het voorblad - Hier moet je in principe niets wijzigen.
+%---------- Titelblad ---------------------------------------------------------
+\inserttitlepage
 
-\begin{titlepage}
-  \newgeometry{top=2cm,bottom=1.5cm,left=1.5cm,right=1.5cm}
-  \begin{center}
+%---------- Samenvatting, voorwoord -------------------------------------------
+\usechapterimagefalse
+\input{samenvatting}
+\input{voorwoord}
 
-    \begingroup
-    \rmfamily
-    \includegraphics[width=2.5cm]{img/HG-beeldmerk-woordmerk}\\[.5cm]
-    \faculteit\\[3cm]
-    \titel
-    \vfill
-    \student\\[3.5cm]
-    \rapporttype\\[2cm]
-    Promotor:\\
-    \promotor\\
-    Co-promotor:\\
-    \copromotor\\[2.5cm]
-    Instelling: \instelling\\[.5cm]
-    Academiejaar: \academiejaar\\[.5cm]
-    \examenperiode
-    \endgroup
+%---------- Inhoudstafel ------------------------------------------------------
+\pagestyle{empty} % No headers
+\tableofcontents % Print the table of contents itself
+\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+\pagestyle{fancy} % Print headers again
 
-  \end{center}
-  \restoregeometry
-\end{titlepage}
+%%---------- Kern -------------------------------------------------------------
 
-% Schutblad
+\input{inleiding}
+\input{methodologie}
 
-\emptypage
-
-
-\begin{titlepage}
-  \newgeometry{top=5.35cm,bottom=1.5cm,left=1.5cm,right=1.5cm}
-  \begin{center}
-
-    \begingroup
-    \rmfamily
-    \faculteit\\[3cm]
-    \titel
-    \vfill
-    \student\\[3.5cm]
-    \rapporttype\\[2cm]
-    Promotor:\\
-    \promotor\\
-    Co-promotor:\\
-    \copromotor\\[2.5cm]
-    Instelling: \instelling\\[.5cm]
-    Academiejaar: \academiejaar\\[.5cm]
-    \examenperiode
-    \endgroup
-
-  \end{center}
-  \restoregeometry
-\end{titlepage}
-
-
-\begin{abstract}
-
-Het efficiënt gebruiken van de middelen die ter beschikking worden gesteld is vanzelfsprekend. Doorheen de tijd zijn er innovaties gekomen om dit steeds naar een hoger niveau te tillen. Eerst was er sprake van virtuele machines en dan kwamen software containers ter sprake.
-
-Unikernels is een opkomende manier voor het compileren en uitvoeren van applicatiess in een productieomgeving. Unikernels vraagt om een andere kijk op programma's in de productieomgeving en hoe er gewerkt wordt met de architectuur en infrastructuur. Deze bachelorproef focust op de use cases van unikernels. Er wordt nader gekeken naar de mogelijkheden, moelijkheden en huidige implementaties. Ook de vergelijking tussen software containers en unikernels wordt gemaakt.
-
-\end{abstract}
-
-\chapter*{Voorwoord}
-\label{ch:voorwoord}
-
-Deze bachelorproef is tot stand gekomen uit eigen interesse. Computers hebben mij sinds mijn jeugd al gefascineerd. Het heeft een tijd geduurd vooraleer ik begon met programmeren. Ik begon met een simpele applicatie maar al snel werd het meer complex. Het beheren van servers en infrastructuur was een uitdaging die ik zeker aanging. De traditionele servers maakten plaats voor containers. Een paar maanden voor mijn bachelorproef, kwam ik het concept van unikernels tegen. Dit leek mij een goed onderwerp voor mijn bachelorproef en was ook al als onderwerp beschikbaar gesteld. Het was een mooie uitdaging om meer te leren over concepten rond systeembeheer en software ontwikkeling.
-
-Ik wens mevrouw Antonia Pierreux te bedanken voor de begeleiding.
-
-Verder bedank ik de werknemers van mijn stageplaats, Wercker BV. In het bijzonder Toon Verbeek, Micha Hernández van Leuffen en Benno van den Berg. De bachelorproef zou er niet gekomen zonder hun hulp. En als laatste mijn co-promoter Philippe De Wilde.
-
-\tableofcontents
-
-\include{literatuurstudie/hoofdstuk-1}
-
-\include{literatuurstudie/hoofdstuk-2}
+%%---------- Literatuurstudie -------------------------------------------------------------
 
 \include{literatuurstudie/hoofdstuk-3}
-
 \include{literatuurstudie/hoofdstuk-4}
-
 \include{literatuurstudie/hoofdstuk-5}
-
 \include{literatuurstudie/hoofdstuk-6}
-
 \include{literatuurstudie/hoofdstuk-7}
+
+%%---------- Proof of concept -------------------------------------------------------------
 
 \include{proof-of-concept/hoofdstuk-8}
 
-\chapter{Conclusie}
-\label{ch:conclusie}
+%%---------- Conclusie -------------------------------------------------------------
 
-Het efficiënt gebruiken van de middelen van de productieomgeving is een belangrijk gegeven. Innoveren om deze omgeving beter te gebruiken is broodnodig. Virtuele machines, containers en unikernels zijn maar enkele innovaties die dit proberen te bereiken. Software containers hebben al gezorgd voor grotere veranderingen binnen de meeste bedrijven. Doorheen de bachelorproef werd gekeken naar nieuwe innovaties, vooral unikernels, en hun mogelijkheden tegenover andere oplossingen.
+\input{conclusie}
 
-Op de volgende onderzoekvragen werd een antwoord gezocht:
+%%---------- Bijlagen -------------------------------------------------------------
 
-\begin{itemize}  
-\item Wat zijn de use cases van unikernels?
-\item De verhouding van software containers tegenover unikernels?
-\item De gevolgen voor de applicatie architectuur wanneer unikernels in gebruik worden genomen?
-\item Wordt het opstellen en beheren van applicaties eenvoudiger of niet?
-\item Wat is de impact op beveiliging?
-\end{itemize}
-
-De eerste onderzoeksvraag, waarop een antwoord kan worden gegeven, heeft betrekking tot de use cases waarvoor unikernels kunnen gebruikt worden. De use cases voor unikernels liggen niet bij dynamische web applicaties, dit probleem ligt bij het gebrek aan ondersteuning voor databases. Statische web applicaties en netwerk applicaties dienen zich meer als use cases. Verder kan er naar de toekomst gekeken worden en kan gezegd worden dat Internet of Things toepassingen ook mogelijk zijn. De veiligheid die deze toepassing vraagt is te vinden bij unikernels.
-
-De verhouding van software containers tegenover unikernels: Software containers hebben al een heel ecosysteem beschikbaar met Docker. Het opzetten van de software container in het proof of concept toont ook aan dat het gemakkelijker is om de omgeving op te stellen. Eenvoud zorgt ervoor dat de gebruikers meer vertrouwen zullen hebben om ermee te starten. Unikernels hinken achterop op het vlak van besturingssysteem omwille van de verschillende implementaties met elk hun eigen focus en het gebrek aan maturiteit. Op dit moment zijn software containers voor het merendeel de standaard keuze boven unikernels.
-
-De derde onderzoeksvraag kijkt naar de architectuur van de applicatie. Hierbij werd ondervonden dat monolieten problemen krijgen met de hoeveelheid van dependencies wanneer deze gecompileerd moeten worden. Daarom zullen applicaties die in een unikernel compileerd worden, eerder bestaan uit microservices. De mogelijkheid om elk onderdeel van een applicatie de optimale middelen ter beschikking te stellen is een niet te onderschatten voordeel. Verder kan de logica van de applicatie gedeeltelijk verhuizen van de gehele applicatie naar hoe de verschillende onderdelen van de applicatie.
-
-De vierde onderzoeksvraag valt terug op de tweede onderzoeksvraag. Voor het opstellen en beheren van applicaties moet er gekeken worden naar het ecosysteem rond de technologie. Momenteel levert dit gedeelte de meeste moeilijkheden op. Ook de verschillen van implementaties op het vlak van unikernels, daarbij in acht genomen: de ondersteunde hypervisor en programmeertalen, kunnen zorgen voor moeilijkheden. Een omgeving opstellen en een applicatie compileren en uitvoeren is geen gemakkelijke opgave zoals kan afgeleid worden uit het proof of concept.
-
-Als laatste vraag wordt er gekeken naar de veiligheid. Veiligheid is één van de grote voordelen van unikernels tegenover de andere opstellingen. Kwetsbaarheden zijn minder aanwezig door de kleinere omvang van de unikernel en de specialisatie van de unikernel. Absolute veiligheid is natuurlijk niet mogelijk, maar unikernels zorgen toch voor verbetering. Het schrijven of vinden van een zwakheid van een applicatie en/of omgeving is niet uiterst zinvol, wanneer deze enkel werkt bij een gelimiteerd aantal omgevingen/applicaties. Hierbij zorgt unikernels dus voor veel vooruitgang. Verder als er gekeken wordt naar de efficiëntie, kan er verwezen worden naar de architectuur van de applicatie waarbij elk onderdeel in een optimale afzonderlijke omgeving terecht komt.
+\input{bijlagen}
 
 %%---------- Back matter -------------------------------------------------
 
-\printbibliography[]
+\printbibliography[title=Bibliografie]
+\addcontentsline{toc}{chapter}{\textcolor{maincolor}{{Bibliografie}}}
 
 \listoffigures
 \listoftables

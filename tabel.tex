@@ -1,0 +1,27 @@
+\documentclass[12pt, fleqn, a4paper]{book}
+
+\input{properties}
+
+\input{structure}
+
+\begin{document}
+
+\begin{sidewaystable}[ht]
+\caption{Implementaties unikernels}
+\begin{center}
+    \begin{tabular}{| l | l | l | l | l |}
+    \hline
+    Naam & Taal implementatie & Hypervisor & Ondersteunde talen & GitHub sterren \\ \hline
+    ClickOS & C/C++ & Xen & bindings & 243 \\ \hline
+    HaLVM & Haskell & Xen & Haskell & 665 \\ \hline
+    LING & C/Erlang & Xen & Erlang & 523 \\ \hline
+    Rumprun & C & hw, Xen, POSIX & C, C++, Erlang, Go, ... & 469 \\ \hline
+    MirageOS & OCaml & Xen & OCaml & 657 \\ \hline
+    IncludeOS & C++ & KVM, VirtualBox & C++ & 1341 \\ \hline
+    OSv & C/C++ & KVM, Xen, ... & JVM & 2121 \\ \hline
+    \end{tabular}
+\end{center}
+\end{sidewaystable}
+
+
+\end{document}

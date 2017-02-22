@@ -1,13 +1,14 @@
 \chapter{Proof of concept: unikernels in de praktijk}
+\label{ch:proof-of-concept}
 \section{Inleiding}
 
 Dit hoofdstuk zal de toepassingen voor unikernels toelichten. De huidige implementaties van unikernels geven een zekere vrijheid wat voor soort applicaties er kunnen opgezet worden.  
 
-Er kan gesproken worden over twee types van applicaties: dynamische en statische. Hiernaar wordt ook verwezen in het Engels als stateless en statefull. Blogs en websites zonder al te veel functionaliteit zijn stateless. Het resultaat van de applicatie qua functionaliteit zal hetzelfde zijn voor elke gebruiker. Statefull applicaties zijn web applicaties zoals Wordpress en de meeste applicaties waar er informatie wordt bijgehouden en kan worden aangepast. Het overgrote deel van de applicaties die werken met unikernels zijn stateless.
+Er kan gesproken worden over twee types van applicaties: dynamische en statische. Hiernaar wordt ook verwezen in het Engels als stateless en stateful. Blogs en websites zonder al te veel functionaliteit zijn stateless. Het resultaat van de applicatie qua functionaliteit zal hetzelfde zijn voor elke gebruiker. Stateful applicaties zijn web applicaties zoals Wordpress en de meeste applicaties waar er informatie wordt bijgehouden en kan worden aangepast. Het overgrote deel van de applicaties die werken met unikernels zijn stateless.
 
 De verklaring hiervan is te vinden bij de eigenschappen van unikernels. Unikernels worden geoptimaliseerd voor de applicaties waarvoor ze gecompileerd worden. Het theoretische hoofdstuk over unikernels heeft hiervoor al de redenen gegeven. Wanneer de applicatie en een database zich op een unikernel bevinden dan zou de optimalisatie bijna geen voordelen geven. Daarbij komt er nog het extra gegeven van het opsplitsen van de verantwoordelijkheden van de componenten van een omgeving. Databanken vragen om een ander soort machine en/of besturingssysteem dan een webapplicatie. Hierbij is er nog het gegeven dat het bestaan van een relationele database nog niet bestaat voor unikernels onder een stabiele vorm. Irmin (verwijzing) kan wel een oplossing zijn, maar dit is moeilijk een relationele database te noemen. Ook kan Xenstore van de Xen hypervisor worden aangehaald. Dit levert dan weer het probleem op dat het niet op de verschillende soorten hypervisors kan gebruikt worden. Daarom kunnen databases zich beter bevinden op een virtuele machine met een algemeen besturingssysteem. Het probleem van databases en de correcte omgeving van databases kan ook teruggevonden worden bij software containers. Tot op het moment wordt aangeraden om databases te laten werken op virtuele machines omwille van de problemen met de levenstijd van software containers.
 
-Veel van toepassingen die werken met unikernels bevinden zich meestal in een bepaald segment. Dit is het geval met technologiëen die nog moeten toegroeien naar algemene of meerdere use cases. Toepassingen die moeten gebruik maken van unikernels zullen zich grotendeels bevinden binnen de netwerklaag. Rumprun heeft al pogingen gedaan om een soort van RAMP (RumpRun, Apache, MySQL, PHP) opstellingen te maken, maar dit staat nog in vroeg stadium. De functionaliteit laat hierbij te wensen over. Het maken van unikernels voor statische applicaties is dus een betere keuze voor de verschillende soorten unikernels te vergelijken.
+Veel van toepassingen die werken met unikernels bevinden zich meestal in een bepaald segment. Dit is het geval met technologieën die nog moeten toegroeien naar algemene of meerdere use cases. Toepassingen die moeten gebruik maken van unikernels zullen zich grotendeels bevinden binnen de netwerklaag. Rumprun heeft al pogingen gedaan om een soort van RAMP (RumpRun, Apache, MySQL, PHP) opstellingen te maken, maar dit staat nog in vroeg stadium. De functionaliteit laat hierbij te wensen over. Het maken van unikernels voor statische applicaties is dus een betere keuze voor de verschillende soorten unikernels te vergelijken.
 
 \subsection{Keuze Programmeertaal}
 
@@ -21,7 +22,7 @@ Go zal gebruikt worden als programmeertaal om de applicaties te realiseren. Hier
 
 \section{Opstelling Virtuele Machine}
 
-Deze opstelling maakt gebruik van virtualbox als hypervisor met Vagrant, als configuratie tool, om de ontwikkelomgeving gemakkelijk op te stellen. 
+Deze opstelling maakt gebruik van Virtualbox als hypervisor met Vagrant, als configuratie tool, om de ontwikkelomgeving gemakkelijk op te stellen. 
 De vereisten voor deze opstelling zijn:
 \begin{description}
 \item [Virtualbox] - https://www.virtualbox.org/
@@ -60,11 +61,11 @@ Alle inhoud van de directory die we binnen hebben gehaald, bevindt zich op het /
 
 Nu staat er een web server op en deze kan bereikt worden door in uw browser het IP van de virtuele machine in te geven, 192.168.10.10, en de poort 8080 met als prefix : er aan toe te voegen.
 
-Bij deze is er een ontwikkelomgeving voor de programmeertaal Go opgesteld, met daarbij een web server. Het opstellen van een hele virtuele machine voor één applicatie kan overdreven lijken, maar daarbij zijn de vereisten voor de Go ontwikkelomgeving gescheiden van de host machine. Het toevoegen van extra onderdelen kan met gemak gebeuren door andere paketten te installeren en te configureren. De functie van de virtuele machine die momenteel is opgezet is algemeen en kan gemakkelijk veranderen door onderdelen toe te voegen. Daarbij kan de virtuele machine met een algemeen besturingssysteem, Debian, beschouwd worden als niet gespecialiseerd. Dit is een uiteindelijk doel van elke component in de ontwikkelomgeving. 
+Bij deze is er een ontwikkelomgeving voor de programmeertaal Go opgesteld, met daarbij een web server. Het opstellen van een hele virtuele machine voor één applicatie kan overdreven lijken, maar daarbij zijn de vereisten voor de Go ontwikkelomgeving gescheiden van de host machine. Het toevoegen van extra onderdelen kan met gemak gebeuren door andere pakketten te installeren en te configureren. De functie van de virtuele machine die momenteel is opgezet is algemeen en kan gemakkelijk veranderen door onderdelen toe te voegen. Daarbij kan de virtuele machine met een algemeen besturingssysteem, Debian, beschouwd worden als niet gespecialiseerd. Dit is een uiteindelijk doel van elke component in de ontwikkelomgeving. 
 
 \section{Opstelling Software Containers}
 
-Deze opstelling maakt gebruik van virtualbox als hypervisor met daarop Docker om de software containers te beheren en configureren.
+Deze opstelling maakt gebruik van Virtualbox als hypervisor met daarop Docker om de software containers te beheren en configureren.
 De vereisten voor deze opstelling zijn:
 \begin{description}
 \item [Docker Toolbox] - https://www.docker.com/products/docker-toolbox
@@ -73,7 +74,7 @@ De vereisten voor deze opstelling zijn:
 \item [Git] - https://git-scm.com/
 \end{description}
 
-Er zijn al nieuwere versies van Docker uitgebracht voor specifieke besturingssystemen zoals Docker for Mac and Windows. Deze vertonen echter problemen bij het opstellen van unikerneles in het volgende hoofdstuk. Docker Toolbox laat toe om beide omgevingen te ondersteunen. Docker maakt het gemakkelijk om applicaties te deployen in software containers.
+Er zijn al nieuwere versies van Docker uitgebracht voor specifieke besturingssystemen zoals Docker for Mac and Windows. Deze vertonen echter problemen bij het opstellen van unikerneles in het volgende hoofdstuk. Docker Toolbox laat toe om beide omgevingen te ondersteunen. Docker maakt het gemakkelijk om applicaties op te zetten in software containers.
 
 \noindent Het volgende commando zal de repository met de configuratie van de software containers ophalen:
 \begin{lstlisting}[language=bash]
